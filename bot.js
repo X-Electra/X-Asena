@@ -24,11 +24,12 @@ const config = require("./config");
 const { PluginDB } = require("./lib/database/plugins");
 const { parseJid } = require("./lib");
 async function whatsAsena() {
-  const { state, saveState } = await useSingleFileAuthState(
+  await config.DATABASE.sync();
+  const { state, saveState } =  useSingleFileAuthState(
     "./media/hehe.json",
     pino({ level: "silent" })
   );
-  await config.DATABASE.sync();
+ 
   let conn = makeWASocket({
     logger: pino({ level: "silent" }),
     auth: state,
@@ -116,31 +117,6 @@ conn.sendMessage(data.id,{image:{url:userpp},caption:msg.replace(/{pp}/,''),ment
   conn.sendMessage(data.id,{text:msg,mentions:parseJid(msg)})
 }
               }
-              break;
-            case "promote":
-              {
-                let welcome_message = config.WELCOME_MSG
-let msg = welcome_message.replace(/@user/gi,'@'+user.split('@')[0]).replace(/@gname/gi,metadata.subject).replace(/@count/gi,metadata.participants.length)
-if(/{pp}/.test(msg)){
-conn.sendMessage(data.id,{image:{url:userpp},caption:msg.replace(/{pp}/,''),mentions:parseJid(msg)})
-}else{
-  conn.sendMessage(data.id,{text:msg,mentions:parseJid(msg)})
-}
-              }
-              break;
-            case "demote":
-              {
-                let welcome_message = config.GOODBYE_MSG
-let msg = welcome_message.replace(/@user/gi,'@'+user.split('@')[0]).replace(/@gname/gi,metadata.subject).replace(/@count/gi,metadata.participants.length)
-if(/{pp}/.test(msg)){
-conn.sendMessage(data.id,{image:{url:userpp},caption:msg.replace(/{pp}/,''),mentions:parseJid(msg)})
-}else{
-  conn.sendMessage(data.id,{text:msg,mentions:parseJid(msg)})
-}
-              }
-              break;
-
-            default:
               break;
           }}
         });

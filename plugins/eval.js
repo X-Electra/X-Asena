@@ -1,4 +1,5 @@
-const { bot, getJson } = require("../lib/");
+const { bot, getJson, } = require("../lib/");
+const { setWelcome ,getWelcome,delWelcome} = require("../lib/database/greetings");
 const util = require("util");
 bot(
   { pattern: "> ?(.*)", fromMe: true, desc: "", type: "random" ,dontAddCommandList:true},
