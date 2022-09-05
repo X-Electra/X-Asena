@@ -1,10 +1,8 @@
 let { bot } = require("../lib");
 const NotesDB = require("../lib/database/notes");
-const Language = require("../language");
-const Lang = Language.getString("notes");
 
 bot(
-  { pattern: "notes", fromMe: true, desc: Lang.NOTES_USAGE },
+  { pattern: "notes", fromMe: true, desc: 'Get notes' },
   async (message, match) => {
     const _notes = await NotesDB.getNotes();
     const notes = [];
@@ -22,7 +20,7 @@ bot(
 );
 
 bot(
-  { pattern: "save ?(.*)", fromMe: true, desc: Lang.SAVE_USAGE },
+  { pattern: "save ?(.*)", fromMe: true, desc: "Save notes" },
   async (message, match) => {
     const userNote = match || message.reply_message.text;
     if (!userNote && !message.reply_message.text) {
@@ -45,7 +43,7 @@ bot(
 );
 
 bot(
-  { pattern: "deleteNotes", fromMe: true, desc: Lang.DELETE_USAGE },
+  { pattern: "deleteNotes", fromMe: true, desc: 'Delete notes'},
   async (message, match) => {
     await NotesDB.deleteAllNotes();
     return await message.sendMessage("_Succesfully deleted all notes_");
