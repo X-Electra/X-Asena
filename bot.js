@@ -10,6 +10,7 @@ const {
   useSingleFileAuthState,
   Browsers,
 } = require("@adiwajshing/baileys");
+
 const fs = require("fs");
 const { serialize } = require("./lib/serialize");
 const { Message } = require("./lib/Base");
@@ -21,8 +22,12 @@ const got = require("got");
 const config = require("./config");
 
 const { PluginDB } = require("./lib/database/plugins");
+const { parseJid } = require("./lib");
 async function whatsAsena() {
-  const { state, saveState } = await useSingleFileAuthState("./media/hehe.json",pino({ level: "silent" }));
+  const { state, saveState } = await useSingleFileAuthState(
+    "./media/hehe.json",
+    pino({ level: "silent" })
+  );
   await config.DATABASE.sync();
   let conn = makeWASocket({
     logger: pino({ level: "silent" }),
@@ -80,6 +85,65 @@ async function whatsAsena() {
 
       try {
         conn.ev.on("creds.update", saveState);
+        conn.ev.on("group-participants.update", async (data) => {
+          let metadata = await conn.groupMetadata(data.id)
+          for(let user of data.participants){
+            let userpp 
+            try{
+              userpp = await conn.profilePictureUrl(user, 'image')
+            }catch{
+              userpp = 'https://getwallpapers.com/wallpaper/full/3/5/b/530467.jpg'
+            }
+          switch (data.action) {
+            case "add":
+              {
+let welcome_message = config.WELCOME_MSG
+let msg = welcome_message.replace(/@user/gi,'@'+user.split('@')[0]).replace(/@gname/gi,metadata.subject).replace(/@count/gi,metadata.participants.length)
+if(/{pp}/.test(msg)){
+conn.sendMessage(data.id,{image:{url:userpp},caption:msg.replace(/{pp}/,''),mentions:parseJid(msg)})
+}else{
+  conn.sendMessage(data.id,{text:msg,mentions:parseJid(msg)})
+}
+              }
+              break;
+            case "remove":
+              {
+                let GOODBYE_MSG = config.GOODBYE_MSG
+let msg = GOODBYE_MSG.replace(/@user/gi,'@'+user.split('@')[0]).replace(/@gname/gi,metadata.subject).replace(/@count/gi,metadata.participants.length)
+if(/{pp}/.test(msg)){
+conn.sendMessage(data.id,{image:{url:userpp},caption:msg.replace(/{pp}/,''),mentions:parseJid(msg)})
+}else{
+  conn.sendMessage(data.id,{text:msg,mentions:parseJid(msg)})
+}
+              }
+              break;
+            case "promote":
+              {
+                let welcome_message = config.WELCOME_MSG
+let msg = welcome_message.replace(/@user/gi,'@'+user.split('@')[0]).replace(/@gname/gi,metadata.subject).replace(/@count/gi,metadata.participants.length)
+if(/{pp}/.test(msg)){
+conn.sendMessage(data.id,{image:{url:userpp},caption:msg.replace(/{pp}/,''),mentions:parseJid(msg)})
+}else{
+  conn.sendMessage(data.id,{text:msg,mentions:parseJid(msg)})
+}
+              }
+              break;
+            case "demote":
+              {
+                let welcome_message = config.GOODBYE_MSG
+let msg = welcome_message.replace(/@user/gi,'@'+user.split('@')[0]).replace(/@gname/gi,metadata.subject).replace(/@count/gi,metadata.participants.length)
+if(/{pp}/.test(msg)){
+conn.sendMessage(data.id,{image:{url:userpp},caption:msg.replace(/{pp}/,''),mentions:parseJid(msg)})
+}else{
+  conn.sendMessage(data.id,{text:msg,mentions:parseJid(msg)})
+}
+              }
+              break;
+
+            default:
+              break;
+          }}
+        });
         conn.ev.on("messages.upsert", async (m) => {
           if (m.type !== "notify") return;
           let ms = m.messages[0];
@@ -98,7 +162,7 @@ async function whatsAsena() {
                 console.log(err);
               });
               try {
-                command.function(whats, match, msg,conn);
+                command.function(whats, match, msg, conn);
               } catch (error) {
                 let str = `Error Occured\n\n\nError : ${error}\n\nMessage : ${text_msg}`;
                 console.log(str);

@@ -47,6 +47,8 @@ module.exports = {
     SEND_READ: process.env.SEND_READ === undefined ? false : convertToBool(process.env.SEND_READ),
     BRANCH: 'master',
     PACKNAME:'X-asena',
+    WELCOME_MSG:'{pp}Hi @user Welcome to @gname\nYou\'re our @count/513 Members ',
+    GOODBYE_MSG:'{pp}Hi @user It was Nice Seeing you',
     AUTHOR:"Team-Electra",
     DATABASE_URL: DATABASE_URL,
     DATABASE: DATABASE_URL === './lib/whatsasena.db' ? new Sequelize({ dialect: "sqlite", storage: DATABASE_URL, logging: DEBUG }) : new Sequelize(DATABASE_URL, { dialectOptions: { ssl: { require: true, rejectUnauthorized: false } }, logging: DEBUG }),
