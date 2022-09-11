@@ -1,5 +1,5 @@
 {
-  "name": "asena",
+  "name": "x-asena",
   "version": "1.3.6",
   "description": "WhatsAsena project - a Whatsapp userbot helping to improve your Whatsapp experience.",
   "main": "bot.js",
@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/phaticusthiccy/WhatsAsenaDuplicated.git"
+    "url": "git+https://github.com/Neeraj-x0/x-asena.git"
   },
   "keywords": [
     "whatsapp",
@@ -28,9 +28,9 @@
   "developer": "AsenaDev / @phaticusthiccy",
   "license": "GPL-3.0-or-later",
   "bugs": {
-    "url": "https://github.com/phaticusthiccy/WhatsAsenaDuplicated/issues"
+    "url": "https://github.com/Neeraj-x0/x-asena/issues"
   },
-  "homepage": "https://github.com/phaticusthiccy/WhatsAsenaDuplicated#readme",
+  "homepage": "https://github.com/Neeraj-x0/x-asena#readme",
   "dependencies": {
     "@adiwajshing/baileys": "github:adiwajshing/baileys",
     "@phaticusthiccy/open-apis": "^1.4.0",
