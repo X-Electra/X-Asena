@@ -1,12 +1,10 @@
 const { bot } = require("../lib/");
 bot(
   {
-    pattern: "test ?(.*)",
+    on: "video",
     fromMe: true,
     desc: "description",
     type: "type",
   },
-  async (message, match) => {
-    message.downloadMediaMessage()
-  }
+  async (message, match) => {}
 );

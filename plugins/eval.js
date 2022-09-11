@@ -1,4 +1,4 @@
-const { bot, getJson, } = require("../lib/");
+const { bot, getJson,isAdmin } = require("../lib/");
 const { setWelcome ,getWelcome,delWelcome} = require("../lib/database/greetings");
 const util = require("util");
 bot(

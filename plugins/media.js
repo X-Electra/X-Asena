@@ -47,7 +47,7 @@ bot(
     if (message.reply_message.type !== "view_once")
       return await message.reply("_Not a View Once_");
     let buff = await m.quoted.download();
-    return await message.sendMessage(buff, {}, "image");
+    return await message.sendFile(buff);
   }
 );
 
@@ -83,6 +83,7 @@ bot(
 );
 const { yta, ytIdRegex, ytv } = require("../lib/yotube");
 const { search } = require("yt-search");
+const { toAudio } = require("../lib/media");
 bot(
   {
     pattern: "song ?(.*)",
@@ -91,7 +92,7 @@ bot(
     type: "downloader",
   },
   async (message, match) => {
-    match = match ||message.reply_message.text
+    match = match || message.reply_message.text;
     if (ytIdRegex.test(match)) {
       yta(match.trim()).then(({ dl_link, title }) => {
         message.sendFromUrl(dl_link, { filename: title });
@@ -99,8 +100,8 @@ bot(
     }
     search(match + "song").then(async ({ all }) => {
       await message.reply(`_Downloading ${all[0].title}_`);
-      yta(all[0].url).then(({     dl_link, title }) => {
-        message.sendFromUrl(dl_link, { filename: title,quoted:message });
+      yta(all[0].url).then(({ dl_link, title }) => {
+        message.sendFromUrl(dl_link, { filename: title, quoted: message });
       });
     });
   }
@@ -114,7 +115,7 @@ bot(
     type: "downloader",
   },
   async (message, match) => {
-    match = match ||message.reply_message.text
+    match = match || message.reply_message.text;
     if (ytIdRegex.test(match)) {
       ytv(match.trim()).then(({ dl_link, title }) => {
         message.sendFromUrl(dl_link, { filename: title });
@@ -123,8 +124,22 @@ bot(
     search(match + "song").then(async ({ all }) => {
       await message.reply(`_Downloading ${all[0].title}_`);
       ytv(all[0].url).then(({ dl_link, title }) => {
-        message.sendFromUrl(dl_link, { filename: title,quoted:message });
+        message.sendFromUrl(dl_link, { filename: title, quoted: message });
       });
     });
+  }
+);
+
+bot(
+  {
+    pattern: "mp3 ?(.*)",
+    fromMe: true,
+    desc: "converts video/voice to mp3",
+    type: "downloader",
+  },
+  async (message, match, m) => {
+    let buff = await m.quoted.download();
+    buff = await toAudio(buff, "mp3");
+    return await message.sendMessage(buff, { mimetype: "audio/mpeg" }, "audio");
   }
 );
