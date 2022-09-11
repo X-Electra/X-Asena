@@ -32,7 +32,7 @@
   },
   "homepage": "https://github.com/Neeraj-x0/x-asena#readme",
   "dependencies": {
-    "@adiwajshing/baileys": "github:adiwajshing/baileys",
+    "@adiwajshing/baileys": "4.4.0",
     "@phaticusthiccy/open-apis": "^1.4.0",
     "file-type": "^16.5.3",
     "jimp": "^0.16.1",
