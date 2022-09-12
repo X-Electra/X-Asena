@@ -1,8 +1,8 @@
-const { bot } = require('../lib/')
+const { command } = require('../lib/')
 const jimp = require('jimp')
 const QRReader = require('qrcode-reader')
 
-bot(
+command(
 	{ pattern: 'qr ?(.*)', fromMe: true, desc: 'Read/Write Qr.', type: 'misc' },
 	async (message, match) => {
 		if (match)

@@ -1,7 +1,7 @@
 const events = require("../lib/event");
-const { bot, getBuffer } = require("../lib");
+const { command, getBuffer } = require("../lib");
 const { readFileSync } = require("fs");
-bot(
+command(
   {
     pattern: "menu ?(.*)",
     fromMe: true,

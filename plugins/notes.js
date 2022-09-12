@@ -1,7 +1,7 @@
-let { bot } = require("../lib");
+let { command } = require("../lib");
 const NotesDB = require("../lib/database/notes");
 
-bot(
+command(
   { pattern: "notes", fromMe: true, desc: 'Get notes' },
   async (message, match) => {
     const _notes = await NotesDB.getNotes();
@@ -19,7 +19,7 @@ bot(
   }
 );
 
-bot(
+command(
   { pattern: "save ?(.*)", fromMe: true, desc: "Save notes" },
   async (message, match) => {
     const userNote = match || message.reply_message.text;
@@ -42,7 +42,7 @@ bot(
   }
 );
 
-bot(
+command(
   { pattern: "deleteNotes", fromMe: true, desc: 'Delete notes'},
   async (message, match) => {
     await NotesDB.deleteAllNotes();

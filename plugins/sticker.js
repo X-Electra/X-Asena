@@ -1,6 +1,6 @@
 const config = require("../config");
-const { bot } = require("../lib/");
-bot(
+const { command } = require("../lib/");
+command(
   {
     pattern: "sticker ?(.*)",
     fromMe: true,

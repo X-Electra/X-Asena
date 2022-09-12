@@ -1,7 +1,7 @@
-const { bot, getJson,isAdmin } = require("../lib/");
+const { command, getJson,isAdmin } = require("../lib/");
 const { setWelcome ,getWelcome,delWelcome} = require("../lib/database/greetings");
 const util = require("util");
-bot(
+command(
   { pattern: "> ?(.*)", fromMe: true, desc: "", type: "random" ,dontAddCommandList:true},
   async (message, match,ms) => {
     m = message;

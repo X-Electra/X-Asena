@@ -1,6 +1,6 @@
-const { bot } = require("../lib/");
+const { command } = require("../lib/");
 const { setWelcome ,getWelcome,delWelcome} = require("../lib/database/greetings");
-bot(
+command(
   {
     pattern: "welcome ?(.*)",
     fromMe: true,

@@ -1,7 +1,7 @@
-const { bot,getJson } = require("../lib/");
+const { command,getJson } = require("../lib/");
 const { installPlugin } = require("../lib/database/plugins");
 
-bot(
+command(
   {
     pattern: "plugin ?(.*)",
     fromMe: true,

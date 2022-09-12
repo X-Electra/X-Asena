@@ -1,5 +1,5 @@
-const { bot } = require("../lib/");
-bot(
+const { command } = require("../lib/");
+command(
   {
     pattern: "test ?(.*)",
     fromMe: true,

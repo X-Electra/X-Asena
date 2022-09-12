@@ -1,5 +1,5 @@
-const { bot,isUrl} = require("../lib/");
-bot(
+const { command,isUrl} = require("../lib/");
+command(
   {
     pattern: "fetch ?(.*)",
     fromMe: true,

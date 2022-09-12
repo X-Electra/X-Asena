@@ -1,7 +1,7 @@
 const config = require("../config");
-const { bot, isAdmin, parsedJid, isUrl } = require("../lib/");
+const { command, isAdmin, parsedJid, isUrl } = require("../lib/");
 
-bot(
+command(
   {
     pattern: "add ?(.*)",
     fromMe: true,
@@ -22,7 +22,7 @@ bot(
   }
 );
 
-bot(
+command(
   {
     pattern: "kick ?(.*)",
     fromMe: true,
@@ -43,7 +43,7 @@ bot(
   }
 );
 
-bot(
+command(
   {
     pattern: "promote ?(.*)",
     fromMe: true,
@@ -63,7 +63,7 @@ bot(
     });
   }
 );
-bot(
+command(
   {
     pattern: "demote ?(.*)",
     fromMe: true,
@@ -87,7 +87,7 @@ bot(
 /**
  * antilink
 */
-bot(
+command(
   {
     on: "text",
   },

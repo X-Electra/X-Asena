@@ -1,6 +1,6 @@
-const { bot } = require("../lib");
+const { command } = require("../lib");
 
-bot(
+command(
   {
     pattern: "setpp ?(.*)",
     fromMe: true,
@@ -16,7 +16,7 @@ bot(
   }
 );
 
-bot(
+command(
   {
     pattern: "setname ?(.*)",
     fromMe: true,
@@ -30,7 +30,7 @@ bot(
   }
 );
 
-bot(
+command(
   {
     pattern: "block ?(.*)",
     fromMe: true,
@@ -52,7 +52,7 @@ bot(
   }
 );
 
-bot(
+command(
   {
     pattern: "unblock ?(.*)",
     fromMe: true,
@@ -74,7 +74,7 @@ bot(
   }
 );
 
-bot(
+command(
   {
     pattern: "jid",
     fromMe: true,

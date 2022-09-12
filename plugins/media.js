@@ -1,4 +1,4 @@
-const { Function, bot, webp2mp4, isUrl } = require("../lib/");
+const { Function, command, webp2mp4, isUrl } = require("../lib/");
 
 Function(
   {
@@ -36,7 +36,7 @@ async function gimage(query, amount = 5) {
   });
 }
 
-bot(
+command(
   {
     pattern: "vv ?(.*)",
     fromMe: true,
@@ -51,7 +51,7 @@ bot(
   }
 );
 
-bot(
+command(
   {
     pattern: "photo ?(.*)",
     fromMe: true,
@@ -66,7 +66,7 @@ bot(
   }
 );
 
-bot(
+command(
   {
     pattern: "mp4 ?(.*)",
     fromMe: true,
@@ -84,7 +84,7 @@ bot(
 const { yta, ytIdRegex, ytv } = require("../lib/yotube");
 const { search } = require("yt-search");
 const { toAudio } = require("../lib/media");
-bot(
+command(
   {
     pattern: "song ?(.*)",
     fromMe: true,
@@ -107,7 +107,7 @@ bot(
   }
 );
 
-bot(
+command(
   {
     pattern: "video ?(.*)",
     fromMe: true,
@@ -130,7 +130,7 @@ bot(
   }
 );
 
-bot(
+command(
   {
     pattern: "mp3 ?(.*)",
     fromMe: true,
