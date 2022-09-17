@@ -1,9 +1,46 @@
 {
-    "name": "x-asena",
-    "description": "X-asena Multi Device whatsappbot",
-    "logo": "https://i.hizliresim.com/6Bbj7i.jpg",
-    "keywords": ["whatsapp"],
-    "repository": "https://github.com/Neeraj-x0/x-asena",
-    "website":   "https://github.com/Neeraj-x0/x-asena",
-    "success_url": "https://github.com/Neeraj-x0/x-asena",
-    "stack": "container" }
+  "name": "x-asena",
+  "description": "X-asena Multi Device whatsappbot",
+  "logo": "https://i.hizliresim.com/6Bbj7i.jpg",
+  "keywords": ["whatsapp"],
+  "repository": "https://github.com/Neeraj-x0/x-asena",
+  "website": "https://github.com/Neeraj-x0/x-asena",
+  "success_url": "https://github.com/Neeraj-x0/x-asena",
+  "stack": "container",
+  "env": {
+    "ANTI_LINK": {
+      "description": "true/false",
+      "required": false,
+      "value": ""
+    },
+    "HANDLERS": {
+      "description": "prefix for commands",
+      "required": false,
+      "value": ""
+    },
+    "PACKNAME": {
+      "description": "Sticker Packname",
+      "required": false
+    },
+    "GOODBYE_MSG": {
+      "description": "goodbye Message",
+      "required": false
+    },
+    "AUTHOR": {
+      "description": "Sticker Pack AUTHOR",
+      "required": false
+    },
+    "SUDO": {
+      "description": "sudo numbers with country code seperate with , for multiple numbers",
+      "required": false
+    },
+    "HEROKU_APP_NAME": {
+      "description": "Heroku app name, same as above entered",
+      "required": true
+    },
+    "HEROKU_API_KEY": {
+      "description": "Heroku account api key, https://dashboard.heroku.com/account",
+      "required": true
+    }
+  }
+}
