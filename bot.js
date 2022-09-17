@@ -1,4 +1,3 @@
-
 const {
   default: makeWASocket,
   useSingleFileAuthState,
@@ -15,7 +14,7 @@ const config = require("./config");
 
 const { PluginDB } = require("./lib/database/plugins");
 const Greetings = require("./lib/Greetings");
-async function whatsAsena() {
+async function Xasena() {
   console.log("Syncing Database");
   await config.DATABASE.sync();
   const { state, saveState } = useSingleFileAuthState(
@@ -45,7 +44,7 @@ async function whatsAsena() {
       lastDisconnect.error.output.statusCode != 401
     ) {
       console.log(lastDisconnect.error.output.payload);
-      whatsAsena();
+      Xasena();
     }
 
     if (connection === "open") {
@@ -123,4 +122,4 @@ async function whatsAsena() {
   });
 }
 
-whatsAsena();
+Xasena();
