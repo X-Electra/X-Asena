@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 const { command, getUrl } = require("../lib");
 const got = require("got");
 const fs = require("fs");
@@ -19,6 +20,24 @@ command(
       var url = new URL(Url);
     } catch {
       return await message.sendMessage("_Invalid Url_");
+=======
+const { command,getJson } = require("../lib/");
+const { installPlugin } = require("../lib/database/plugins");
+
+command(
+  {
+    pattern: "plugin ?(.*)",
+    fromMe: true,
+    desc: "install a new plugin",
+    type: "misc",
+  },
+  async (message, match) => {
+    try {
+      var url = new URL(match);
+    } catch(err){
+      console.log(err)
+      return await message.reply("Invalid URL");
+>>>>>>> xasena/master
     }
 
     if (url.host === "gist.github.com") {
@@ -27,6 +46,7 @@ command(
     } else {
       url = url.toString();
     }
+<<<<<<< HEAD
     var plugin_name;
     var response = await got(url);
     if (response.statusCode == 200) {
@@ -91,3 +111,30 @@ command(
     }
   }
 );
+=======
+    let data = await getJson(url);
+    //console.log(data)
+    var plugin_name = data.match(/pattern: ["'](.*)["']/gimud)[0]
+    console.log(plugin_name.split()[0])
+    if (plugin_name.length >= 1) {
+        plugin_name = "__" + plugin_name[1];
+    } else {
+        plugin_name = "__" + Math.random().toString(36).substring(8);
+    }
+    writeFileSync('./plugins/' + plugin_name + '.js', data);
+    try {
+      require('./' + plugin_name)
+  } catch (e) {
+      fs.unlinkSync('./plugins/' + plugin_name + '.js')
+      return await message.sendMessage('Invalid Plugin\n' + ' ```' + e + '```');
+  }finally{
+await installPlugin(url,plugin_name)
+  }
+    message.reply(`Success Fully Installed Plugin ${plugin_name}`);
+  }
+);
+
+{
+
+  }
+>>>>>>> xasena/master
