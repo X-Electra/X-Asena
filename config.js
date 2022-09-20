@@ -18,7 +18,7 @@ DATABASE_URL = process.env.DATABASE_URL || "./lib/database.db";
 module.exports = {
   ANTILINK: toBool(process.env.ANTI_LINK) || false,
   ANTILINK_ACTION: "kick",
-  HANDLERS: process.env.HANDLERS || "^[#]",
+  HANDLERS: process.env.HANDLERS || "^[,]",
   BRANCH: "master",
   PACKNAME: process.env.PACKNAME || "X-asena",
   WELCOME_MSG:

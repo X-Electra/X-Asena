@@ -7,6 +7,18 @@ command(
     type: "type",
   },
   async (message, match) => {
-    message.downloadMediaMessage()
+    const buttons = [
+      {buttonId: ',menu', buttonText: {displayText: 'menu'}},
+      {buttonId: ',ping', buttonText: {displayText: 'ping'}}
+    ]
+    
+    const buttonMessage = {
+        text: "Hi it's button message",
+        footer: 'Hello World',
+        buttons: buttons,
+        headerType: 1
+    }
+    
+    await message.client.sendMessage(message.jid, buttonMessage)
   }
 );

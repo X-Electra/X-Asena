@@ -1,5 +1,8 @@
 const { Function, command, webp2mp4, isUrl } = require("../lib/");
-
+const { yta, ytIdRegex, ytv } = require("../lib/yotube");
+const { search } = require("yt-search");
+const { toAudio } = require("../lib/media");
+let gis = require("g-i-s");
 Function(
   {
     pattern: "img ?(.*)",
@@ -19,7 +22,7 @@ Function(
     }
   }
 );
-let gis = require("g-i-s");
+
 async function gimage(query, amount = 5) {
   let list = [];
   return new Promise((resolve, reject) => {
@@ -81,9 +84,7 @@ command(
     return await message.sendMessage(buffer, {}, "video");
   }
 );
-const { yta, ytIdRegex, ytv } = require("../lib/yotube");
-const { search } = require("yt-search");
-const { toAudio } = require("../lib/media");
+
 command(
   {
     pattern: "song ?(.*)",
@@ -141,5 +142,41 @@ command(
     let buff = await m.quoted.download();
     buff = await toAudio(buff, "mp3");
     return await message.sendMessage(buff, { mimetype: "audio/mpeg" }, "audio");
+  }
+);
+
+command(
+  {
+    pattern: "yts ?(.*)",
+    fromMe: true,
+    desc: "Search Youtube",
+    type: "Search",
+  },
+  async (message, match) => {
+    if(!match) return await message.reply('_Enter a search term_')
+    let rows = [];
+    search(match).then(async ({ videos }) => {
+      videos.forEach((result) => {
+        rows.push({
+          title: result.title,
+          description: `\nDuration : ${result.duration.toString()}\nAuthor : ${
+            result.author
+          }\nPublished : ${result.ago}\nDescription : ${
+            result.description
+          }\nURL : ${result.url}`,
+          rowId: ` `,
+        });
+      });
+      await message.client.sendMessage(message.jid, {
+        text: "Youtube Search for " + match,
+        buttonText: "View Results",
+        sections: [
+          {
+            title: "Youtube Search",
+            rows: rows,
+          },
+        ],
+      });
+    });
   }
 );

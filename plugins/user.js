@@ -42,7 +42,7 @@ command(
       let jid = message.mention[0] || message.reply_message.jid;
       if (!jid) return await message.reply("_Reply to a person or mention_");
       await message.block(jid);
-      return await message.send(`_@${jid.split("@")[0]} Blocked_`, {
+      return await message.sendMessageMessage(`_@${jid.split("@")[0]} Blocked_`, {
         mentions: [jid],
       });
     } else {
@@ -64,7 +64,7 @@ command(
       let jid = message.mention[0] || message.reply_message.jid;
       if (!jid) return await message.reply("_Reply to a person or mention_");
       await message.block(jid);
-      return await message.send(`_@${jid.split("@")[0]} unblocked_`, {
+      return await message.sendMessage(`_@${jid.split("@")[0]} unblocked_`, {
         mentions: [jid],
       });
     } else {
@@ -82,7 +82,7 @@ command(
     type: "user",
   },
   async (message, match) => {
-    return await message.send(
+    return await message.sendMessage(
       message.mention[0] || message.reply_message.jid || message.jid
     );
   }
