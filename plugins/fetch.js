@@ -1,4 +1,6 @@
-const { command,isUrl,isPrivate} = require("../lib/");
+const { command,isPrivate} = require("../lib/");
+const { isUrl } = require("../lib/functions");
+
 command(
   {
     pattern: "fetch ?(.*)",

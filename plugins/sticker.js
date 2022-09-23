@@ -2,7 +2,7 @@ const config = require("../config");
 const { command,isPrivate } = require("../lib/");
 command(
   {
-    pattern: "sticker ",
+    pattern: "sticker ?(.*)",
     fromMe: isPrivate,
     desc: "_Converts Photo or video to sticker_",
     type: "converter",

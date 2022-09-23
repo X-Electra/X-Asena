@@ -1,5 +1,6 @@
 const config = require("../config");
-const { command, isAdmin, parsedJid, isUrl,isPrivate} = require("../lib/");
+const { command,isPrivate} = require("../lib/");
+const { isAdmin, parsedJid, isUrl } = require("../lib/functions");
 
 command(
   {

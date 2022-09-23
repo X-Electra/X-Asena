@@ -1,9 +1,3 @@
+const { parsedJid } = require("./lib");
 
-const hx = require('hxz-api');
-
-const username = '433'
-
-hx.igstory(username)
-    .then(result => {
-     console.log(result)
-});
+console.log(parsedJid('918113921898'))

@@ -1,4 +1,4 @@
-const { command, getJson, isAdmin } = require("../lib/");
+const { command} = require("../lib/");
 const {
   setWelcome,
   getWelcome,

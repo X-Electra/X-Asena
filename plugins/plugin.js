@@ -1,11 +1,12 @@
-const { command, getUrl } = require("../lib");
+const { command } = require("../lib");
 const got = require("got");
 const fs = require("fs");
 const { PluginDB, installPlugin } = require("../lib/database/plugins");
+const { getUrl } = require("../lib/functions");
 
 command(
   {
-    pattern: "install ",
+    pattern: "install ?(.*)",
     fromMe: true,
     desc: "Installs External plugins",
   },
@@ -54,7 +55,7 @@ command(
 );
 
 command(
-  { pattern: "plugin", fromMe: true, desc: "plugin list" },
+  { pattern: "plugin ?(.*)", fromMe: true, desc: "plugin list" },
   async (message, match) => {
     var mesaj = "";
     var plugins = await PluginDB.findAll();

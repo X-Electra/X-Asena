@@ -1,5 +1,5 @@
 const events = require("../lib/event");
-const { command, getBuffer,isPrivate } = require("../lib");
+const { command,isPrivate } = require("../lib");
 const { readFileSync } = require("fs");
 command(
   {

@@ -6,7 +6,7 @@ const {
 } = require("@adiwajshing/baileys");
 const fs = require("fs");
 const { serialize } = require("./lib/serialize");
-const { Message, Image, Video } = require("./lib/Base");
+const { Message, Image } = require("./lib/Base");
 const pino = require("pino");
 const path = require("path");
 const events = require("./lib/event");
@@ -17,7 +17,9 @@ const { PluginDB } = require("./lib/database/plugins");
 const Greetings = require("./lib/Greetings");
 const { decodeJid } = require("./lib");
 const { bind } = require("./lib/store");
-const store = makeInMemoryStore({ logger: pino().child({ level: 'silent', stream: 'store' }) })
+const store = makeInMemoryStore({
+  logger: pino().child({ level: "silent", stream: "store" }),
+});
 async function Xasena() {
   console.log("Syncing Database");
   await config.DATABASE.sync();
@@ -32,18 +34,23 @@ async function Xasena() {
     downloadHistory: false,
     syncFullHistory: false,
   });
-  store.bind(conn.ev)
+  store.bind(conn.ev);
+  //store.readFromFile("./database/store.json");
   setInterval(() => {
     bind(conn)
-  }, 6*1000);
-  
+    store.writeToFile("./database/store.json");
+    console.log("saved store");
+   
+  }, 30 *60* 1000);
+ 
+
   conn.ev.on("connection.update", async (s) => {
     const { connection, lastDisconnect } = s;
     if (connection === "connecting") {
       console.log("X-Asena");
       console.log("ℹ️ Connecting to WhatsApp... Please Wait.");
     }
-   
+
     if (
       connection === "close" &&
       lastDisconnect &&
@@ -96,19 +103,8 @@ async function Xasena() {
           if (!msg.message) return;
           let text_msg = msg.body;
           if (text_msg) console.log(text_msg);
-          let prefa = config.HANDLERS.split(',')
-          var prefix = prefa
-            ? /^[°•π÷×¶∆£¢€¥®™+✓_=|~!?@#$%^&.©^]/gi.test(text_msg)
-              ? text_msg.match(/^[°•π÷×¶∆£¢€¥®™+✓_=|~!?@#$%^&.©^]/gi)[0]
-              : ""
-            : prefa ?? prefix;
-          const cmd = text_msg
-            .replace(prefix, "")
-            .trim()
-            .split(/ +/)
-            .shift()
-            .toLowerCase();
           events.commands.map(async (command) => {
+          
             if (
               command.fromMe &&
               !config.SUDO.split(",").includes(
@@ -116,11 +112,10 @@ async function Xasena() {
               )
             )
               return;
-            
-            
-            if (command.pattern && command.pattern.test(cmd)) {
-              var match = text_msg.trim().split(/ +/).slice(1).join(" ")
-              whats = new Message(conn, msg, ms, prefix);
+
+            if (command.pattern && command.pattern.test(text_msg)) {
+              var match = text_msg.trim().split(/ +/).slice(1).join(" ");
+              whats = new Message(conn, msg, ms);
               command.function(whats, match, msg, conn);
             } else if (command.on === "text") {
               whats = new Message(conn, msg, ms);

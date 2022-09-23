@@ -131,3 +131,5 @@ config.env
 /db.json
 /plugins/test2 copy.js
 /plans.json
+/database/store.json
+/plugins/msgs.js
