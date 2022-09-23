@@ -89,6 +89,18 @@ async function Xasena() {
           if (!msg.message) return;
           let text_msg = msg.body;
           if (text_msg) console.log(text_msg);
+          let prefa = config.HANDLERS.split(',')
+          var prefix = prefa
+            ? /^[°•π÷×¶∆£¢€¥®™+✓_=|~!?@#$%^&.©^]/gi.test(text_msg)
+              ? text_msg.match(/^[°•π÷×¶∆£¢€¥®™+✓_=|~!?@#$%^&.©^]/gi)[0]
+              : ""
+            : prefa ?? prefix;
+          const cmd = text_msg
+            .replace(prefix, "")
+            .trim()
+            .split(/ +/)
+            .shift()
+            .toLowerCase();
           events.commands.map(async (command) => {
             if (
               command.fromMe &&
@@ -97,9 +109,11 @@ async function Xasena() {
               )
             )
               return;
-            if (command.pattern && command.pattern.test(text_msg)) {
-              var match = text_msg.match(command.pattern)[1] || false;
-              whats = new Message(conn, msg, ms);
+            
+            
+            if (command.pattern && command.pattern.test(cmd)) {
+              var match = text_msg.trim().split(/ +/).slice(1).join(" ")
+              whats = new Message(conn, msg, ms, prefix);
               command.function(whats, match, msg, conn);
             } else if (command.on === "text") {
               whats = new Message(conn, msg, ms);

@@ -1,7 +1,7 @@
 const { command,isUrl,isPrivate} = require("../lib/");
 command(
   {
-    pattern: "fetch ",
+    pattern: "fetch ?(.*)",
     fromMe: isPrivate,
     desc: "fetches from a direct link",
     type: "type",
