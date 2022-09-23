@@ -1,6 +1,6 @@
 const got = require("got");
 const Heroku = require("heroku-client");
-const { secondsToDHMS, command } = require("../lib/");
+const { secondsToDHMS, command,isPrivate } = require("../lib/");
 const Config = require("../config");
 const heroku = new Heroku({ token: Config.HEROKU_API_KEY });
 const baseURI = "/apps/" + Config.HEROKU_APP_NAME;
@@ -50,7 +50,7 @@ command(
 command(
   {
     pattern: "dyno",
-    fromMe: true,
+    fromMe: isPrivate,
     desc: "Show Quota info",
     type: "heroku",
   },
@@ -86,7 +86,7 @@ Remaning    : ${secondsToDHMS(remaining)}`;
 
 command(
   {
-    pattern: "setvar ?(.*)",
+    pattern: "setvar ",
     fromMe: true,
     desc: "Set heroku env",
     type: "heroku",
@@ -114,7 +114,7 @@ command(
 
 command(
   {
-    pattern: "delvar ?(.*)",
+    pattern: "delvar ",
     fromMe: true,
     desc: "Delete Heroku env",
     type: "heroku",
@@ -143,7 +143,7 @@ command(
 
 command(
   {
-    pattern: "getvar ?(.*)",
+    pattern: "getvar ",
     fromMe: true,
     desc: "Show heroku env",
     type: "heroku",
@@ -192,7 +192,7 @@ command(
 
 command(
   {
-    pattern: "update$",
+    pattern: "update",
     fromMe: true,
     desc: "Checks for update.",
   },
@@ -221,7 +221,7 @@ command(
 
 command(
   {
-    pattern: "update now$",
+    pattern: "update now",
     fromMe: true,
     dontAddCommandList: true,
     desc: "Updates the Bot",

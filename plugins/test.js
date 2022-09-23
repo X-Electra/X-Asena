@@ -1,7 +1,7 @@
 const { command } = require("../lib/");
 command(
   {
-    pattern: "test ?(.*)",
+    pattern: "test ",
     fromMe: true,
     desc: "description",
     type: "type",

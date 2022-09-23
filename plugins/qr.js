@@ -1,9 +1,9 @@
-const { command, qrcode } = require("../lib/");
+const { command, qrcode ,isPrivate} = require("../lib/");
 const jimp = require("jimp");
 const QRReader = require("qrcode-reader");
 
 command(
-  { pattern: "qr ?(.*)", fromMe: true, desc: "Read/Write Qr.", type: "misc" },
+  { pattern: "qr ", fromMe: isPrivate, desc: "Read/Write Qr.", type: "misc" },
   async (message, match) => {
     match = match || message.reply_message.text;
     if (match) {

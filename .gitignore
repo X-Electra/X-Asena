@@ -123,3 +123,10 @@ config.env
 .pnp.*
 /media/session.json
 /package-lock.json
+/plugins/db.js
+/st.js
+/tmp.js
+/yt.js
+/insta.js
+/db.json
+/plugins/test2 copy.js

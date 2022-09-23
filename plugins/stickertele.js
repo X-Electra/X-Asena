@@ -1,9 +1,9 @@
-const { Function, getJson, sleep } = require("../lib/");
+const { Function, getJson, sleep,isPrivate } = require("../lib/");
 const config = require("../config");
 Function(
   {
-    pattern: "tgs ?(.*)",
-    fromMe: true,
+    pattern: "tgs ",
+    fromMe: isPrivate,
     desc: "Download Sticker From Telegram",
     type: "Tools",
   },

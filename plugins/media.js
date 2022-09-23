@@ -1,12 +1,12 @@
-const { Function, command, webp2mp4, isUrl } = require("../lib/");
+const { Function, command, webp2mp4, isUrl ,isPrivate} = require("../lib/");
 const { yta, ytIdRegex, ytv } = require("../lib/yotube");
 const { search } = require("yt-search");
 const { toAudio } = require("../lib/media");
 let gis = require("g-i-s");
 Function(
   {
-    pattern: "img ?(.*)",
-    fromMe: true,
+    pattern: "img ",
+    fromMe: isPrivate,
     desc: "Google Image search",
     type: "download",
   },
@@ -41,8 +41,8 @@ async function gimage(query, amount = 5) {
 
 command(
   {
-    pattern: "vv ?(.*)",
-    fromMe: true,
+    pattern: "vv ",
+    fromMe: isPrivate,
     desc: "Forwards The View once messsage",
     type: "tool",
   },
@@ -56,8 +56,8 @@ command(
 
 command(
   {
-    pattern: "photo ?(.*)",
-    fromMe: true,
+    pattern: "photo ",
+    fromMe: isPrivate,
     desc: "Changes sticker to Photo",
     type: "converter",
   },
@@ -71,8 +71,8 @@ command(
 
 command(
   {
-    pattern: "mp4 ?(.*)",
-    fromMe: true,
+    pattern: "mp4 ",
+    fromMe: isPrivate,
     desc: "Changes sticker to Video",
     type: "converter",
   },
@@ -87,8 +87,8 @@ command(
 
 command(
   {
-    pattern: "song ?(.*)",
-    fromMe: true,
+    pattern: "song ",
+    fromMe: isPrivate,
     desc: "Downloads Song",
     type: "downloader",
   },
@@ -110,8 +110,8 @@ command(
 
 command(
   {
-    pattern: "video ?(.*)",
-    fromMe: true,
+    pattern: "video ",
+    fromMe: isPrivate,
     desc: "Downloads video",
     type: "downloader",
   },
@@ -133,8 +133,8 @@ command(
 
 command(
   {
-    pattern: "mp3 ?(.*)",
-    fromMe: true,
+    pattern: "mp3 ",
+    fromMe: isPrivate,
     desc: "converts video/voice to mp3",
     type: "downloader",
   },
@@ -147,8 +147,8 @@ command(
 
 command(
   {
-    pattern: "yts ?(.*)",
-    fromMe: true,
+    pattern: "yts ",
+    fromMe: isPrivate,
     desc: "Search Youtube",
     type: "Search",
   },

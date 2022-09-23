@@ -1,25 +1,11 @@
-const { command } = require("../lib/");
-const { Mimetype } = require("@adiwajshing/baileys");
+const { command ,isPrivate} = require("../lib/");
 const fs = require("fs");
 const ffmpeg = require("fluent-ffmpeg");
 
 command(
   {
-    pattern: "codtts",
-    fromMe: false,
-    desc: "language code to change the voice in .tts & also for .trt translation",
-  },
-  async (message) => {
-    await message.sendMessage(
-      "\n https://drive.google.com/file/d/1r4l7QcdEiu9wAOgqxTGB6KWBVsg_U1cu/view?usp=drivesdk \n"
-    );
-  }
-);
-
-command(
-  {
     pattern: "x4mp4",
-    fromMe: true,
+    fromMe: isPrivate,
     desc: "Reduce video’s quality by 75%.",
     dontAddCommandList: false,
   },
@@ -42,7 +28,7 @@ command(
 command(
   {
     pattern: "x2mp4",
-    fromMe: true,
+    fromMe: isPrivate,
     desc: "Reduce video’s quality by 50%",
     dontAddCommandList: false,
   },
@@ -65,7 +51,7 @@ command(
 command(
   {
     pattern: "mp4image",
-    fromMe: true,
+    fromMe: isPrivate,
     desc: "Converts photo to 5 sec video.",
     dontAddCommandList: false,
   },
@@ -90,7 +76,7 @@ command(
 command(
   {
     pattern: "spectrum",
-    fromMe: true,
+    fromMe: isPrivate,
     desc: "Converts the spectrum of sound into video.",
     dontAddCommandList: false,
   },
@@ -119,7 +105,7 @@ command(
 command(
   {
     pattern: "waves",
-    fromMe: true,
+    fromMe: isPrivate,
     desc: "Converts the wave range of sound to video.",
     dontAddCommandList: false,
   },
@@ -148,7 +134,7 @@ command(
 command(
   {
     pattern: "frequency",
-    fromMe: true,
+    fromMe: isPrivate,
     desc: "Converts the frequency range of sound to video.",
     dontAddCommandList: false,
   },
@@ -177,7 +163,7 @@ command(
 command(
   {
     pattern: "avec",
-    fromMe: true,
+    fromMe: isPrivate,
     desc: "Converts the histogram of sound to video.",
     dontAddCommandList: false,
   },
@@ -206,7 +192,7 @@ command(
 command(
   {
     pattern: "volumeaudio",
-    fromMe: true,
+    fromMe: isPrivate,
     desc: "Converts the decibel value of the sound into video.",
     dontAddCommandList: false,
   },
@@ -235,7 +221,7 @@ command(
 command(
   {
     pattern: "cqtaudio",
-    fromMe: true,
+    fromMe: isPrivate,
     desc: "Converts the CQT value of audio to video.",
     dontAddCommandList: false,
   },
@@ -264,7 +250,7 @@ command(
 command(
   {
     pattern: "mp3eq",
-    fromMe: true,
+    fromMe: isPrivate,
     desc: "Adjusts the sound to a crystal clear level.",
     dontAddCommandList: false,
   },
@@ -291,7 +277,7 @@ command(
 command(
   {
     pattern: "mp3crusher",
-    fromMe: true,
+    fromMe: isPrivate,
     desc: "Distorts the sound, makes ridiculous.",
     dontAddCommandList: false,
   },
@@ -317,7 +303,7 @@ command(
 command(
   {
     pattern: "mp3reverse",
-    fromMe: true,
+    fromMe: isPrivate,
     desc: "Plays the sound in reverse.",
     dontAddCommandList: false,
   },
@@ -339,7 +325,7 @@ command(
 command(
   {
     pattern: "mp4vintage",
-    fromMe: true,
+    fromMe: isPrivate,
     desc: "Applies a nostalgic effect to video.",
     dontAddCommandList: false,
   },
@@ -362,7 +348,7 @@ command(
 command(
   {
     pattern: "mp4reverse",
-    fromMe: true,
+    fromMe: isPrivate,
     desc: "Plays the video in reverse.",
     dontAddCommandList: false,
   },
@@ -386,7 +372,7 @@ command(
 command(
   {
     pattern: "mp4bw",
-    fromMe: true,
+    fromMe: isPrivate,
     desc: "Applies a monochrome effect to video.",
     dontAddCommandList: false,
   },
@@ -409,7 +395,7 @@ command(
 command(
   {
     pattern: "bwimage",
-    fromMe: true,
+    fromMe: isPrivate,
     desc: "Applies a monochrome effect to image.",
     dontAddCommandList: false,
   },
@@ -431,7 +417,7 @@ command(
 command(
   {
     pattern: "vintageimage",
-    fromMe: true,
+    fromMe: isPrivate,
     desc: "Applies a vinatge effect to video.",
     dontAddCommandList: false,
   },
@@ -453,7 +439,7 @@ command(
 command(
   {
     pattern: "mp4enhance",
-    fromMe: true,
+    fromMe: isPrivate,
     desc: "Enhance video’s quality",
     dontAddCommandList: false,
   },
@@ -476,7 +462,7 @@ command(
 command(
   {
     pattern: "blurimage",
-    fromMe: true,
+    fromMe: isPrivate,
     desc: "Blurs the background of the photo.",
     dontAddCommandList: false,
   },
@@ -502,7 +488,7 @@ command(
 command(
   {
     pattern: "mp4blur",
-    fromMe: true,
+    fromMe: isPrivate,
     desc: "Blurs the background of the video.",
     dontAddCommandList: false,
   },
@@ -528,7 +514,7 @@ command(
 command(
   {
     pattern: "mp3pitch",
-    fromMe: true,
+    fromMe: isPrivate,
     desc: "Makes the sound thinner and faster.",
     dontAddCommandList: false,
   },
@@ -550,7 +536,7 @@ command(
 command(
   {
     pattern: "mp4edge",
-    fromMe: true,
+    fromMe: isPrivate,
     desc: "Applies a edge effect to the video.",
     dontAddCommandList: false,
   },
@@ -579,7 +565,7 @@ command(
 command(
   {
     pattern: "mp3low",
-    fromMe: true,
+    fromMe: isPrivate,
     desc: "Makes the sound deep and slower.",
     dontAddCommandList: false,
   },
@@ -601,7 +587,7 @@ command(
 command(
   {
     pattern: "x2mp3",
-    fromMe: true,
+    fromMe: isPrivate,
     desc: "Makes the sound twice as fast.",
     dontAddCommandList: false,
   },
@@ -623,7 +609,7 @@ command(
 command(
   {
     pattern: "edgeimage",
-    fromMe: true,
+    fromMe: isPrivate,
     desc: "Applies a edge effect to the photo.",
     dontAddCommandList: false,
   },
@@ -645,7 +631,7 @@ command(
 command(
   {
     pattern: "enhanceimage",
-    fromMe: true,
+    fromMe: isPrivate,
     desc: "Makes the photo clearer.",
     dontAddCommandList: false,
   },
@@ -667,7 +653,7 @@ command(
 command(
   {
     pattern: "mp3volume",
-    fromMe: true,
+    fromMe: isPrivate,
     desc: "Increase sound level",
     dontAddCommandList: false,
   },
@@ -693,7 +679,7 @@ command(
 command(
   {
     pattern: "gif",
-    fromMe: true,
+    fromMe: isPrivate,
     desc: "Converts video to gif.",
     dontAddCommandList: false,
   },
@@ -723,7 +709,7 @@ command(
 command(
   {
     pattern: "vgif",
-    fromMe: true,
+    fromMe: isPrivate,
     desc: "Converts video to voiced gif.",
     dontAddCommandList: false,
   },
@@ -752,7 +738,7 @@ command(
 command(
   {
     pattern: "grenimage",
-    fromMe: true,
+    fromMe: isPrivate,
     desc: "Applies grain effect to the photo",
     dontAddCommandList: false,
   },
@@ -773,8 +759,8 @@ command(
 
 command(
   {
-    pattern: "interp ?(.*)",
-    fromMe: true,
+    pattern: "interp ",
+    fromMe: isPrivate,
     desc: "Increases the FPS of the video.",
     dontAddCommandList: false,
   },
@@ -811,7 +797,7 @@ command(
 command(
   {
     pattern: "rainbow",
-    fromMe: true,
+    fromMe: isPrivate,
     desc: "Applies rainbow effect to the photo",
     dontAddCommandList: false,
   },
@@ -838,7 +824,7 @@ command(
 command(
   {
     pattern: "mp4rainbow",
-    fromMe: true,
+    fromMe: isPrivate,
     desc: "Applies a rainbow effect to video.",
     dontAddCommandList: false,
   },
@@ -866,7 +852,7 @@ command(
 command(
   {
     pattern: "negative",
-    fromMe: true,
+    fromMe: isPrivate,
     desc: "Applies a negative color filter to the photo.",
     dontAddCommandList: false,
   },
@@ -888,7 +874,7 @@ command(
 command(
   {
     pattern: "mp4negative",
-    fromMe: true,
+    fromMe: isPrivate,
     desc: "Applies a negative color filter to the video.",
     dontAddCommandList: false,
   },
@@ -911,7 +897,7 @@ command(
 command(
   {
     pattern: "mp4art",
-    fromMe: true,
+    fromMe: isPrivate,
     desc: "Applies a art effect to the video.",
     dontAddCommandList: false,
   },
@@ -938,7 +924,7 @@ command(
 command(
   {
     pattern: "artimage",
-    fromMe: true,
+    fromMe: isPrivate,
     desc: "Applies a art effect to the photo.",
     dontAddCommandList: false,
   },
@@ -964,7 +950,7 @@ command(
 command(
   {
     pattern: "mp4stab",
-    fromMe: true,
+    fromMe: isPrivate,
     desc: "Decreases the vibration of the video.",
     dontAddCommandList: false,
   },
@@ -987,7 +973,7 @@ command(
 command(
   {
     pattern: "vivid",
-    fromMe: true,
+    fromMe: isPrivate,
     desc: "Makes the colors of the video more vivid and beautiful.",
     dontAddCommandList: false,
   },
@@ -1014,7 +1000,7 @@ command(
 command(
   {
     pattern: "colorimage",
-    fromMe: true,
+    fromMe: isPrivate,
     desc: "It makes the colors of the photo more vivid and attractive",
     dontAddCommandList: false,
   },
@@ -1040,7 +1026,7 @@ command(
 command(
   {
     pattern: "mp4slowmo",
-    fromMe: true,
+    fromMe: isPrivate,
     desc: "pplies true-slowmo to non-slow motion videos",
     dontAddCommandList: false,
   },

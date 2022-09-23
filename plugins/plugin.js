@@ -5,7 +5,7 @@ const { PluginDB, installPlugin } = require("../lib/database/plugins");
 
 command(
   {
-    pattern: "install ?(.*)",
+    pattern: "install ",
     fromMe: true,
     desc: "Installs External plugins",
   },
@@ -29,7 +29,7 @@ command(
     var response = await got(url);
     if (response.statusCode == 200) {
       var commands = response.body
-        .match(/(?<=pattern:)(.*)(?=\?(.*))/g)
+        .match(/(?<=pattern:)(.*)(?=\)/g)
         .map((a) => a.trim().replace(/"|'|`/, ""));
       plugin_name =
         commands[0] ||

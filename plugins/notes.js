@@ -1,8 +1,8 @@
-let { command } = require("../lib");
+let { command ,isPrivate} = require("../lib");
 const NotesDB = require("../lib/database/notes");
 
 command(
-  { pattern: "notes", fromMe: true, desc: 'Get notes' },
+  { pattern: "notes", fromMe: isPrivate, desc: "Get notes" },
   async (message, match) => {
     const _notes = await NotesDB.getNotes();
     const notes = [];
@@ -20,7 +20,7 @@ command(
 );
 
 command(
-  { pattern: "save ?(.*)", fromMe: true, desc: "Save notes" },
+  { pattern: "save ", fromMe: isPrivate, desc: "Save notes" },
   async (message, match) => {
     const userNote = match || message.reply_message.text;
     if (!userNote && !message.reply_message.text) {
@@ -43,7 +43,7 @@ command(
 );
 
 command(
-  { pattern: "deleteNotes", fromMe: true, desc: 'Delete notes'},
+  { pattern: "deleteNotes", fromMe: true, desc: "Delete notes" },
   async (message, match) => {
     await NotesDB.deleteAllNotes();
     return await message.sendMessage("_Succesfully deleted all notes_");

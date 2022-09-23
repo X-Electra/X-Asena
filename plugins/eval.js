@@ -1,18 +1,40 @@
-const { command, getJson,isAdmin } = require("../lib/");
-const { setWelcome ,getWelcome,delWelcome} = require("../lib/database/greetings");
+const {
+  command,
+  isPrivate,
+  getUrl,
+  getBuffer,
+  getJson,
+  parsed,
+  commandJid,
+} = require("../lib/");
 const util = require("util");
+const config = require("../config");
 command(
-  { pattern: "> ?(.*)", fromMe: true, desc: "", type: "random" ,dontAddCommandList:true},
-  async (message, match,ms) => {
-    m = message;
-    conn = message.client;
-    const sock = message.client
-    try {
-      let evaled = await eval(match);
-      if (typeof evaled !== "string") evaled = require("util").inspect(evaled);
-      await message.sendMessage(evaled);
-    } catch (err) {
-      await message.sendMessage(util.format(err));
+  {
+    pattern: "eval ?(.*)",
+    fromMe: true,
+    desc: "Run js code (evel)",
+    type: "misc",
+  },
+  async (message, match, client) => {
+    return;
+  }
+);
+command(
+  { on: "text", fromMe: true, desc: "Run js code (evel)", type: "misc" },
+  async (message, match, client) => {
+    if (message.text.startsWith(">")) {
+      const m = message;
+      try {
+        let evaled = await eval(
+          `(async () => { ${message.text.replace(">", "")} })()`
+        );
+        if (typeof evaled !== "string")
+          evaled = require("util").inspect(evaled);
+        await message.reply(evaled);
+      } catch (err) {
+        await message.reply(util.format(err));
+      }
     }
   }
 );

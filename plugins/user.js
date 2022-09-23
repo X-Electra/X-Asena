@@ -2,7 +2,7 @@ const { command } = require("../lib");
 
 command(
   {
-    pattern: "setpp ?(.*)",
+    pattern: "setpp ",
     fromMe: true,
     desc: "Set profile picture",
     type: "user",
@@ -18,7 +18,7 @@ command(
 
 command(
   {
-    pattern: "setname ?(.*)",
+    pattern: "setname ",
     fromMe: true,
     desc: "Set User name",
     type: "user",
@@ -32,7 +32,7 @@ command(
 
 command(
   {
-    pattern: "block ?(.*)",
+    pattern: "block ",
     fromMe: true,
     desc: "Block a person",
     type: "user",
@@ -54,7 +54,7 @@ command(
 
 command(
   {
-    pattern: "unblock ?(.*)",
+    pattern: "unblock ",
     fromMe: true,
     desc: "Unblock a person",
     type: "user",

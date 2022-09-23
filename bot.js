@@ -14,6 +14,7 @@ const config = require("./config");
 
 const { PluginDB } = require("./lib/database/plugins");
 const Greetings = require("./lib/Greetings");
+const { decodeJid } = require("./lib");
 async function Xasena() {
   console.log("Syncing Database");
   await config.DATABASE.sync();
@@ -24,7 +25,6 @@ async function Xasena() {
   let conn = makeWASocket({
     logger: pino({ level: "silent" }),
     auth: state,
-    printQRInTerminal: true,
     browser: Browsers.macOS("Desktop"),
     downloadHistory: false,
     syncFullHistory: false,
@@ -90,10 +90,13 @@ async function Xasena() {
           let text_msg = msg.body;
           if (text_msg) console.log(text_msg);
           events.commands.map(async (command) => {
-            if (msg.type === "videoMessage" && command.on === "video") {
-              whats = new Video(conn, msg, ms);
-              console.log(whats);
-            }
+            if (
+              command.fromMe &&
+              !config.SUDO.split(",").includes(
+                msg.sender.split("@")[0] || !msg.isSelf
+              )
+            )
+              return;
             if (command.pattern && command.pattern.test(text_msg)) {
               var match = text_msg.match(command.pattern)[1] || false;
               whats = new Message(conn, msg, ms);
