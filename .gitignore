@@ -132,3 +132,4 @@ config.env
 /plans.json
 /database/store.json
 /plugins/msgs.js
+/media/session.json
