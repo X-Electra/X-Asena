@@ -35,7 +35,7 @@ command(
     await heroku
       .get(baseURI + "/formation")
       .then(async (formation) => {
-        await message.sendMessage(`_Shuttind down._`);
+        await message.sendMessage(`_Shutting down._`);
         await heroku.patch(baseURI + "/formation/" + formation[0].id, {
           body: {
             quantity: 0,
@@ -234,7 +234,7 @@ command(
       return await message.sendMessage("_Already on latest version_");
     } else {
       await message.reply("_Updating_");
-      if (Config.HEROKU.HEROKU) {
+      
         try {
           var app = await heroku.get("/apps/" + Config.HEROKU_APP_NAME);
         } catch {
@@ -258,18 +258,7 @@ command(
         await git.push("heroku", Config.BRANCH);
 
         await message.sendMessage("UPDATED");
-      } else {
-        git.pull(async (err, update) => {
-          if (update && update.summary.changes) {
-            await message.sendMessage("UPDATED");
-            exec("npm install").stderr.pipe(process.stderr);
-          } else if (err) {
-            await message.sendMessage(
-              "*❌ Update failed!*\n*Error:* ```" + err + "```"
-            );
-          }
-        });
-      }
+      
     }
   }
 );
