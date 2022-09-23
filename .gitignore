@@ -130,3 +130,4 @@ config.env
 /insta.js
 /db.json
 /plugins/test2 copy.js
+/plans.json
