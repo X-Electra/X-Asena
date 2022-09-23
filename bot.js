@@ -20,6 +20,7 @@ const { bind } = require("./lib/store");
 const store = makeInMemoryStore({
   logger: pino().child({ level: "silent", stream: "store" }),
 });
+
 async function Xasena() {
   console.log("Syncing Database");
   await config.DATABASE.sync();
