@@ -2,6 +2,7 @@ const {
   default: makeWASocket,
   useSingleFileAuthState,
   Browsers,
+  makeInMemoryStore,
 } = require("@adiwajshing/baileys");
 const fs = require("fs");
 const { serialize } = require("./lib/serialize");
@@ -15,6 +16,8 @@ const config = require("./config");
 const { PluginDB } = require("./lib/database/plugins");
 const Greetings = require("./lib/Greetings");
 const { decodeJid } = require("./lib");
+const { bind } = require("./lib/store");
+const store = makeInMemoryStore({ logger: pino().child({ level: 'silent', stream: 'store' }) })
 async function Xasena() {
   console.log("Syncing Database");
   await config.DATABASE.sync();
@@ -29,14 +32,18 @@ async function Xasena() {
     downloadHistory: false,
     syncFullHistory: false,
   });
-
+  store.bind(conn.ev)
+  setInterval(() => {
+    bind(conn)
+  }, 6*1000);
+  
   conn.ev.on("connection.update", async (s) => {
     const { connection, lastDisconnect } = s;
     if (connection === "connecting") {
       console.log("X-Asena");
       console.log("ℹ️ Connecting to WhatsApp... Please Wait.");
     }
-
+   
     if (
       connection === "close" &&
       lastDisconnect &&
