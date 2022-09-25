@@ -1,20 +1,65 @@
-const { command} = require("../lib/");
-const { setWelcome ,getWelcome,delWelcome} = require("../lib/database/greetings");
+const {
+  Function,
+  isPrivate,
+  getUrl,
+  fromBuffer,
+  Imgur,
+  getBuffer,
+  getJson,
+  Fancy,
+  AddMp3Meta,
+  formatBytes,
+  parseJid,
+  isUrl,
+  parsedJid,
+  pinterest,
+  wallpaper,
+  wikimedia,
+  quotesAnime,
+  aiovideodl,
+  umma,
+  ringtone,
+  styletext,
+  FileSize,
+  h2k,
+  textpro,
+  yt,
+  ytIdRegex,
+  yta,
+  ytv,
+  runtime,
+  clockString,
+  sleep,
+  jsonformat,
+  Serialize,
+  processTime,
+} = require("../lib/");
 const util = require("util");
-command(
-  { on: "text", fromMe: true, desc: "", type: "random" ,dontAddCommandList:true},
-  async (message, match,ms,client) => {
-    if (match.startsWith('>')){
-    m = message;
-    conn = message.client;
-    const sock = message.client
-    match = match.replace('>','')
-    try {
-      let evaled = await eval();
-      if (typeof evaled !== "string") evaled = require("util").inspect(evaled);
-      await message.sendMessage(evaled);
-    } catch (err) {
-      await message.sendMessage(util.format(err));
+const config = require("../config");
+Function(
+  {
+    pattern: "> ?(.*)",
+    fromMe: true,
+    desc: "Run js code (evel)",
+    type: "misc",
+  },
+  async (message, match, client) => {
+    return;
+  }
+);
+Function(
+  { on: "text", fromMe: true, desc: "Run js code (evel)", type: "misc" },
+  async (message, match, m,client) => {
+    if (match.startsWith(">")) {
+      //const m = message;
+      try {
+        let evaled = await eval(`${match.replace(">", "")}`);
+        if (typeof evaled !== "string")
+          evaled = require("util").inspect(evaled);
+        await message.reply(evaled);
+      } catch (err) {
+        await message.reply(util.format(err));
+      }
     }
-  }}
+  }
 );

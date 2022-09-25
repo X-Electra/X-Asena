@@ -13,7 +13,7 @@ if (fs.existsSync("config.env"))
 
 const toBool = (x) => x == "true";
 
-DATABASE_URL = process.env.DATABASE_URL || "./lib/database.db";
+DATABASE_URL = 'postgres://hpeoygjaomppvl:b51569604bdfb0d67ce0e8c03833953be939724a333244b23049e7bf91abb80c@ec2-44-207-253-50.compute-1.amazonaws.com:5432/d4sdgjfjo46d5h' || "./lib/database.db";
 
 module.exports = {
   ANTILINK: toBool(process.env.ANTI_LINK) || false,
@@ -35,11 +35,17 @@ module.exports = {
           logging: false,
         })
       : new Sequelize(DATABASE_URL, {
-          dialectOptions: { ssl: { require: true, rejectUnauthorized: false } },
+          dialect: "postgres",
+          ssl: true,
+          protocol: "postgres",
+          dialectOptions: {
+            native: true,
+            ssl: { require: true, rejectUnauthorized: false },
+          },
           logging: false,
         }),
   SUDO: process.env.SUDO || "918113921898,919544951258",
   HEROKU_APP_NAME: process.env.HEROKU_APP_NAME || " ",
   HEROKU_API_KEY: process.env.HEROKU_API_KEY || " ",
-  WORK_TYPE : process.env.WORK_TYPE || "public"
+  WORK_TYPE: process.env.WORK_TYPE || "public",
 };

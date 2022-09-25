@@ -1,6 +1,6 @@
 const { Function,isPrivate } = require("../lib/");
 const config = require("../config");
-const { getJson } = require("../lib/functions");
+const { getJson } = require("../lib");
 Function(
   {
     pattern: "tgs ?(.*)",

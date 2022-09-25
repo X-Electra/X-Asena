@@ -20,7 +20,7 @@ const { bind } = require("./lib/store");
 const store = makeInMemoryStore({
   logger: pino().child({ level: "silent", stream: "store" }),
 });
-
+require('events').EventEmitter.defaultMaxListeners = 100
 async function Xasena() {
   console.log("Syncing Database");
   await config.DATABASE.sync();
@@ -31,6 +31,8 @@ async function Xasena() {
   let conn = makeWASocket({
     logger: pino({ level: "silent" }),
     auth: state,
+    printQRInTerminal:true,
+
     browser: Browsers.macOS("Desktop"),
     downloadHistory: false,
     syncFullHistory: false,
@@ -38,7 +40,7 @@ async function Xasena() {
   store.bind(conn.ev);
   //store.readFromFile("./database/store.json");
   setInterval(() => {
-    bind(conn)
+   
     store.writeToFile("./database/store.json");
     console.log("saved store");
    

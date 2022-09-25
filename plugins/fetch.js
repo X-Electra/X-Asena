@@ -1,5 +1,5 @@
 const { command,isPrivate} = require("../lib/");
-const { isUrl } = require("../lib/functions");
+const { isUrl } = require("../lib");
 
 command(
   {

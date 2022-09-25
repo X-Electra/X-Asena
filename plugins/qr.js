@@ -1,7 +1,7 @@
 const { command,isPrivate} = require("../lib/");
 const jimp = require("jimp");
 const QRReader = require("qrcode-reader");
-const { qrcode } = require("../lib/functions");
+const { qrcode } = require("../lib");
 
 command(
   { pattern: "qr ?(.*)", fromMe: isPrivate, desc: "Read/Write Qr.", type: "misc" },

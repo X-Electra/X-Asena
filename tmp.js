@@ -1,30 +1,12 @@
-let db = require("./db.json");
-let date = new Date();
-let day = [date.getDate()];
-let mon = [date.getMonth()];
-let yer = [date.getFullYear()];
+function formatBytes(bytes, decimals = 2) {
+  if (!+bytes) return "0 Bytes";
 
-day = day < 10 ? "0" + day : day;
+  const k = 1024;
+  const dm = decimals < 0 ? 0 : decimals;
+  const sizes = ["Bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"];
 
-let months = [
-  "Jan",
-  "Feb",
-  "Mar",
-  "Apr",
-  "May",
-  "June",
-  "July",
-  "Aug",
-  "Sep",
-  "Oct",
-  "Nov",
-  "Dec",
-];
-let month = months[mon];
-let TDate = day + " " + month + " " + yer;
-for (let user of db) {
-  if (user.Expiry === TDate)
-    console.log(
-      `Plan Validity of ${user.Name} Ends Today please recharge \n Plan ID : ${user.Plan} `
-    );
+  const i = Math.floor(Math.log(bytes) / Math.log(k));
+
+  return `${parseFloat((bytes / Math.pow(k, i)).toFixed(dm))} ${sizes[i]}`;
 }
+console.log(formatBytes(1000240000))
