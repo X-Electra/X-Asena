@@ -13,7 +13,7 @@ if (fs.existsSync("config.env"))
 
 const toBool = (x) => x == "true";
 
-DATABASE_URL = 'postgres://hpeoygjaomppvl:b51569604bdfb0d67ce0e8c03833953be939724a333244b23049e7bf91abb80c@ec2-44-207-253-50.compute-1.amazonaws.com:5432/d4sdgjfjo46d5h' || "./lib/database.db";
+DATABASE_URL = process.env.DATABASE_URL || "./lib/database.db";
 
 module.exports = {
   ANTILINK: toBool(process.env.ANTI_LINK) || false,
