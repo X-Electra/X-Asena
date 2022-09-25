@@ -113,8 +113,9 @@ async function Xasena() {
               )
             )
               return;
-
+                
             if (command.pattern && command.pattern.test(text_msg)) {
+              
               var match = text_msg.trim().split(/ +/).slice(1).join(" ");
               whats = new Message(conn, msg, ms);
               command.function(whats, match, msg, conn);
