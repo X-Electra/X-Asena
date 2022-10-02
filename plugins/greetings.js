@@ -8,7 +8,7 @@ const {
 } = require("../lib/database/greetings");
 command(
   {
-    pattern: "welcome ",
+    pattern: "welcome ?(.*)",
     fromMe: true,
     desc: "Sets Welcome Message",
     type: "user",

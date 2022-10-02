@@ -6,7 +6,7 @@ let gis = require("g-i-s");
 const { AddMp3Meta } = require("../lib");
 Function(
   {
-    pattern: "img ",
+    pattern: "img ?(.*)",
     fromMe: isPrivate,
     desc: "Google Image search",
     type: "download",
@@ -42,7 +42,7 @@ async function gimage(query, amount = 5) {
 
 command(
   {
-    pattern: "vv ",
+    pattern: "vv ?(.*)",
     fromMe: isPrivate,
     desc: "Forwards The View once messsage",
     type: "tool",
@@ -57,7 +57,7 @@ command(
 
 command(
   {
-    pattern: "photo ",
+    pattern: "photo ?(.*)",
     fromMe: isPrivate,
     desc: "Changes sticker to Photo",
     type: "converter",
@@ -72,7 +72,7 @@ command(
 
 command(
   {
-    pattern: "mp4 ",
+    pattern: "mp4 ?(.*)",
     fromMe: isPrivate,
     desc: "Changes sticker to Video",
     type: "converter",
@@ -88,7 +88,7 @@ command(
 
 command(
   {
-    pattern: "song ",
+    pattern: "song ?(.*)",
     fromMe: isPrivate,
     desc: "Downloads Song",
     type: "downloader",
@@ -126,7 +126,7 @@ command(
 
 command(
   {
-    pattern: "video ",
+    pattern: "video ?(.*)",
     fromMe: isPrivate,
     desc: "Downloads video",
     type: "downloader",
@@ -149,7 +149,7 @@ command(
 
 command(
   {
-    pattern: "mp3 ",
+    pattern: "mp3 ?(.*)",
     fromMe: isPrivate,
     desc: "converts video/voice to mp3",
     type: "downloader",
@@ -163,7 +163,7 @@ command(
 
 command(
   {
-    pattern: "yts ",
+    pattern: "yts ?(.*)",
     fromMe: isPrivate,
     desc: "Search Youtube",
     type: "Search",

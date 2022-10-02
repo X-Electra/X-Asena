@@ -1,18 +1,67 @@
 const events = require("../lib/event");
-const { command,isPrivate } = require("../lib");
+const { command, isPrivate, tiny, serif_B, serif_BI } = require("../lib");
 const { readFileSync } = require("fs");
 command(
   {
     pattern: "menu ?(.*)",
     fromMe: isPrivate,
     desc: "Show All commands",
+    dontAddCommandList: true,
   },
-  async (message, match) => {
+  async (message, match, { prefix }) => {
     let menu = `╭╼╾╼╾╼╾╼╾╼╾╼╾╼╾╼╾╼╾╼╾╼╾╼╾╼\n╽`;
     let cmnd = [];
-    let cmd, desc;
+    let cmd;
     events.commands.map((command, num) => {
       if (command.pattern) {
+        cmd = command.pattern
+          .toString()
+          .match(/(\W*)([A-Za-züşiğ öç1234567890]*)/)[2];
+      }
+
+      if (!command.dontAddCommandList && cmd !== undefined) {
+        cmnd.push(cmd);
+      }
+    });
+    cmnd.sort();
+    cmnd.forEach((cmd, num) => {
+      menu += `┠ ${cmd.trim()} \n╿`;
+    });
+    menu += `\n╰╾╼╾╼╾╼╾╼╾╼╾╼╾╼╾╼╾╼╾╼╾╼╾╼╾╼╾╼`;
+    return await message.client.sendMessage(message.jid, {
+      image: { url: `https://wallpapercave.com/wp/wp3891779.jpg` },
+      caption: serif_B(menu.toUpperCase()),
+      footer: tiny(
+        `X-asena Public Bot\nVersion : ${require("../package.json").version}`
+      ),
+      buttons: [
+        {
+          buttonId: `${prefix}ping`,
+          buttonText: { displayText: serif_B("PING 🎈") },
+        },
+        {
+          buttonId: `${prefix}list`,
+          buttonText: { displayText: serif_B("List menu 🎈 ") },
+        },
+      ],
+    });
+  }
+);
+command(
+  {
+    pattern: "list ?(.*)",
+    fromMe: isPrivate,
+    desc: "Show All commands",
+    dontAddCommandList: true,
+  },
+  async (message, match, { prefix }) => {
+    let menu = `╭───〔 ${tiny("x-asena command list")} 〕────\n`;
+   
+    let cmnd = [];
+    let cmd, desc;
+    events.commands.map((command) => {
+      if (command.pattern) {
+       
         cmd = command.pattern
           .toString()
           .match(/(\W*)([A-Za-züşiğ öç1234567890]*)/)[2];
@@ -20,7 +69,7 @@ command(
       if (command.desc) {
         desc = command.desc;
       } else {
-        desc = "";
+        desc = false;
       }
       if (!command.dontAddCommandList && cmd !== undefined) {
         cmnd.push({ cmd, desc });
@@ -28,14 +77,10 @@ command(
     });
     cmnd.sort();
     cmnd.forEach(({ cmd, desc }, num) => {
-      menu += `\n┠${(num += 1)} \`\`\`${cmd}\`\`\` \n╿`;
-      menu += `\n┠  ${desc}\n╿`;
+      menu += `├ ${(num += 1)} *${tiny(cmd.trim())}*\n`;
+      if (desc) menu += `├ ${tiny("use : " + desc)}\n`;
     });
-    menu += `\n╰╾╼╾╼╾╼╾╼╾╼╾╼╾╼╾╼╾╼╾╼╾╼╾╼╾╼╾╼`;
-    message.sendMessage(
-      readFileSync("./media/thumb.jpeg"),
-      { caption: menu },
-      "image"
-    );
+    menu += `╰──────────────────────────`;
+    return await message.reply(menu);
   }
 );

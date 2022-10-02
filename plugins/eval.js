@@ -36,19 +36,9 @@ const {
 } = require("../lib/");
 const util = require("util");
 const config = require("../config");
+
 Function(
-  {
-    pattern: "> ?(.*)",
-    fromMe: true,
-    desc: "Run js code (evel)",
-    type: "misc",
-  },
-  async (message, match, client) => {
-    return;
-  }
-);
-Function(
-  { on: "text", fromMe: true, desc: "Run js code (evel)", type: "misc" },
+  { on: "text", fromMe: true, type: "misc" },
   async (message, match, m,client) => {
     if (match.startsWith(">")) {
       //const m = message;
