@@ -1,15 +1,53 @@
-const { Function, command, webp2mp4, isUrl, isPrivate } = require("../lib/");
+const {
+  Function,
+  command,
+  qrcode,
+  webp2mp4,
+  isUrl,
+  isPrivate,
+} = require("../lib/");
 const { yta, ytIdRegex, ytv } = require("../lib/yotube");
 const { search } = require("yt-search");
 const { toAudio } = require("../lib/media");
 let gis = require("g-i-s");
 const { AddMp3Meta } = require("../lib");
+
+const jimp = require("jimp");
+const QRReader = require("qrcode-reader");
+
+command(
+  {
+    pattern: "qr ?(.*)",
+    fromMe: isPrivate,
+    desc: "Read/Write Qr.",
+    type: "Tool",
+  },
+  async (message, match) => {
+    match = match || message.reply_message.text;
+    if (match) {
+      let buff = await qrcode(match);
+      return await message.sendMessage(buff, {}, "image");
+    } else if (!message.reply_message || !message.reply_message.image)
+      return await message.sendMessage(
+        "*Example : qr test*\n*Reply to a qr image.*"
+      );
+
+    const { bitmap } = await jimp.read(
+      await message.reply_message.downloadMediaMessage()
+    );
+    const qr = new QRReader();
+    qr.callback = (err, value) =>
+      message.sendMessage(err ?? value.result, { quoted: message.data });
+    qr.decode(bitmap);
+  }
+);
+
 Function(
   {
     pattern: "img ?(.*)",
     fromMe: isPrivate,
     desc: "Google Image search",
-    type: "download",
+    type: "downloader",
   },
   async (message, match) => {
     if (!match) return await message.sendMessage("Enter Search Term,number");
@@ -63,7 +101,8 @@ command(
     type: "converter",
   },
   async (message, match, m) => {
-    if(!message.reply_message) return await message.reply('_Reply to a sticker_')
+    if (!message.reply_message)
+      return await message.reply("_Reply to a sticker_");
     if (message.reply_message.mtype !== "stickerMessage")
       return await message.reply("_Not a sticker_");
     let buff = await m.quoted.download();
@@ -79,7 +118,8 @@ command(
     type: "converter",
   },
   async (message, match, m) => {
-    if(!message.reply_message) return await message.reply('_Reply to a sticker_')
+    if (!message.reply_message)
+      return await message.reply("_Reply to a sticker_");
     if (message.reply_message.mtype !== "stickerMessage")
       return await message.reply("_Not a sticker_");
     let buff = await m.quoted.download();
@@ -96,7 +136,8 @@ command(
     type: "downloader",
   },
   async (message, match) => {
-    if(!(match||message.reply_message.text)) return await message.reply('_Enter Song Name_')
+    if (!(match || message.reply_message.text))
+      return await message.reply("_Enter Song Name_");
     match = match || message.reply_message.text;
     if (ytIdRegex.test(match)) {
       yta(match.trim()).then(async ({ dl_link, title, thumb }) => {
@@ -135,7 +176,8 @@ command(
     type: "downloader",
   },
   async (message, match) => {
-    if(!match||!message.reply_message.text) return await message.reply('_Enter Video Name_')
+    if (!match || !message.reply_message.text)
+      return await message.reply("_Enter Video Name_");
     match = match || message.reply_message.text;
     if (ytIdRegex.test(match)) {
       ytv(match.trim()).then(({ dl_link, title }) => {
@@ -165,7 +207,35 @@ command(
     return await message.sendMessage(buff, { mimetype: "audio/mpeg" }, "audio");
   }
 );
+command(
+  {
+    pattern: "fetch ?(.*)",
+    fromMe: isPrivate,
+    desc: "Downloads from a direct link",
+    type: "downloader",
+  },
+  async (message, match) => {
+    match = match || message.reply_message.text;
+    if (!match)
+      return message.reply(
+        "_Send a direct media link_\n_*link;caption(optional)*_"
+      );
+    try {
+      let url = match.split(";")[0];
+      let options = {};
+      options.caption = match.split(";")[1];
 
+      if (isUrl(url)) {
+        message.sendFromUrl(url, options);
+      } else {
+        message.reply("_Not a URL_");
+      }
+    } catch (e) {
+      console.log(e);
+      message.reply("_No content found_");
+    }
+  }
+);
 command(
   {
     pattern: "yts ?(.*)",
@@ -198,6 +268,51 @@ command(
           },
         ],
       });
+    });
+  }
+);
+
+command(
+  {
+    pattern: "ytv ?(.*)",
+    fromMe: isPrivate,
+    dontAddCommandList: true,
+  },
+  async (message, match) => {
+    match = match || message.reply_message.text;
+    if (!match) return await message.reply("_Enter a URL_");
+
+    if (!ytIdRegex.test(match)) return await message.reply("_Invalid Url_");
+    ytv(match).then(async ({ dl_link, title }) => {
+      await message.reply(`_Downloading ${title}_`);
+      return await message.sendFromUrl(dl_link, {
+        filename: title,
+        quoted: message,
+      });
+    });
+  }
+);
+
+command(
+  {
+    pattern: "yta ?(.*)",
+    fromMe: isPrivate,
+    dontAddCommandList: true,
+  },
+  async (message, match) => {
+    match = match || message.reply_message.text;
+    if (!match) return await message.reply("_Enter a URL_");
+    if (!ytIdRegex.test(match)) return await message.reply("_Invalid Url_");
+    yta(match).then(async ({ dl_link, title, thumb }) => {
+      await message.reply(`_Downloading ${title}_`);
+      let buff = await AddMp3Meta(dl_link, thumb, {
+        title,
+      });
+      return await message.sendMessage(
+        buff,
+        { mimetype: "audio/mpeg", quoted: message.data },
+        "audio"
+      );
     });
   }
 );

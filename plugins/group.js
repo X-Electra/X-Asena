@@ -7,14 +7,15 @@ command(
     pattern: "add ",
     fromMe: isPrivate,
     desc: "Adds a person to group",
-    type: "type",
+    type: "group",
   },
   async (message, match) => {
     if (!message.isGroup)
       return await message.reply("_This command is for groups_");
-    if (!isAdmin(message.jid, message.user, message.client))
-      return await message.reply("_I'm not admin_");
     match = match || message.reply_message.jid;
+    if (!match) return await message.reply("_Mention user to add");
+    let isadmin = await isAdmin(message.jid, message.user, message.client);
+    if (!isadmin) return await message.reply("_I'm not admin_");
     let jid = parsedJid(match);
     await message.add(jid);
     return await message.reply(`@${jid[0].split("@")[0]} added`, {
@@ -27,15 +28,16 @@ command(
   {
     pattern: "kick ",
     fromMe: isPrivate,
-    desc: "description",
-    type: "type",
+    desc: "kicks a person from group",
+    type: "group",
   },
   async (message, match) => {
     if (!message.isGroup)
       return await message.reply("_This command is for groups_");
-    if (!isAdmin(message.jid, message.user, message.client))
-      return await message.reply("_I'm not admin_");
     match = match || message.reply_message.jid;
+    if (!match) return await message.reply("_Mention user to kick");
+    let isadmin = await isAdmin(message.jid, message.user, message.client);
+    if (!isadmin) return await message.reply("_I'm not admin_");
     let jid = parsedJid(match);
     await message.kick(jid);
     return await message.reply(`@${jid[0].split("@")[0]} kicked`, {
@@ -48,15 +50,16 @@ command(
   {
     pattern: "promote ",
     fromMe: isPrivate,
-    desc: "description",
-    type: "type",
+    desc: "promote a member",
+    type: "group",
   },
   async (message, match) => {
     if (!message.isGroup)
       return await message.reply("_This command is for groups_");
-    if (!isAdmin(message.jid, message.user, message.client))
-      return await message.reply("_I'm not admin_");
     match = match || message.reply_message.jid;
+    if (!match) return await message.reply("_Mention user to promote_");
+    let isadmin = await isAdmin(message.jid, message.user, message.client);
+    if (!isadmin) return await message.reply("_I'm not admin_");
     let jid = parsedJid(match);
     await message.promote(jid);
     return await message.reply(`@${jid[0].split("@")[0]} promoted as admin`, {
@@ -68,15 +71,16 @@ command(
   {
     pattern: "demote ",
     fromMe: isPrivate,
-    desc: "description",
-    type: "type",
+    desc: "demote a member",
+    type: "group",
   },
   async (message, match) => {
     if (!message.isGroup)
       return await message.reply("_This command is for groups_");
-    if (!isAdmin(message.jid, message.user, message.client))
-      return await message.reply("_I'm not admin_");
     match = match || message.reply_message.jid;
+    if (!match) return await message.reply("_Mention user to demote");
+    let isadmin = await isAdmin(message.jid, message.user, message.client);
+    if (!isadmin) return await message.reply("_I'm not admin_");
     let jid = parsedJid(match);
     await message.demote(jid);
     return await message.reply(`@${jid[0].split("@")[0]} demoted from admin`, {
@@ -89,8 +93,8 @@ command(
   {
     pattern: "mute ?(.*)",
     fromMe: true,
-    desc: "description",
-    type: "type",
+    desc: "nute group",
+    type: "group",
   },
   async (message, match, m, client) => {
     if (!message.isGroup)
@@ -106,8 +110,8 @@ command(
   {
     pattern: "unmute ?(.*)",
     fromMe: true,
-    desc: "description",
-    type: "type",
+    desc: "unmute group",
+    type: "group",
   },
   async (message, match, m, client) => {
     if (!message.isGroup)
@@ -122,13 +126,14 @@ command(
   {
     pattern: "amute ?(.*)",
     fromMe: true,
-    desc: "description",
-    type: "type",
+    desc: "auto mutes group",
+    type: "group",
   },
   async (message, match, m, client) => {
-    if (!match) return message.reply("_Enter time to mute_");
     if (!message.isGroup)
       return await message.reply("_This command is for groups_");
+    if (!match) return message.reply("_Enter time to mute_\nEg : amute 20:10");
+
     if (!isAdmin(message.jid, message.user, message.client))
       return await message.reply("_I'm not admin_");
     message.reply(`_Group will mute at ${match}_`);
@@ -146,13 +151,15 @@ command(
   {
     pattern: "aunmute ?(.*)",
     fromMe: true,
-    desc: "description",
-    type: "type",
+    desc: "auto unmutes group",
+    type: "group",
   },
   async (message, match, m, client) => {
-    if (!match) return message.reply("_Enter time to unmute_");
     if (!message.isGroup)
       return await message.reply("_This command is for groups_");
+    if (!match)
+      return message.reply("_Enter time to unmute_\nEg : aunmute 20:10");
+
     if (!isAdmin(message.jid, message.user, message.client))
       return await message.reply("_I'm not admin_");
     message.reply(`_Group will unmute at ${match}_`);
@@ -170,8 +177,8 @@ command(
   {
     pattern: "gjid ?(.*)",
     fromMe: true,
-    desc: "description",
-    type: "type",
+    desc: "gets jid of all group members",
+    type: "group",
   },
   async (message, match, m, client) => {
     if (!message.isGroup)

@@ -1,6 +1,5 @@
 const events = require("../lib/event");
 const { command, isPrivate, tiny, serif_B, serif_BI } = require("../lib");
-const { readFileSync } = require("fs");
 command(
   {
     pattern: "menu ?(.*)",
@@ -9,9 +8,10 @@ command(
     dontAddCommandList: true,
   },
   async (message, match, { prefix }) => {
-    let menu = `╭╼╾╼╾╼╾╼╾╼╾╼╾╼╾╼╾╼╾╼╾╼╾╼╾╼\n╽`;
+    let menu = `╭╼╾╼╾╼╾╼╾╼╾╼╾╼╾╼\n╽`;
     let cmnd = [];
     let cmd;
+    let category = [];
     events.commands.map((command, num) => {
       if (command.pattern) {
         cmd = command.pattern
@@ -20,14 +20,29 @@ command(
       }
 
       if (!command.dontAddCommandList && cmd !== undefined) {
-        cmnd.push(cmd);
+        let type;
+        if (!command.type) {
+          type = "misc";
+        } else {
+          type = command.type.toLowerCase();
+        }
+
+        cmnd.push({ cmd, type: type });
+
+        if (!category.includes(type)) category.push(type);
       }
     });
     cmnd.sort();
-    cmnd.forEach((cmd, num) => {
-      menu += `┠ ${cmd.trim()} \n╿`;
+    category.sort().forEach((cmmd) => {
+      menu += `\n┠─────〔${cmmd}〕\n╿\n╿╭╼╾╼╾╼╾╼╾╼╾╼╾╼╾╼`;
+      let comad = cmnd.filter(({ type }) => type == cmmd);
+      comad.forEach(({ cmd }, num) => {
+        menu += `\n╿┠ ${cmd.trim()}`;
+      });
+      menu += `\n╿╰╼╾╼╾╼╾╼╾╼╾╼╾╼╾╼\n╿`;
     });
-    menu += `\n╰╾╼╾╼╾╼╾╼╾╼╾╼╾╼╾╼╾╼╾╼╾╼╾╼╾╼╾╼`;
+
+    menu += `\n╰╼╾╼╾╼╾╼╾╼╾╼╾╼╾╼╾╼`;
     return await message.client.sendMessage(message.jid, {
       image: { url: `https://wallpapercave.com/wp/wp3891779.jpg` },
       caption: serif_B(menu.toUpperCase()),
@@ -41,7 +56,7 @@ command(
         },
         {
           buttonId: `${prefix}list`,
-          buttonText: { displayText: serif_B("List menu 🎈 ") },
+          buttonText: { displayText: serif_B("LIST 🎈 ") },
         },
       ],
     });
@@ -56,12 +71,11 @@ command(
   },
   async (message, match, { prefix }) => {
     let menu = `╭───〔 ${tiny("x-asena command list")} 〕────\n`;
-   
+
     let cmnd = [];
     let cmd, desc;
     events.commands.map((command) => {
       if (command.pattern) {
-       
         cmd = command.pattern
           .toString()
           .match(/(\W*)([A-Za-züşiğ öç1234567890]*)/)[2];

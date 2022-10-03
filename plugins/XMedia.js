@@ -1,4 +1,4 @@
-const { command ,isPrivate} = require("../lib/");
+const { command, isPrivate } = require("../lib/");
 const fs = require("fs");
 const ffmpeg = require("fluent-ffmpeg");
 
@@ -7,7 +7,7 @@ command(
     pattern: "x4mp4",
     fromMe: isPrivate,
     desc: "Reduce video’s quality by 75%.",
-    dontAddCommandList: false,
+    type: "X-Media",
   },
   async (message) => {
     if (!message.reply_message.video)
@@ -30,7 +30,7 @@ command(
     pattern: "x2mp4",
     fromMe: isPrivate,
     desc: "Reduce video’s quality by 50%",
-    dontAddCommandList: false,
+    type: "X-Media",
   },
   async (message) => {
     if (!message.reply_message.video)
@@ -53,7 +53,7 @@ command(
     pattern: "mp4image",
     fromMe: isPrivate,
     desc: "Converts photo to 5 sec video.",
-    dontAddCommandList: false,
+    type: "X-Media",
   },
   async (message) => {
     if (!message.reply_message.image)
@@ -78,7 +78,7 @@ command(
     pattern: "spectrum",
     fromMe: isPrivate,
     desc: "Converts the spectrum of sound into video.",
-    dontAddCommandList: false,
+    type: "X-Media",
   },
   async (message) => {
     if (!message.reply_message)
@@ -107,7 +107,7 @@ command(
     pattern: "waves",
     fromMe: isPrivate,
     desc: "Converts the wave range of sound to video.",
-    dontAddCommandList: false,
+    type: "X-Media",
   },
   async (message) => {
     if (!message.reply_message)
@@ -136,7 +136,7 @@ command(
     pattern: "frequency",
     fromMe: isPrivate,
     desc: "Converts the frequency range of sound to video.",
-    dontAddCommandList: false,
+    type: "X-Media",
   },
   async (message) => {
     if (!message.reply_message)
@@ -165,7 +165,7 @@ command(
     pattern: "avec",
     fromMe: isPrivate,
     desc: "Converts the histogram of sound to video.",
-    dontAddCommandList: false,
+    type: "X-Media",
   },
   async (message) => {
     if (!message.reply_message)
@@ -194,7 +194,7 @@ command(
     pattern: "volumeaudio",
     fromMe: isPrivate,
     desc: "Converts the decibel value of the sound into video.",
-    dontAddCommandList: false,
+    type: "X-Media",
   },
   async (message) => {
     if (!message.reply_message)
@@ -223,7 +223,7 @@ command(
     pattern: "cqtaudio",
     fromMe: isPrivate,
     desc: "Converts the CQT value of audio to video.",
-    dontAddCommandList: false,
+    type: "X-Media",
   },
   async (message) => {
     if (!message.reply_message)
@@ -252,7 +252,7 @@ command(
     pattern: "mp3eq",
     fromMe: isPrivate,
     desc: "Adjusts the sound to a crystal clear level.",
-    dontAddCommandList: false,
+    type: "X-Media",
   },
   async (message) => {
     if (message.reply_message === false)
@@ -279,7 +279,7 @@ command(
     pattern: "mp3crusher",
     fromMe: isPrivate,
     desc: "Distorts the sound, makes ridiculous.",
-    dontAddCommandList: false,
+    type: "X-Media",
   },
   async (message) => {
     if (message.reply_message === false)
@@ -305,7 +305,7 @@ command(
     pattern: "mp3reverse",
     fromMe: isPrivate,
     desc: "Plays the sound in reverse.",
-    dontAddCommandList: false,
+    type: "X-Media",
   },
   async (message) => {
     if (message.reply_message === false)
@@ -327,7 +327,7 @@ command(
     pattern: "mp4vintage",
     fromMe: isPrivate,
     desc: "Applies a nostalgic effect to video.",
-    dontAddCommandList: false,
+    type: "X-Media",
   },
   async (message) => {
     if (message.reply_message === false)
@@ -350,7 +350,7 @@ command(
     pattern: "mp4reverse",
     fromMe: isPrivate,
     desc: "Plays the video in reverse.",
-    dontAddCommandList: false,
+    type: "X-Media",
   },
   async (message) => {
     if (message.reply_message === false)
@@ -374,7 +374,7 @@ command(
     pattern: "mp4bw",
     fromMe: isPrivate,
     desc: "Applies a monochrome effect to video.",
-    dontAddCommandList: false,
+    type: "X-Media",
   },
   async (message) => {
     if (message.reply_message === false)
@@ -397,7 +397,7 @@ command(
     pattern: "bwimage",
     fromMe: isPrivate,
     desc: "Applies a monochrome effect to image.",
-    dontAddCommandList: false,
+    type: "X-Media",
   },
   async (message) => {
     if (message.reply_message === false)
@@ -419,7 +419,7 @@ command(
     pattern: "vintageimage",
     fromMe: isPrivate,
     desc: "Applies a vinatge effect to video.",
-    dontAddCommandList: false,
+    type: "X-Media",
   },
   async (message) => {
     if (message.reply_message === false)
@@ -441,7 +441,7 @@ command(
     pattern: "mp4enhance",
     fromMe: isPrivate,
     desc: "Enhance video’s quality",
-    dontAddCommandList: false,
+    type: "X-Media",
   },
   async (message) => {
     if (message.reply_message === false)
@@ -464,7 +464,7 @@ command(
     pattern: "blurimage",
     fromMe: isPrivate,
     desc: "Blurs the background of the photo.",
-    dontAddCommandList: false,
+    type: "X-Media",
   },
   async (message) => {
     if (message.reply_message === false)
@@ -490,7 +490,7 @@ command(
     pattern: "mp4blur",
     fromMe: isPrivate,
     desc: "Blurs the background of the video.",
-    dontAddCommandList: false,
+    type: "X-Media",
   },
   async (message) => {
     if (message.reply_message === false)
@@ -516,7 +516,7 @@ command(
     pattern: "mp3pitch",
     fromMe: isPrivate,
     desc: "Makes the sound thinner and faster.",
-    dontAddCommandList: false,
+    type: "X-Media",
   },
   async (message) => {
     if (message.reply_message === false)
@@ -538,7 +538,7 @@ command(
     pattern: "mp4edge",
     fromMe: isPrivate,
     desc: "Applies a edge effect to the video.",
-    dontAddCommandList: false,
+    type: "X-Media",
   },
   async (message) => {
     if (message.reply_message === false)
@@ -567,7 +567,7 @@ command(
     pattern: "mp3low",
     fromMe: isPrivate,
     desc: "Makes the sound deep and slower.",
-    dontAddCommandList: false,
+    type: "X-Media",
   },
   async (message) => {
     if (message.reply_message === false)
@@ -589,7 +589,7 @@ command(
     pattern: "x2mp3",
     fromMe: isPrivate,
     desc: "Makes the sound twice as fast.",
-    dontAddCommandList: false,
+    type: "X-Media",
   },
   async (message) => {
     if (message.reply_message === false)
@@ -611,7 +611,7 @@ command(
     pattern: "edgeimage",
     fromMe: isPrivate,
     desc: "Applies a edge effect to the photo.",
-    dontAddCommandList: false,
+    type: "X-Media",
   },
   async (message) => {
     if (message.reply_message === false)
@@ -633,7 +633,7 @@ command(
     pattern: "enhanceimage",
     fromMe: isPrivate,
     desc: "Makes the photo clearer.",
-    dontAddCommandList: false,
+    type: "X-Media",
   },
   async (message) => {
     if (message.reply_message === false)
@@ -655,7 +655,7 @@ command(
     pattern: "mp3volume",
     fromMe: isPrivate,
     desc: "Increase sound level",
-    dontAddCommandList: false,
+    type: "X-Media",
   },
   async (message, match) => {
     if (!message.reply_message)
@@ -681,7 +681,7 @@ command(
     pattern: "gif",
     fromMe: isPrivate,
     desc: "Converts video to gif.",
-    dontAddCommandList: false,
+    type: "X-Media",
   },
   async (message) => {
     if (message.reply_message === false)
@@ -711,7 +711,7 @@ command(
     pattern: "vgif",
     fromMe: isPrivate,
     desc: "Converts video to voiced gif.",
-    dontAddCommandList: false,
+    type: "X-Media",
   },
   async (message) => {
     if (message.reply_message === false)
@@ -740,7 +740,7 @@ command(
     pattern: "grenimage",
     fromMe: isPrivate,
     desc: "Applies grain effect to the photo",
-    dontAddCommandList: false,
+    type: "X-Media",
   },
   async (message) => {
     if (message.reply_message === false)
@@ -762,7 +762,7 @@ command(
     pattern: "interp ",
     fromMe: isPrivate,
     desc: "Increases the FPS of the video.",
-    dontAddCommandList: false,
+    type: "X-Media",
   },
   async (message, match) => {
     if (!message.reply_message.video)
@@ -799,7 +799,7 @@ command(
     pattern: "rainbow",
     fromMe: isPrivate,
     desc: "Applies rainbow effect to the photo",
-    dontAddCommandList: false,
+    type: "X-Media",
   },
   async (message) => {
     if (message.reply_message === false)
@@ -826,7 +826,7 @@ command(
     pattern: "mp4rainbow",
     fromMe: isPrivate,
     desc: "Applies a rainbow effect to video.",
-    dontAddCommandList: false,
+    type: "X-Media",
   },
   async (message) => {
     if (message.reply_message === false)
@@ -854,7 +854,7 @@ command(
     pattern: "negative",
     fromMe: isPrivate,
     desc: "Applies a negative color filter to the photo.",
-    dontAddCommandList: false,
+    type: "X-Media",
   },
   async (message) => {
     if (message.reply_message === false)
@@ -876,7 +876,7 @@ command(
     pattern: "mp4negative",
     fromMe: isPrivate,
     desc: "Applies a negative color filter to the video.",
-    dontAddCommandList: false,
+    type: "X-Media",
   },
   async (message) => {
     if (message.reply_message === false)
@@ -899,7 +899,7 @@ command(
     pattern: "mp4art",
     fromMe: isPrivate,
     desc: "Applies a art effect to the video.",
-    dontAddCommandList: false,
+    type: "X-Media",
   },
   async (message) => {
     if (message.reply_message === false)
@@ -926,7 +926,7 @@ command(
     pattern: "artimage",
     fromMe: isPrivate,
     desc: "Applies a art effect to the photo.",
-    dontAddCommandList: false,
+    type: "X-Media",
   },
   async (message) => {
     if (message.reply_message === false)
@@ -952,7 +952,7 @@ command(
     pattern: "mp4stab",
     fromMe: isPrivate,
     desc: "Decreases the vibration of the video.",
-    dontAddCommandList: false,
+    type: "X-Media",
   },
   async (message) => {
     if (message.reply_message === false)
@@ -975,7 +975,7 @@ command(
     pattern: "vivid",
     fromMe: isPrivate,
     desc: "Makes the colors of the video more vivid and beautiful.",
-    dontAddCommandList: false,
+    type: "X-Media",
   },
   async (message) => {
     if (message.reply_message === false)
@@ -1002,7 +1002,7 @@ command(
     pattern: "colorimage",
     fromMe: isPrivate,
     desc: "It makes the colors of the photo more vivid and attractive",
-    dontAddCommandList: false,
+    type: "X-Media",
   },
   async (message) => {
     if (message.reply_message === false)
@@ -1027,8 +1027,8 @@ command(
   {
     pattern: "mp4slowmo",
     fromMe: isPrivate,
-    desc: "pplies true-slowmo to non-slow motion videos",
-    dontAddCommandList: false,
+    desc: "applies true-slowmo to non-slow motion videos",
+    type: "X-Media",
   },
   async (message) => {
     if (!message.reply_message.video)
