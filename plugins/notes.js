@@ -1,4 +1,4 @@
-let { command ,isPrivate} = require("../lib");
+let { command, isPrivate } = require("../lib");
 const NotesDB = require("../lib/database/notes");
 
 command(

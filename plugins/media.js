@@ -63,6 +63,7 @@ command(
     type: "converter",
   },
   async (message, match, m) => {
+    if(!message.reply_message) return await message.reply('_Reply to a sticker_')
     if (message.reply_message.mtype !== "stickerMessage")
       return await message.reply("_Not a sticker_");
     let buff = await m.quoted.download();
@@ -78,6 +79,7 @@ command(
     type: "converter",
   },
   async (message, match, m) => {
+    if(!message.reply_message) return await message.reply('_Reply to a sticker_')
     if (message.reply_message.mtype !== "stickerMessage")
       return await message.reply("_Not a sticker_");
     let buff = await m.quoted.download();
@@ -94,6 +96,7 @@ command(
     type: "downloader",
   },
   async (message, match) => {
+    if(!(match||message.reply_message.text)) return await message.reply('_Enter Song Name_')
     match = match || message.reply_message.text;
     if (ytIdRegex.test(match)) {
       yta(match.trim()).then(async ({ dl_link, title, thumb }) => {
@@ -107,7 +110,7 @@ command(
         );
       });
     }
-    search(match + "song ?(.*)").then(async ({ all }) => {
+    search(match + "song").then(async ({ all }) => {
       await message.reply(`_Downloading ${all[0].title}_`);
       yta(all[0].url).then(async ({ dl_link, title, thumb }) => {
         let buff = await AddMp3Meta(dl_link, thumb, {
@@ -132,13 +135,14 @@ command(
     type: "downloader",
   },
   async (message, match) => {
+    if(!match||!message.reply_message.text) return await message.reply('_Enter Video Name_')
     match = match || message.reply_message.text;
     if (ytIdRegex.test(match)) {
       ytv(match.trim()).then(({ dl_link, title }) => {
         message.sendFromUrl(dl_link, { filename: title });
       });
     }
-    search(match + "song").then(async ({ all }) => {
+    search(match).then(async ({ all }) => {
       await message.reply(`_Downloading ${all[0].title}_`);
       ytv(all[0].url).then(({ dl_link, title }) => {
         message.sendFromUrl(dl_link, { filename: title, quoted: message });
@@ -155,6 +159,7 @@ command(
     type: "downloader",
   },
   async (message, match, m) => {
+    //if(message.reply_message.text) return await message.reply('_Enter Video Name_')
     let buff = await m.quoted.download();
     buff = await toAudio(buff, "mp3");
     return await message.sendMessage(buff, { mimetype: "audio/mpeg" }, "audio");

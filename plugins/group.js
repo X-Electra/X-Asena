@@ -1,7 +1,7 @@
 const config = require("../config");
 const { command, isPrivate } = require("../lib/");
 const { isAdmin, parsedJid, isUrl } = require("../lib");
-const { cron } = require("../lib/scheduler");
+const { cron, saveSchedule } = require("../lib/scheduler");
 command(
   {
     pattern: "add ",
@@ -132,6 +132,10 @@ command(
     if (!isAdmin(message.jid, message.user, message.client))
       return await message.reply("_I'm not admin_");
     message.reply(`_Group will mute at ${match}_`);
+    await saveSchedule(message.jid, match, async () => {
+      await message.reply("_Muting_");
+      return await client.groupSettingUpdate(message.jid, "announcement");
+    });
     return cron(match, async () => {
       await message.reply("_Muting_");
       return await client.groupSettingUpdate(message.jid, "announcement");
@@ -152,8 +156,12 @@ command(
     if (!isAdmin(message.jid, message.user, message.client))
       return await message.reply("_I'm not admin_");
     message.reply(`_Group will unmute at ${match}_`);
+    await saveSchedule(message.jid, match, async () => {
+      await message.reply("_Auto Unmuting_");
+      return await client.groupSettingUpdate(message.jid, "not_announcement");
+    });
     return cron(match, async () => {
-      await message.reply("_Unmuting_");
+      await message.reply("_Auto Unmuting_");
       return await client.groupSettingUpdate(message.jid, "not_announcement");
     });
   }
@@ -169,12 +177,12 @@ command(
     if (!message.isGroup)
       return await message.reply("_This command is for groups_");
     let { participants } = await client.groupMetadata(message.jid);
-let participant = participants.map((u) =>u.id )
+    let participant = participants.map((u) => u.id);
     let str = "╭──〔 *Group Jids* 〕\n";
     participant.forEach((result) => {
       str += `├ *${result}*\n`;
     });
-    str+= `╰──────────────`
+    str += `╰──────────────`;
     message.reply(str);
   }
 );

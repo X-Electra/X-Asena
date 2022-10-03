@@ -1,4 +1,4 @@
-const { proto, generateWAMessage } = require("@adiwajshing/baileys");
+/*const { proto, generateWAMessage } = require("@adiwajshing/baileys");
 const { command ,db} = require("../lib");
 
 command(
@@ -70,4 +70,4 @@ command(
       await client.ev.emit('messages.upsert', msg)
       }
   }
-);
+);*/
