@@ -5,7 +5,7 @@ command(
     pattern: "ping ?(.*)",
     fromMe: isPrivate,
     desc: "To check ping",
-    type: "info",
+    type: "user",
   },
   async (message, match) => {
     const start = new Date().getTime();

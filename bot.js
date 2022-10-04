@@ -118,9 +118,10 @@ async function Xasena() {
               
               var match = text_msg.trim().split(/ +/).slice(1).join(" ");
               whats = new Message(conn, msg, ms);
-              msg.prefix = text_msg.charAt(0)
+              
               command.function(whats, match, msg, conn);
             } else if (text_msg && command.on === "text") {
+              msg.prefix = text_msg.match(new RegExp(config.HANDLERS)) ? text_msg.match(new RegExp(config.HANDLERS))[0] : ''
               whats = new Message(conn, msg, ms);
               command.function(whats, text_msg, msg, conn, m);
             } else if (

@@ -1,14 +1,16 @@
-const { command, styletext, listall, tiny } = require("../lib/");
+const { command, styletext, listall, tiny, isPrivate } = require("../lib/");
 command(
   {
     pattern: "fancy ?(.*)",
-    fromMe: true,
+    fromMe: isPrivate,
     desc: "converts text to fancy text",
     type: "converter",
   },
   async (message, match) => {
-    if (!message.reply_message && !message.reply_message.text) {
-      let text = tiny("Fancy text generator\n\nreply to a text with number\n\n");
+    if (!message.reply_message || !message.reply_message.text || isNaN(match)) {
+      let text = tiny(
+        "Fancy text generator\n\nReply to a message\nExample: .fancy 32\n\n"
+      );
       listall("Fancy").forEach((txt, num) => {
         text += `${(num += 1)} ${txt}\n`;
       });

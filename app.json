@@ -13,8 +13,23 @@
       "required": false,
       "value": ""
     },
+    "ANTILINK_ACTION": {
+      "description": "kick",
+      "required": false,
+      "value": ""
+    },
+    "RMBG_KEY": {
+      "description": "Remove bg api key ",
+      "required": false,
+      "value": ""
+    },
     "HANDLERS": {
-      "description": "prefix for commands",
+      "description": "prefix for commands, enter false for no prefix",
+      "required": false,
+      "value": ""
+    },
+    "HANDLERS": {
+      "description": "prefix for commands, enter false for no prefix",
       "required": false,
       "value": ""
     },
@@ -22,6 +37,7 @@
       "description": "Sticker Packname",
       "required": false
     },
+
     "GOODBYE_MSG": {
       "description": "goodbye Message",
       "required": false

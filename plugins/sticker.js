@@ -1,5 +1,7 @@
 const config = require("../config");
-const { command, isPrivate, getJson, sleep } = require("../lib/");
+const { command, isPrivate, getJson, sleep, tiny } = require("../lib/");
+const { Image } = require("node-webpmux");
+
 command(
   {
     pattern: "sticker ?(.*)",
@@ -78,5 +80,22 @@ command(
       },
       "sticker"
     );
+  }
+);
+
+command(
+  {
+    pattern: "getexif ?(.*)",
+    fromMe: true,
+    desc: "description",
+    type: "type",
+  },
+  async (message, match, m) => {
+    if (!message.reply_message || !message.reply_message.sticker)
+      return await message.reply("_Reply to sticker_");
+    let img = new Image();
+    await img.load(await m.quoted.download());
+    const exif = JSON.parse(img.exif.slice(22).toString());
+    await message.reply(exif);
   }
 );

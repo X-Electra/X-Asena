@@ -14,11 +14,16 @@ if (fs.existsSync("config.env"))
 const toBool = (x) => x == "true";
 
 DATABASE_URL = process.env.DATABASE_URL || "./lib/database.db";
-
+let HANDLER = "false";
 module.exports = {
   ANTILINK: toBool(process.env.ANTI_LINK) || false,
-  ANTILINK_ACTION: "kick",
-  HANDLERS: process.env.HANDLERS || "^[,]",
+  ANTILINK_ACTION: process.env.ANTI_LINK || "kick",
+  LANG: process.env.LANG || "EN",
+  HANDLERS:
+    process.env.HANDLER === "false" || process.env.HANDLER === "null"
+      ? "^"
+      : "^[,]",
+  RMBG_KEY: process.env.RMBG_KEY || false,
   BRANCH: "master",
   PACKNAME: process.env.PACKNAME || "X-asena",
   WELCOME_MSG:
@@ -47,5 +52,7 @@ module.exports = {
   SUDO: process.env.SUDO || "918113921898,919544951258",
   HEROKU_APP_NAME: process.env.HEROKU_APP_NAME || " ",
   HEROKU_API_KEY: process.env.HEROKU_API_KEY || " ",
+  OWNER_NAME: process.env.OWNER_NAME || "Neeraj-X0",
+  BOT_NAME: process.env.BOT_NAME || "X-asena",
   WORK_TYPE: process.env.WORK_TYPE || "public",
 };

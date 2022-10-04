@@ -32,8 +32,9 @@
   },
   "homepage": "https://github.com/Neeraj-x0/x-asena#readme",
   "dependencies": {
-    "@adiwajshing/baileys": "4.4.0",
+    "@adiwajshing/baileys": "^4.4.0",
     "@adiwajshing/keyed-db": "^0.2.4",
+    "bitly": "^7.1.2",
     "browser-id3-writer": "^4.4.0",
     "file-type": "^16.5.3",
     "fluent-ffmpeg": "^2.1.2",

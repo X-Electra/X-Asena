@@ -1,5 +1,13 @@
 const events = require("../lib/event");
-const { command, isPrivate, tiny, serif_B, serif_BI } = require("../lib");
+const {
+  command,
+  isPrivate,
+  tiny,
+  serif_B,
+  clockString,
+} = require("../lib");
+const { OWNER_NAME, BOT_NAME } = require("../config");
+const { hostname, uptime } = require("os");
 command(
   {
     pattern: "menu ?(.*)",
@@ -7,8 +15,20 @@ command(
     desc: "Show All commands",
     dontAddCommandList: true,
   },
-  async (message, match, { prefix }) => {
-    let menu = `╭╼╾╼╾╼╾╼╾╼╾╼╾╼╾╼\n╽`;
+  async (message,match, { prefix }) => {
+    let [date, time] = new Date()
+      .toLocaleString("en-IN", { timeZone: "Asia/Kolkata" })
+      .split(",");
+    let menu = `╭━━━━━ᆫ ${BOT_NAME} ᄀ━━━
+┃ ⎆  *OWNER* :  ${OWNER_NAME}
+┃ ⎆  *PREFIX* : ${prefix}
+┃ ⎆  *HOST NAME* :${hostname()}
+┃ ⎆  *DATE* : ${date}
+┃ ⎆  *TIME* : ${time}
+┃ ⎆  *COMMANDS* : ${events.commands.length} 
+┃ ⎆  *UPTIME* : ${clockString(uptime())} 
+╰━━━━━━━━━━━━━━━
+╭╼╾╼╾╼╾╼╾╼╾╼╾╼╾╼\n╽`;
     let cmnd = [];
     let cmd;
     let category = [];
