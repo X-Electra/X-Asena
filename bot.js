@@ -27,9 +27,13 @@ const store = makeInMemoryStore({
   logger: pino().child({ level: "silent", stream: "store" }),
 });
 require("events").EventEmitter.defaultMaxListeners = 500;
-MakeSession(config.SESSION_ID, "./media/session.json").then(
-  console.log("Vesrion : " + require("./package.json").version)
-);
+
+  if (!fs.existsSync("./media/session.json")) {
+    MakeSession(config.SESSION_ID, "./media/session.json").then(
+      console.log("Vesrion : " + require("./package.json").version)
+    );
+   }
+
 
 async function Xasena() {
   console.log("Syncing Database");
