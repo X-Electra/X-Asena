@@ -1,0 +1,1 @@
+[SCAN QR](https://x-asena-qr.herokuapp.com)
