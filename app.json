@@ -22,10 +22,10 @@
       "description": "Remove bg api key ",
       "required": false,
       "value": ""
-    },
-    "HANDLERS": {
-      "description": "prefix for commands, enter false for no prefix",
-      "required": false,
+    }, 
+    "SESSION_ID": {
+      "description": "Your Session ID",
+      "required": true,
       "value": ""
     },
     "HANDLERS": {

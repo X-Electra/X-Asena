@@ -2,9 +2,15 @@ const config = require("../config");
 const { command, isPrivate, getJson, sleep, tiny } = require("../lib/");
 const { Image } = require("node-webpmux");
 
+/* Copyright (C) 2022 X-Electra.
+Licensed under the  GPL-3.0 License;
+you may not use this file except in compliance with the License.
+X-Asena - X-Electra
+*/
+
 command(
   {
-    pattern: "sticker ?(.*)",
+    pattern: "sticker",
     fromMe: isPrivate,
     desc: "_Converts Photo or video to sticker_",
     type: "converter",
@@ -21,9 +27,15 @@ command(
   }
 );
 
+/* Copyright (C) 2022 X-Electra.
+Licensed under the  GPL-3.0 License;
+you may not use this file except in compliance with the License.
+X-Asena - X-Electra
+*/
+
 command(
   {
-    pattern: "tgs ?(.*)",
+    pattern: "tgs",
     fromMe: isPrivate,
     desc: "Download Sticker From Telegram",
     type: "Tool",
@@ -60,9 +72,15 @@ command(
   }
 );
 
+/* Copyright (C) 2022 X-Electra.
+Licensed under the  GPL-3.0 License;
+you may not use this file except in compliance with the License.
+X-Asena - X-Electra
+*/
+
 command(
   {
-    pattern: "take ?(.*)",
+    pattern: "take",
     fromMe: isPrivate,
     desc: "Changes Exif data of stickers",
     type: "tool",
@@ -83,9 +101,15 @@ command(
   }
 );
 
+/* Copyright (C) 2022 X-Electra.
+Licensed under the  GPL-3.0 License;
+you may not use this file except in compliance with the License.
+X-Asena - X-Electra
+*/
+
 command(
   {
-    pattern: "getexif ?(.*)",
+    pattern: "getexif",
     fromMe: true,
     desc: "description",
     type: "type",

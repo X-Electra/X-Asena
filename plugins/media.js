@@ -22,9 +22,15 @@ const stream = require("stream");
 const { promisify } = require("util");
 const pipeline = promisify(stream.pipeline);
 const fs = require("fs");
+/* Copyright (C) 2022 X-Electra.
+Licensed under the  GPL-3.0 License;
+you may not use this file except in compliance with the License.
+X-Asena - X-Electra
+*/
+
 command(
   {
-    pattern: "qr ?(.*)",
+    pattern: "qr",
     fromMe: isPrivate,
     desc: "Read/Write Qr.",
     type: "Tool",
@@ -43,7 +49,7 @@ command(
       await message.reply_message.downloadMediaMessage()
     );
     const qr = new QRReader();
-    qr.callback = (err, value) =>
+    qr.cvideosback = (err, value) =>
       message.sendMessage(err ?? value.result, { quoted: message.data });
     qr.decode(bitmap);
   }
@@ -51,7 +57,7 @@ command(
 
 Function(
   {
-    pattern: "img ?(.*)",
+    pattern: "img",
     fromMe: isPrivate,
     desc: "Google Image search",
     type: "downloader",
@@ -85,9 +91,15 @@ async function gimage(query, amount = 5) {
   });
 }
 
+/* Copyright (C) 2022 X-Electra.
+Licensed under the  GPL-3.0 License;
+you may not use this file except in compliance with the License.
+X-Asena - X-Electra
+*/
+
 command(
   {
-    pattern: "vv ?(.*)",
+    pattern: "vv",
     fromMe: isPrivate,
     desc: "Forwards The View once messsage",
     type: "tool",
@@ -100,9 +112,15 @@ command(
   }
 );
 
+/* Copyright (C) 2022 X-Electra.
+Licensed under the  GPL-3.0 License;
+you may not use this file except in compliance with the License.
+X-Asena - X-Electra
+*/
+
 command(
   {
-    pattern: "removebg ?(.*)",
+    pattern: "removebg",
     fromMe: isPrivate,
     desc: "removes background of an image",
   },
@@ -136,9 +154,15 @@ command(
   }
 );
 
+/* Copyright (C) 2022 X-Electra.
+Licensed under the  GPL-3.0 License;
+you may not use this file except in compliance with the License.
+X-Asena - X-Electra
+*/
+
 command(
   {
-    pattern: "photo ?(.*)",
+    pattern: "photo",
     fromMe: isPrivate,
     desc: "Changes sticker to Photo",
     type: "converter",
@@ -153,9 +177,15 @@ command(
   }
 );
 
+/* Copyright (C) 2022 X-Electra.
+Licensed under the  GPL-3.0 License;
+you may not use this file except in compliance with the License.
+X-Asena - X-Electra
+*/
+
 command(
   {
-    pattern: "mp4 ?(.*)",
+    pattern: "mp4",
     fromMe: isPrivate,
     desc: "Changes sticker to Video",
     type: "converter",
@@ -171,9 +201,15 @@ command(
   }
 );
 
+/* Copyright (C) 2022 X-Electra.
+Licensed under the  GPL-3.0 License;
+you may not use this file except in compliance with the License.
+X-Asena - X-Electra
+*/
+
 command(
   {
-    pattern: "song ?(.*)",
+    pattern: "song",
     fromMe: isPrivate,
     desc: "Downloads Song",
     type: "downloader",
@@ -194,12 +230,12 @@ command(
         );
       });
     }
-    search(match + "song").then(async ({ all }) => {
-      await message.reply(`_Downloading ${all[0].title}_`);
-      yta(all[0].url).then(async ({ dl_link, title, thumb }) => {
+    search(match + "song").then(async ({ videos }) => {
+      await message.reply(`_Downloading ${videos[0].title}_`);
+      yta(videos[0].url).then(async ({ dl_link, title, thumb }) => {
         let buff = await AddMp3Meta(dl_link, thumb, {
           title,
-          artist: [all[0].author],
+          artist: [videos[0].author],
         });
         message.sendMessage(
           buff,
@@ -211,9 +247,15 @@ command(
   }
 );
 
+/* Copyright (C) 2022 X-Electra.
+Licensed under the  GPL-3.0 License;
+you may not use this file except in compliance with the License.
+X-Asena - X-Electra
+*/
+
 command(
   {
-    pattern: "video ?(.*)",
+    pattern: "video",
     fromMe: isPrivate,
     desc: "Downloads video",
     type: "downloader",
@@ -227,18 +269,24 @@ command(
         message.sendFromUrl(dl_link, { filename: title });
       });
     }
-    search(match).then(async ({ all }) => {
-      await message.reply(`_Downloading ${all[0].title}_`);
-      ytv(all[0].url).then(({ dl_link, title }) => {
+    search(match).then(async ({ videos }) => {
+      await message.reply(`_Downloading ${videos[0].title}_`);
+      ytv(videos[0].url).then(({ dl_link, title }) => {
         message.sendFromUrl(dl_link, { filename: title, quoted: message });
       });
     });
   }
 );
 
+/* Copyright (C) 2022 X-Electra.
+Licensed under the  GPL-3.0 License;
+you may not use this file except in compliance with the License.
+X-Asena - X-Electra
+*/
+
 command(
   {
-    pattern: "mp3 ?(.*)",
+    pattern: "mp3",
     fromMe: isPrivate,
     desc: "converts video/voice to mp3",
     type: "downloader",
@@ -250,9 +298,15 @@ command(
     return await message.sendMessage(buff, { mimetype: "audio/mpeg" }, "audio");
   }
 );
+/* Copyright (C) 2022 X-Electra.
+Licensed under the  GPL-3.0 License;
+you may not use this file except in compliance with the License.
+X-Asena - X-Electra
+*/
+
 command(
   {
-    pattern: "fetch ?(.*)",
+    pattern: "fetch",
     fromMe: isPrivate,
     desc: "Downloads from a direct link",
     type: "downloader",
@@ -279,9 +333,15 @@ command(
     }
   }
 );
+/* Copyright (C) 2022 X-Electra.
+Licensed under the  GPL-3.0 License;
+you may not use this file except in compliance with the License.
+X-Asena - X-Electra
+*/
+
 command(
   {
-    pattern: "yts ?(.*)",
+    pattern: "yts",
     fromMe: isPrivate,
     desc: "Search Youtube",
     type: "Search",
@@ -315,9 +375,15 @@ command(
   }
 );
 
+/* Copyright (C) 2022 X-Electra.
+Licensed under the  GPL-3.0 License;
+you may not use this file except in compliance with the License.
+X-Asena - X-Electra
+*/
+
 command(
   {
-    pattern: "ytv ?(.*)",
+    pattern: "ytv",
     fromMe: isPrivate,
     dontAddCommandList: true,
   },
@@ -336,9 +402,15 @@ command(
   }
 );
 
+/* Copyright (C) 2022 X-Electra.
+Licensed under the  GPL-3.0 License;
+you may not use this file except in compliance with the License.
+X-Asena - X-Electra
+*/
+
 command(
   {
-    pattern: "yta ?(.*)",
+    pattern: "yta",
     fromMe: isPrivate,
     dontAddCommandList: true,
   },

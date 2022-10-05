@@ -1,3 +1,9 @@
+/* Copyright (C) 2022 X-Electra.
+Licensed under the  GPL-3.0 License;
+you may not use this file except in compliance with the License.
+X-Asena - X-Electra
+*/
+
 const {
   default: makeWASocket,
   useSingleFileAuthState,
@@ -15,15 +21,20 @@ const config = require("./config");
 
 const { PluginDB } = require("./lib/database/plugins");
 const Greetings = require("./lib/Greetings");
-const { decodeJid, loadDatabase } = require("./lib");
-const { bind } = require("./lib/store");
+const { loadDatabase } = require("./lib");
+const { MakeSession } = require("./lib/session");
 const store = makeInMemoryStore({
   logger: pino().child({ level: "silent", stream: "store" }),
 });
-require("events").EventEmitter.defaultMaxListeners = 100;
+require("events").EventEmitter.defaultMaxListeners = 500;
+MakeSession(config.SESSION_ID, "./media/session.json").then(
+  console.log("Vesrion : " + require("./package.json").version)
+);
+
 async function Xasena() {
   console.log("Syncing Database");
   await config.DATABASE.sync();
+
   const { state, saveState } = useSingleFileAuthState(
     "./media/session.json",
     pino({ level: "silent" })
@@ -31,7 +42,7 @@ async function Xasena() {
   let conn = makeWASocket({
     logger: pino({ level: "silent" }),
     auth: state,
-    printQRInTerminal: true,
+    printQRInTerminal: false,
 
     browser: Browsers.macOS("Desktop"),
     downloadHistory: false,
@@ -104,7 +115,7 @@ async function Xasena() {
           if (!msg.message) return;
           let text_msg = msg.body;
           if (text_msg) console.log(text_msg);
-          
+
           events.commands.map(async (command) => {
             if (
               command.fromMe &&
@@ -113,15 +124,21 @@ async function Xasena() {
               )
             )
               return;
-
-            if (command.pattern && command.pattern.test(text_msg)) {
-              
+            let comman;
+            try {
+              comman = text_msg.split(" ")[0];
+            } catch {
+              comman = text_msg;
+            }
+            if (command.pattern && command.pattern.test(comman)) {
               var match = text_msg.trim().split(/ +/).slice(1).join(" ");
               whats = new Message(conn, msg, ms);
-              
+
               command.function(whats, match, msg, conn);
             } else if (text_msg && command.on === "text") {
-              msg.prefix = text_msg.match(new RegExp(config.HANDLERS)) ? text_msg.match(new RegExp(config.HANDLERS))[0] : ''
+              msg.prefix = text_msg.match(new RegExp(config.HANDLERS))
+                ? text_msg.match(new RegExp(config.HANDLERS))[0]
+                : "";
               whats = new Message(conn, msg, ms);
               command.function(whats, text_msg, msg, conn, m);
             } else if (
@@ -139,7 +156,6 @@ async function Xasena() {
             }
           });
         });
-        
       } catch (e) {
         console.log(e + "\n\n\n\n\n" + JSON.stringify(msg));
       }
@@ -147,9 +163,10 @@ async function Xasena() {
   });
   process.on("uncaughtException", (err) => {
     let error = err.message;
-    conn.sendMessage(conn.user.id, { text: error });
+    // conn.sendMessage(conn.user.id, { text: error });
     console.log(err);
   });
 }
-
-Xasena();
+setTimeout(() => {
+  Xasena();
+}, 3000);

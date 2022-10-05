@@ -8,9 +8,15 @@ const {
   news_toi,
 } = scraper;
 
+/* Copyright (C) 2022 X-Electra.
+Licensed under the  GPL-3.0 License;
+you may not use this file except in compliance with the License.
+X-Asena - X-Electra
+*/
+
 command(
   {
-    pattern: "news ?(.*)",
+    pattern: "news",
     fromMe: isPrivate,
     desc: "Get News",
     type: "Search",
@@ -181,9 +187,15 @@ command(
   }
 );
 
+/* Copyright (C) 2022 X-Electra.
+Licensed under the  GPL-3.0 License;
+you may not use this file except in compliance with the License.
+X-Asena - X-Electra
+*/
+
 command(
   {
-    pattern: "movie ?(.*)",
+    pattern: "movie",
     fromMe: true,
     desc: "Movie info",
     type: "search",
@@ -205,9 +217,15 @@ command(
     return await message.sendMessage(url, { caption: msg.trim() }, "image");
   }
 );
+/* Copyright (C) 2022 X-Electra.
+Licensed under the  GPL-3.0 License;
+you may not use this file except in compliance with the License.
+X-Asena - X-Electra
+*/
+
 command(
   {
-    pattern: "spdf ?(.*)",
+    pattern: "spdf",
     fromMe: isPrivate,
     desc: "Converts Site to PDF.",
     type: "tool",

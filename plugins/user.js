@@ -1,5 +1,11 @@
 const { command } = require("../lib");
 
+/* Copyright (C) 2022 X-Electra.
+Licensed under the  GPL-3.0 License;
+you may not use this file except in compliance with the License.
+X-Asena - X-Electra
+*/
+
 command(
   {
     pattern: "setpp ",
@@ -16,9 +22,15 @@ command(
   }
 );
 
+/* Copyright (C) 2022 X-Electra.
+Licensed under the  GPL-3.0 License;
+you may not use this file except in compliance with the License.
+X-Asena - X-Electra
+*/
+
 command(
   {
-    pattern: "setname ?(.*)",
+    pattern: "setname",
     fromMe: true,
     desc: "Set User name",
     type: "user",
@@ -30,9 +42,15 @@ command(
   }
 );
 
+/* Copyright (C) 2022 X-Electra.
+Licensed under the  GPL-3.0 License;
+you may not use this file except in compliance with the License.
+X-Asena - X-Electra
+*/
+
 command(
   {
-    pattern: "block ?(.*)",
+    pattern: "block",
     fromMe: true,
     desc: "Block a person",
     type: "user",
@@ -52,9 +70,15 @@ command(
   }
 );
 
+/* Copyright (C) 2022 X-Electra.
+Licensed under the  GPL-3.0 License;
+you may not use this file except in compliance with the License.
+X-Asena - X-Electra
+*/
+
 command(
   {
-    pattern: "unblock ?(.*)",
+    pattern: "unblock",
     fromMe: true,
     desc: "Unblock a person",
     type: "user",
@@ -74,9 +98,15 @@ command(
   }
 );
 
+/* Copyright (C) 2022 X-Electra.
+Licensed under the  GPL-3.0 License;
+you may not use this file except in compliance with the License.
+X-Asena - X-Electra
+*/
+
 command(
   {
-    pattern: "jid ?(.*)",
+    pattern: "jid",
     fromMe: true,
     desc: "Give jid of chat/user",
     type: "user",
@@ -88,9 +118,15 @@ command(
   }
 );
 
+/* Copyright (C) 2022 X-Electra.
+Licensed under the  GPL-3.0 License;
+you may not use this file except in compliance with the License.
+X-Asena - X-Electra
+*/
+
 command(
   {
-    pattern: "dlt ?(.*)",
+    pattern: "dlt",
     fromMe: true,
     desc: "deletes a message",
     type: "user",

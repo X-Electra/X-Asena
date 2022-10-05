@@ -18,6 +18,7 @@ let HANDLER = "false";
 module.exports = {
   ANTILINK: toBool(process.env.ANTI_LINK) || false,
   ANTILINK_ACTION: process.env.ANTI_LINK || "kick",
+  SESSION_ID:process.env.SESSION_ID || " ",
   LANG: process.env.LANG || "EN",
   HANDLERS:
     process.env.HANDLER === "false" || process.env.HANDLER === "null"
@@ -28,7 +29,7 @@ module.exports = {
   PACKNAME: process.env.PACKNAME || "X-asena",
   WELCOME_MSG:
     process.env.WELCOME_MSG ||
-    "{pp}Hi @user Welcome to @gname\nYou're our @count/513 Members ",
+    "Hi @user Welcome to @gname",
   GOODBYE_MSG: process.env.GOODBYE_MSG || "Hi @user It was Nice Seeing you",
   AUTHOR: process.env.AUTHOR || "X-electra",
   DATABASE_URL: DATABASE_URL,

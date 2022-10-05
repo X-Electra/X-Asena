@@ -1,9 +1,15 @@
 const { isPrivate, command, getBuffer } = require("../lib");
 const ll = "*Type something*";
 
+/* Copyright (C) 2022 X-Electra.
+Licensed under the  GPL-3.0 License;
+you may not use this file except in compliance with the License.
+X-Asena - X-Electra
+*/
+
 command(
   {
-    pattern: "trollmaker ?(.*)",
+    pattern: "trollmaker",
     fromMe:isPrivate,
     desc: "you can make your own trolls by this tool",
     type:'tool'
@@ -82,9 +88,15 @@ command(
   }
 );
 
+/* Copyright (C) 2022 X-Electra.
+Licensed under the  GPL-3.0 License;
+you may not use this file except in compliance with the License.
+X-Asena - X-Electra
+*/
+
 command(
   {
-    pattern: "doggy ?(.*)",
+    pattern: "doggy",
     fromMe:isPrivate,
     dontAddCommandList: false,
     type: "Maker menu",
@@ -106,9 +118,15 @@ command(
   }
 );
 
+/* Copyright (C) 2022 X-Electra.
+Licensed under the  GPL-3.0 License;
+you may not use this file except in compliance with the License.
+X-Asena - X-Electra
+*/
+
 command(
   {
-    pattern: "askdog ?(.*)",
+    pattern: "askdog",
     fromMe:isPrivate,
     dontAddCommandList: false,
     type: "Maker menu",
@@ -128,9 +146,15 @@ command(
   }
 );
 
+/* Copyright (C) 2022 X-Electra.
+Licensed under the  GPL-3.0 License;
+you may not use this file except in compliance with the License.
+X-Asena - X-Electra
+*/
+
 command(
   {
-    pattern: "happydog ?(.*)",
+    pattern: "happydog",
     fromMe:isPrivate,
     dontAddCommandList: false,
     type: "Maker menu",
@@ -145,9 +169,15 @@ command(
   }
 );
 
+/* Copyright (C) 2022 X-Electra.
+Licensed under the  GPL-3.0 License;
+you may not use this file except in compliance with the License.
+X-Asena - X-Electra
+*/
+
 command(
   {
-    pattern: "codedog ?(.*)",
+    pattern: "codedog",
     fromMe:isPrivate,
     dontAddCommandList: false,
     type: "Maker menu",
@@ -162,9 +192,15 @@ command(
   }
 );
 
+/* Copyright (C) 2022 X-Electra.
+Licensed under the  GPL-3.0 License;
+you may not use this file except in compliance with the License.
+X-Asena - X-Electra
+*/
+
 command(
   {
-    pattern: "lovedog ?(.*)",
+    pattern: "lovedog",
     fromMe:isPrivate,
     dontAddCommandList: false,
     type: "Maker menu",
@@ -184,9 +220,15 @@ command(
   }
 );
 
+/* Copyright (C) 2022 X-Electra.
+Licensed under the  GPL-3.0 License;
+you may not use this file except in compliance with the License.
+X-Asena - X-Electra
+*/
+
 command(
   {
-    pattern: "gundog ?(.*)",
+    pattern: "gundog",
     fromMe:isPrivate,
     dontAddCommandList: false,
     type: "Maker menu",
@@ -206,9 +248,15 @@ command(
   }
 );
 
+/* Copyright (C) 2022 X-Electra.
+Licensed under the  GPL-3.0 License;
+you may not use this file except in compliance with the License.
+X-Asena - X-Electra
+*/
+
 command(
   {
-    pattern: "angrydog ?(.*)",
+    pattern: "angrydog",
     fromMe:isPrivate,
     dontAddCommandList: false,
     type: "Maker menu",
@@ -228,9 +276,15 @@ command(
   }
 );
 
+/* Copyright (C) 2022 X-Electra.
+Licensed under the  GPL-3.0 License;
+you may not use this file except in compliance with the License.
+X-Asena - X-Electra
+*/
+
 command(
   {
-    pattern: "seddog ?(.*)",
+    pattern: "seddog",
     fromMe:isPrivate,
     dontAddCommandList: false,
     type: "Maker menu",
@@ -250,9 +304,15 @@ command(
   }
 );
 
+/* Copyright (C) 2022 X-Electra.
+Licensed under the  GPL-3.0 License;
+you may not use this file except in compliance with the License.
+X-Asena - X-Electra
+*/
+
 command(
   {
-    pattern: "thugdog ?(.*)",
+    pattern: "thugdog",
     fromMe:isPrivate,
     dontAddCommandList: false,
     type: "Maker menu",
@@ -274,9 +334,15 @@ command(
 
 // cat camands below
 
+/* Copyright (C) 2022 X-Electra.
+Licensed under the  GPL-3.0 License;
+you may not use this file except in compliance with the License.
+X-Asena - X-Electra
+*/
+
 command(
   {
-    pattern: "asedcat ?(.*)",
+    pattern: "asedcat",
     fromMe:isPrivate,
     dontAddCommandList: false,
     type: "Maker menu",
@@ -290,6 +356,12 @@ command(
     return await message.sendMessage(buffer, {}, "image");
   }
 );
+
+/* Copyright (C) 2022 X-Electra.
+Licensed under the  GPL-3.0 License;
+you may not use this file except in compliance with the License.
+X-Asena - X-Electra
+*/
 
 command(
   {
@@ -308,6 +380,12 @@ command(
   }
 );
 
+/* Copyright (C) 2022 X-Electra.
+Licensed under the  GPL-3.0 License;
+you may not use this file except in compliance with the License.
+X-Asena - X-Electra
+*/
+
 command(
   {
     pattern: "csedcat?(.*)",
@@ -325,9 +403,15 @@ command(
   }
 );
 
+/* Copyright (C) 2022 X-Electra.
+Licensed under the  GPL-3.0 License;
+you may not use this file except in compliance with the License.
+X-Asena - X-Electra
+*/
+
 command(
   {
-    pattern: "dsedcat ?(.*)",
+    pattern: "dsedcat",
     fromMe:isPrivate,
     dontAddCommandList: false,
     type: "Maker menu",
@@ -347,9 +431,15 @@ command(
   }
 );
 
+/* Copyright (C) 2022 X-Electra.
+Licensed under the  GPL-3.0 License;
+you may not use this file except in compliance with the License.
+X-Asena - X-Electra
+*/
+
 command(
   {
-    pattern: "esedcat ?(.*)",
+    pattern: "esedcat",
     fromMe:isPrivate,
     dontAddCommandList: false,
     type: "Maker menu",
@@ -369,9 +459,15 @@ command(
   }
 );
 
+/* Copyright (C) 2022 X-Electra.
+Licensed under the  GPL-3.0 License;
+you may not use this file except in compliance with the License.
+X-Asena - X-Electra
+*/
+
 command(
   {
-    pattern: "fsedcat ?(.*)",
+    pattern: "fsedcat",
     fromMe:isPrivate,
     dontAddCommandList: false,
     type: "Maker menu",
@@ -391,9 +487,15 @@ command(
   }
 );
 
+/* Copyright (C) 2022 X-Electra.
+Licensed under the  GPL-3.0 License;
+you may not use this file except in compliance with the License.
+X-Asena - X-Electra
+*/
+
 command(
   {
-    pattern: "alovecat ?(.*)",
+    pattern: "alovecat",
     fromMe:isPrivate,
     dontAddCommandList: false,
     type: "Maker menu",
@@ -407,6 +509,12 @@ command(
     return await message.sendMessage(buffer, {}, "image");
   }
 );
+
+/* Copyright (C) 2022 X-Electra.
+Licensed under the  GPL-3.0 License;
+you may not use this file except in compliance with the License.
+X-Asena - X-Electra
+*/
 
 command(
   {
@@ -425,9 +533,15 @@ command(
   }
 );
 
+/* Copyright (C) 2022 X-Electra.
+Licensed under the  GPL-3.0 License;
+you may not use this file except in compliance with the License.
+X-Asena - X-Electra
+*/
+
 command(
   {
-    pattern: "clovecat ?(.*)",
+    pattern: "clovecat",
     fromMe:isPrivate,
     dontAddCommandList: false,
     type: "Maker menu",
@@ -447,9 +561,15 @@ command(
   }
 );
 
+/* Copyright (C) 2022 X-Electra.
+Licensed under the  GPL-3.0 License;
+you may not use this file except in compliance with the License.
+X-Asena - X-Electra
+*/
+
 command(
   {
-    pattern: "dlovecat ?(.*)",
+    pattern: "dlovecat",
     fromMe:isPrivate,
     dontAddCommandList: false,
     type: "Maker menu",
@@ -469,9 +589,15 @@ command(
   }
 );
 
+/* Copyright (C) 2022 X-Electra.
+Licensed under the  GPL-3.0 License;
+you may not use this file except in compliance with the License.
+X-Asena - X-Electra
+*/
+
 command(
   {
-    pattern: "elovecat ?(.*)",
+    pattern: "elovecat",
     fromMe:isPrivate,
     dontAddCommandList: false,
     type: "Maker menu",
@@ -491,9 +617,15 @@ command(
   }
 );
 
+/* Copyright (C) 2022 X-Electra.
+Licensed under the  GPL-3.0 License;
+you may not use this file except in compliance with the License.
+X-Asena - X-Electra
+*/
+
 command(
   {
-    pattern: "fovecat ?(.*)",
+    pattern: "fovecat",
     fromMe:isPrivate,
     dontAddCommandList: false,
     type: "Maker menu",
@@ -513,9 +645,15 @@ command(
   }
 );
 
+/* Copyright (C) 2022 X-Electra.
+Licensed under the  GPL-3.0 License;
+you may not use this file except in compliance with the License.
+X-Asena - X-Electra
+*/
+
 command(
   {
-    pattern: "aangrycat ?(.*)",
+    pattern: "aangrycat",
     fromMe:isPrivate,
     dontAddCommandList: false,
     type: "Maker menu",
@@ -529,6 +667,12 @@ command(
     return await message.sendMessage(buffer, {}, "image");
   }
 );
+
+/* Copyright (C) 2022 X-Electra.
+Licensed under the  GPL-3.0 License;
+you may not use this file except in compliance with the License.
+X-Asena - X-Electra
+*/
 
 command(
   {
@@ -547,9 +691,15 @@ command(
   }
 );
 
+/* Copyright (C) 2022 X-Electra.
+Licensed under the  GPL-3.0 License;
+you may not use this file except in compliance with the License.
+X-Asena - X-Electra
+*/
+
 command(
   {
-    pattern: "cangrycat ?(.*)",
+    pattern: "cangrycat",
     fromMe:isPrivate,
     dontAddCommandList: false,
     type: "Maker menu",
@@ -569,9 +719,15 @@ command(
   }
 );
 
+/* Copyright (C) 2022 X-Electra.
+Licensed under the  GPL-3.0 License;
+you may not use this file except in compliance with the License.
+X-Asena - X-Electra
+*/
+
 command(
   {
-    pattern: "dangrycat ?(.*)",
+    pattern: "dangrycat",
     fromMe:isPrivate,
     dontAddCommandList: false,
     type: "Maker menu",
@@ -591,9 +747,15 @@ command(
   }
 );
 
+/* Copyright (C) 2022 X-Electra.
+Licensed under the  GPL-3.0 License;
+you may not use this file except in compliance with the License.
+X-Asena - X-Electra
+*/
+
 command(
   {
-    pattern: "eangrycat ?(.*)",
+    pattern: "eangrycat",
     fromMe:isPrivate,
     dontAddCommandList: false,
     type: "Maker menu",
@@ -613,9 +775,15 @@ command(
   }
 );
 
+/* Copyright (C) 2022 X-Electra.
+Licensed under the  GPL-3.0 License;
+you may not use this file except in compliance with the License.
+X-Asena - X-Electra
+*/
+
 command(
   {
-    pattern: "fangrycat ?(.*)",
+    pattern: "fangrycat",
     fromMe:isPrivate,
     dontAddCommandList: false,
     type: "Maker menu",
@@ -635,9 +803,15 @@ command(
   }
 );
 
+/* Copyright (C) 2022 X-Electra.
+Licensed under the  GPL-3.0 License;
+you may not use this file except in compliance with the License.
+X-Asena - X-Electra
+*/
+
 command(
   {
-    pattern: "acutecat ?(.*)",
+    pattern: "acutecat",
     fromMe:isPrivate,
     dontAddCommandList: false,
     type: "Maker menu",
@@ -652,9 +826,15 @@ command(
   }
 );
 
+/* Copyright (C) 2022 X-Electra.
+Licensed under the  GPL-3.0 License;
+you may not use this file except in compliance with the License.
+X-Asena - X-Electra
+*/
+
 command(
   {
-    pattern: "bcutecat ?(.*)",
+    pattern: "bcutecat",
     fromMe:isPrivate,
     dontAddCommandList: false,
     type: "Maker menu",
@@ -674,9 +854,15 @@ command(
   }
 );
 
+/* Copyright (C) 2022 X-Electra.
+Licensed under the  GPL-3.0 License;
+you may not use this file except in compliance with the License.
+X-Asena - X-Electra
+*/
+
 command(
   {
-    pattern: "ccutecat ?(.*)",
+    pattern: "ccutecat",
     fromMe:isPrivate,
     dontAddCommandList: false,
     type: "Maker menu",
@@ -696,9 +882,15 @@ command(
   }
 );
 
+/* Copyright (C) 2022 X-Electra.
+Licensed under the  GPL-3.0 License;
+you may not use this file except in compliance with the License.
+X-Asena - X-Electra
+*/
+
 command(
   {
-    pattern: "orgsm ?(.*)",
+    pattern: "orgsm",
     fromMe:isPrivate,
     dontAddCommandList: false,
     type: "Maker menu",
@@ -713,9 +905,15 @@ command(
   }
 );
 
+/* Copyright (C) 2022 X-Electra.
+Licensed under the  GPL-3.0 License;
+you may not use this file except in compliance with the License.
+X-Asena - X-Electra
+*/
+
 command(
   {
-    pattern: "dcutecat ?(.*)",
+    pattern: "dcutecat",
     fromMe:isPrivate,
     dontAddCommandList: false,
     type: "Maker menu",
@@ -735,9 +933,15 @@ command(
   }
 );
 
+/* Copyright (C) 2022 X-Electra.
+Licensed under the  GPL-3.0 License;
+you may not use this file except in compliance with the License.
+X-Asena - X-Electra
+*/
+
 command(
   {
-    pattern: "ecutecat ?(.*)",
+    pattern: "ecutecat",
     fromMe:isPrivate,
     dontAddCommandList: false,
     type: "Maker menu",
@@ -757,9 +961,15 @@ command(
   }
 );
 
+/* Copyright (C) 2022 X-Electra.
+Licensed under the  GPL-3.0 License;
+you may not use this file except in compliance with the License.
+X-Asena - X-Electra
+*/
+
 command(
   {
-    pattern: "fcutecat ?(.*)",
+    pattern: "fcutecat",
     fromMe:isPrivate,
     dontAddCommandList: false,
     type: "Maker menu",
@@ -779,9 +989,15 @@ command(
   }
 );
 
+/* Copyright (C) 2022 X-Electra.
+Licensed under the  GPL-3.0 License;
+you may not use this file except in compliance with the License.
+X-Asena - X-Electra
+*/
+
 command(
   {
-    pattern: "my3 ?(.*)",
+    pattern: "my3",
     fromMe: isPrivate,
     dontAddCommandList: false,
     type: "Maker menu",
@@ -799,9 +1015,15 @@ command(
   }
 );
 
+/* Copyright (C) 2022 X-Electra.
+Licensed under the  GPL-3.0 License;
+you may not use this file except in compliance with the License.
+X-Asena - X-Electra
+*/
+
 command(
   {
-    pattern: "fuck ?(.*)",
+    pattern: "fuck",
     fromMe: isPrivate,
     dontAddCommandList: false,
     type: "Maker menu",
@@ -819,9 +1041,15 @@ command(
   }
 );
 
+/* Copyright (C) 2022 X-Electra.
+Licensed under the  GPL-3.0 License;
+you may not use this file except in compliance with the License.
+X-Asena - X-Electra
+*/
+
 command(
   {
-    pattern: "hii ?(.*)",
+    pattern: "hii",
     fromMe: isPrivate,
     dontAddCommandList: false,
     type: "Maker menu",
@@ -839,9 +1067,15 @@ command(
   }
 );
 
+/* Copyright (C) 2022 X-Electra.
+Licensed under the  GPL-3.0 License;
+you may not use this file except in compliance with the License.
+X-Asena - X-Electra
+*/
+
 command(
   {
-    pattern: "sir ?(.*)",
+    pattern: "sir",
     fromMe: isPrivate,
     dontAddCommandList: false,
     type: "Maker menu",
@@ -859,9 +1093,15 @@ command(
   }
 );
 
+/* Copyright (C) 2022 X-Electra.
+Licensed under the  GPL-3.0 License;
+you may not use this file except in compliance with the License.
+X-Asena - X-Electra
+*/
+
 command(
   {
-    pattern: "yasai ?(.*)",
+    pattern: "yasai",
     fromMe: isPrivate,
     dontAddCommandList: false,
     type: "Maker menu",
@@ -879,9 +1119,15 @@ command(
   }
 );
 
+/* Copyright (C) 2022 X-Electra.
+Licensed under the  GPL-3.0 License;
+you may not use this file except in compliance with the License.
+X-Asena - X-Electra
+*/
+
 command(
   {
-    pattern: "hapoi ?(.*)",
+    pattern: "hapoi",
     fromMe: isPrivate,
     dontAddCommandList: false,
     type: "Maker menu",
@@ -899,9 +1145,15 @@ command(
   }
 );
 
+/* Copyright (C) 2022 X-Electra.
+Licensed under the  GPL-3.0 License;
+you may not use this file except in compliance with the License.
+X-Asena - X-Electra
+*/
+
 command(
   {
-    pattern: "uddika ?(.*)",
+    pattern: "uddika",
     fromMe: isPrivate,
     dontAddCommandList: false,
     type: "Maker menu",
@@ -919,9 +1171,15 @@ command(
   }
 );
 
+/* Copyright (C) 2022 X-Electra.
+Licensed under the  GPL-3.0 License;
+you may not use this file except in compliance with the License.
+X-Asena - X-Electra
+*/
+
 command(
   {
-    pattern: "aah ?(.*)",
+    pattern: "aah",
     fromMe: isPrivate,
     dontAddCommandList: false,
     type: "Maker menu",
@@ -939,9 +1197,15 @@ command(
   }
 );
 
+/* Copyright (C) 2022 X-Electra.
+Licensed under the  GPL-3.0 License;
+you may not use this file except in compliance with the License.
+X-Asena - X-Electra
+*/
+
 command(
   {
-    pattern: "asai ?(.*)",
+    pattern: "asai",
     fromMe: isPrivate,
     dontAddCommandList: false,
     type: "Maker menu",
@@ -959,9 +1223,15 @@ command(
   }
 );
 
+/* Copyright (C) 2022 X-Electra.
+Licensed under the  GPL-3.0 License;
+you may not use this file except in compliance with the License.
+X-Asena - X-Electra
+*/
+
 command(
   {
-    pattern: "quby1 ?(.*)",
+    pattern: "quby1",
     fromMe: isPrivate,
     dontAddCommandList: false,
     type: "Maker menu",
@@ -979,9 +1249,15 @@ command(
   }
 );
 
+/* Copyright (C) 2022 X-Electra.
+Licensed under the  GPL-3.0 License;
+you may not use this file except in compliance with the License.
+X-Asena - X-Electra
+*/
+
 command(
   {
-    pattern: "quby2 ?(.*)",
+    pattern: "quby2",
     fromMe: isPrivate,
     dontAddCommandList: false,
     type: "Maker menu",
@@ -999,9 +1275,15 @@ command(
   }
 );
 
+/* Copyright (C) 2022 X-Electra.
+Licensed under the  GPL-3.0 License;
+you may not use this file except in compliance with the License.
+X-Asena - X-Electra
+*/
+
 command(
   {
-    pattern: "quby3 ?(.*)",
+    pattern: "quby3",
     fromMe: isPrivate,
     dontAddCommandList: false,
     type: "Maker menu",
@@ -1019,9 +1301,15 @@ command(
   }
 );
 
+/* Copyright (C) 2022 X-Electra.
+Licensed under the  GPL-3.0 License;
+you may not use this file except in compliance with the License.
+X-Asena - X-Electra
+*/
+
 command(
   {
-    pattern: "quby4 ?(.*)",
+    pattern: "quby4",
     fromMe: isPrivate,
     dontAddCommandList: false,
     type: "Maker menu",
@@ -1039,9 +1327,15 @@ command(
   }
 );
 
+/* Copyright (C) 2022 X-Electra.
+Licensed under the  GPL-3.0 License;
+you may not use this file except in compliance with the License.
+X-Asena - X-Electra
+*/
+
 command(
   {
-    pattern: "cat1 ?(.*)",
+    pattern: "cat1",
     fromMe: isPrivate,
     dontAddCommandList: false,
     type: "Maker menu",
@@ -1059,9 +1353,15 @@ command(
   }
 );
 
+/* Copyright (C) 2022 X-Electra.
+Licensed under the  GPL-3.0 License;
+you may not use this file except in compliance with the License.
+X-Asena - X-Electra
+*/
+
 command(
   {
-    pattern: "cat2 ?(.*)",
+    pattern: "cat2",
     fromMe: isPrivate,
     dontAddCommandList: false,
     type: "Maker menu",
@@ -1079,9 +1379,15 @@ command(
   }
 );
 
+/* Copyright (C) 2022 X-Electra.
+Licensed under the  GPL-3.0 License;
+you may not use this file except in compliance with the License.
+X-Asena - X-Electra
+*/
+
 command(
   {
-    pattern: "cat3 ?(.*)",
+    pattern: "cat3",
     fromMe: isPrivate,
     dontAddCommandList: false,
     type: "Maker menu",
@@ -1099,9 +1405,15 @@ command(
   }
 );
 
+/* Copyright (C) 2022 X-Electra.
+Licensed under the  GPL-3.0 License;
+you may not use this file except in compliance with the License.
+X-Asena - X-Electra
+*/
+
 command(
   {
-    pattern: "cat4 ?(.*)",
+    pattern: "cat4",
     fromMe: isPrivate,
     dontAddCommandList: false,
     type: "Maker menu",
@@ -1119,9 +1431,15 @@ command(
   }
 );
 
+/* Copyright (C) 2022 X-Electra.
+Licensed under the  GPL-3.0 License;
+you may not use this file except in compliance with the License.
+X-Asena - X-Electra
+*/
+
 command(
   {
-    pattern: "trollikka1 ?(.*)",
+    pattern: "trollikka1",
     fromMe: isPrivate,
     dontAddCommandList: false,
     type: "Maker menu",
@@ -1139,9 +1457,15 @@ command(
   }
 );
 
+/* Copyright (C) 2022 X-Electra.
+Licensed under the  GPL-3.0 License;
+you may not use this file except in compliance with the License.
+X-Asena - X-Electra
+*/
+
 command(
   {
-    pattern: "trollikka2 ?(.*)",
+    pattern: "trollikka2",
     fromMe: isPrivate,
     dontAddCommandList: false,
     type: "Maker menu",
@@ -1159,9 +1483,15 @@ command(
   }
 );
 
+/* Copyright (C) 2022 X-Electra.
+Licensed under the  GPL-3.0 License;
+you may not use this file except in compliance with the License.
+X-Asena - X-Electra
+*/
+
 command(
   {
-    pattern: "trollikka3 ?(.*)",
+    pattern: "trollikka3",
     fromMe: isPrivate,
     dontAddCommandList: false,
     type: "Maker menu",
@@ -1179,9 +1509,15 @@ command(
   }
 );
 
+/* Copyright (C) 2022 X-Electra.
+Licensed under the  GPL-3.0 License;
+you may not use this file except in compliance with the License.
+X-Asena - X-Electra
+*/
+
 command(
   {
-    pattern: "trollikka4 ?(.*)",
+    pattern: "trollikka4",
     fromMe: isPrivate,
     dontAddCommandList: false,
     type: "Maker menu",

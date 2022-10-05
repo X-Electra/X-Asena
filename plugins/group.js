@@ -1,7 +1,15 @@
+
+
 const config = require("../config");
 const { command, isPrivate } = require("../lib/");
 const { isAdmin, parsedJid, isUrl } = require("../lib");
 const { cron, saveSchedule } = require("../lib/scheduler");
+/* Copyright (C) 2022 X-Electra.
+Licensed under the  GPL-3.0 License;
+you may not use this file except in compliance with the License.
+X-Asena - X-Electra
+*/
+
 command(
   {
     pattern: "add ",
@@ -23,6 +31,12 @@ command(
     });
   }
 );
+
+/* Copyright (C) 2022 X-Electra.
+Licensed under the  GPL-3.0 License;
+you may not use this file except in compliance with the License.
+X-Asena - X-Electra
+*/
 
 command(
   {
@@ -46,6 +60,12 @@ command(
   }
 );
 
+/* Copyright (C) 2022 X-Electra.
+Licensed under the  GPL-3.0 License;
+you may not use this file except in compliance with the License.
+X-Asena - X-Electra
+*/
+
 command(
   {
     pattern: "promote ",
@@ -67,6 +87,12 @@ command(
     });
   }
 );
+/* Copyright (C) 2022 X-Electra.
+Licensed under the  GPL-3.0 License;
+you may not use this file except in compliance with the License.
+X-Asena - X-Electra
+*/
+
 command(
   {
     pattern: "demote ",
@@ -89,9 +115,15 @@ command(
   }
 );
 
+/* Copyright (C) 2022 X-Electra.
+Licensed under the  GPL-3.0 License;
+you may not use this file except in compliance with the License.
+X-Asena - X-Electra
+*/
+
 command(
   {
-    pattern: "mute ?(.*)",
+    pattern: "mute",
     fromMe: true,
     desc: "nute group",
     type: "group",
@@ -106,9 +138,15 @@ command(
   }
 );
 
+/* Copyright (C) 2022 X-Electra.
+Licensed under the  GPL-3.0 License;
+you may not use this file except in compliance with the License.
+X-Asena - X-Electra
+*/
+
 command(
   {
-    pattern: "unmute ?(.*)",
+    pattern: "unmute",
     fromMe: true,
     desc: "unmute group",
     type: "group",
@@ -122,9 +160,15 @@ command(
     return await client.groupSettingUpdate(message.jid, "not_announcement");
   }
 );
+/* Copyright (C) 2022 X-Electra.
+Licensed under the  GPL-3.0 License;
+you may not use this file except in compliance with the License.
+X-Asena - X-Electra
+*/
+
 command(
   {
-    pattern: "amute ?(.*)",
+    pattern: "amute",
     fromMe: true,
     desc: "auto mutes group",
     type: "group",
@@ -147,9 +191,15 @@ command(
     });
   }
 );
+/* Copyright (C) 2022 X-Electra.
+Licensed under the  GPL-3.0 License;
+you may not use this file except in compliance with the License.
+X-Asena - X-Electra
+*/
+
 command(
   {
-    pattern: "aunmute ?(.*)",
+    pattern: "aunmute",
     fromMe: true,
     desc: "auto unmutes group",
     type: "group",
@@ -173,9 +223,15 @@ command(
     });
   }
 );
+/* Copyright (C) 2022 X-Electra.
+Licensed under the  GPL-3.0 License;
+you may not use this file except in compliance with the License.
+X-Asena - X-Electra
+*/
+
 command(
   {
-    pattern: "gjid ?(.*)",
+    pattern: "gjid",
     fromMe: true,
     desc: "gets jid of all group members",
     type: "group",
@@ -193,9 +249,67 @@ command(
     message.reply(str);
   }
 );
+
+/* Copyright (C) 2022 X-Electra.
+Licensed under the  GPL-3.0 License;
+you may not use this file except in compliance with the License.
+X-Asena - X-Electra
+*/
+
+command(
+  {
+    pattern: "tagall ?(.*)",
+    fromMe: true,
+    desc: "mention all users in group",
+    type: "type",
+  },
+  async (message, match) => {
+    if(!message.isGroup) return 
+    const {participants } = await message.client.groupMetadata(message.jid)
+    let teks = ''
+    for (let mem of participants) {
+
+      teks += ` @${mem.id.split('@')[0]}\n`
+      }
+      message.sendMessage( teks.trim(), {mentions: participants.map(a => a.id)})
+      
+  }
+);
+/* Copyright (C) 2022 X-Electra.
+Licensed under the  GPL-3.0 License;
+you may not use this file except in compliance with the License.
+X-Asena - X-Electra
+*/
+
+command(
+  {
+    pattern: "tag ?(.*)",
+    fromMe: true,
+    desc: "mention all users in group",
+    type: "type",
+  },
+  async (message, match) => {
+    if(!message.isGroup) return 
+    const {participants } = await message.client.groupMetadata(message.jid)
+    let teks =  match
+    for (let mem of participants) {
+
+      teks += ` @${mem.id.split('@')[0]}\n`
+      }
+      message.sendMessage( teks.trim(), {mentions: participants.map(a => a.id)})
+      
+  }
+);
+
 /**
  * antilink
  */
+/* Copyright (C) 2022 X-Electra.
+Licensed under the  GPL-3.0 License;
+you may not use this file except in compliance with the License.
+X-Asena - X-Electra
+*/
+
 command(
   {
     on: "text",

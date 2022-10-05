@@ -1,3 +1,9 @@
+/* Copyright (C) 2022 X-Electra.
+Licensed under the  GPL-3.0 License;
+you may not use this file except in compliance with the License.
+X-Asena - X-Electra
+*/
+
 const events = require("../lib/event");
 const {
   command,
@@ -10,7 +16,7 @@ const { OWNER_NAME, BOT_NAME } = require("../config");
 const { hostname, uptime } = require("os");
 command(
   {
-    pattern: "menu ?(.*)",
+    pattern: "menu",
     fromMe: isPrivate,
     desc: "Show All commands",
     dontAddCommandList: true,
@@ -82,9 +88,15 @@ command(
     });
   }
 );
+/* Copyright (C) 2022 X-Electra.
+Licensed under the  GPL-3.0 License;
+you may not use this file except in compliance with the License.
+X-Asena - X-Electra
+*/
+
 command(
   {
-    pattern: "list ?(.*)",
+    pattern: "list",
     fromMe: isPrivate,
     desc: "Show All commands",
     dontAddCommandList: true,
