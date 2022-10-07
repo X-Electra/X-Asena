@@ -252,7 +252,7 @@ command(
     type: "heroku",
     desc: "Checks for update.",
   },
-  async (message, match) => {
+  async (message, match,{prefix}) => {
     if (match === "now") {
       await git.fetch();
       var commits = await git.log([
