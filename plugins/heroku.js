@@ -311,7 +311,7 @@ command(
         "https://",
         "https://api:" + Config.HEROKU_API_KEY + "@"
       );
-
+  
       try {
         await git.addRemote("heroku", git_url);
       } catch {
