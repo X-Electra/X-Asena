@@ -18,22 +18,26 @@ const path = require("path");
 const events = require("./lib/event");
 const got = require("got");
 const config = require("./config");
-
 const { PluginDB } = require("./lib/database/plugins");
 const Greetings = require("./lib/Greetings");
-const { loadDatabase } = require("./lib");
+const { loadDatabase, db } = require("./lib");
 const { MakeSession } = require("./lib/session");
 const store = makeInMemoryStore({
   logger: pino().child({ level: "silent", stream: "store" }),
 });
+
 require("events").EventEmitter.defaultMaxListeners = 500;
 
-  if (!fs.existsSync("./media/session.json")) {
-    MakeSession(config.SESSION_ID, "./media/session.json").then(
-      console.log("Vesrion : " + require("./package.json").version)
-    );
-   }
-
+if (!fs.existsSync("./media/session.json")) {
+  MakeSession(config.SESSION_ID, "./media/session.json").then(
+    console.log("Vesrion : " + require("./package.json").version)
+  );
+}
+fs.readdirSync("./lib/database/").forEach((plugin) => {
+  if (path.extname(plugin).toLowerCase() == ".js") {
+    require("./lib/database/" + plugin);
+  }
+});
 
 async function Xasena() {
   console.log("Syncing Database");
@@ -129,35 +133,43 @@ async function Xasena() {
             )
               return;
             let comman;
+
             try {
               comman = text_msg.split(" ")[0];
             } catch {
               comman = text_msg;
             }
-            if (command.pattern && command.pattern.test(comman)) {
-              var match = text_msg.trim().split(/ +/).slice(1).join(" ");
-              whats = new Message(conn, msg, ms);
+            if (text_msg)
+              if (
+                command.pattern &&
+                command.pattern.test(comman.toLowerCase())
+              ) {
+                var match = text_msg.trim().split(/ +/).slice(1).join(" ");
+                whats = new Message(conn, msg, ms);
 
-              command.function(whats, match, msg, conn);
-            } else if (text_msg && command.on === "text") {
-              msg.prefix = text_msg.match(new RegExp(config.HANDLERS))
-                ? text_msg.match(new RegExp(config.HANDLERS))[0]
-                : "";
-              whats = new Message(conn, msg, ms);
-              command.function(whats, text_msg, msg, conn, m);
-            } else if (
-              (command.on === "image" || command.on === "photo") &&
-              msg.type === "imageMessage"
-            ) {
-              whats = new Image(conn, msg, ms);
-              command.function(whats, text_msg, msg, conn, m, ms);
-            } else if (
-              command.on === "sticker" &&
-              msg.type === "stickerMessage"
-            ) {
-              whats = new Sticker(conn, msg, ms);
-              command.function(whats, msg, conn, m, ms);
-            }
+                command.function(whats, match, msg, conn);
+              } else if (text_msg && command.on === "text") {
+                if (!db.data.prefix) {
+                  db.data.prefix = text_msg.match(new RegExp(config.HANDLERS))
+                    ? text_msg.match(new RegExp(config.HANDLERS))[0]
+                    : "";
+                }
+                msg.prefix = db.data.prefix;
+                whats = new Message(conn, msg, ms);
+                command.function(whats, text_msg, msg, conn, m);
+              } else if (
+                (command.on === "image" || command.on === "photo") &&
+                msg.type === "imageMessage"
+              ) {
+                whats = new Image(conn, msg, ms);
+                command.function(whats, text_msg, msg, conn, m, ms);
+              } else if (
+                command.on === "sticker" &&
+                msg.type === "stickerMessage"
+              ) {
+                whats = new Sticker(conn, msg, ms);
+                command.function(whats, msg, conn, m, ms);
+              }
           });
         });
       } catch (e) {

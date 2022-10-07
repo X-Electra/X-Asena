@@ -1,7 +1,5 @@
-
-
 const config = require("../config");
-const { command, isPrivate } = require("../lib/");
+const { command, isPrivate, prefix } = require("../lib/");
 const { isAdmin, parsedJid, isUrl } = require("../lib");
 const { cron, saveSchedule } = require("../lib/scheduler");
 /* Copyright (C) 2022 X-Electra.
@@ -264,15 +262,15 @@ command(
     type: "type",
   },
   async (message, match) => {
-    if(!message.isGroup) return 
-    const {participants } = await message.client.groupMetadata(message.jid)
-    let teks = ''
+    if (!message.isGroup) return;
+    const { participants } = await message.client.groupMetadata(message.jid);
+    let teks = "";
     for (let mem of participants) {
-
-      teks += ` @${mem.id.split('@')[0]}\n`
-      }
-      message.sendMessage( teks.trim(), {mentions: participants.map(a => a.id)})
-      
+      teks += ` @${mem.id.split("@")[0]}\n`;
+    }
+    message.sendMessage(teks.trim(), {
+      mentions: participants.map((a) => a.id),
+    });
   }
 );
 /* Copyright (C) 2022 X-Electra.
@@ -289,15 +287,47 @@ command(
     type: "type",
   },
   async (message, match) => {
-    if(!message.isGroup) return 
-    const {participants } = await message.client.groupMetadata(message.jid)
-    let teks =  match
+    if (!message.isGroup) return;
+    const { participants } = await message.client.groupMetadata(message.jid);
+    let teks = match;
     for (let mem of participants) {
+      teks += ` @${mem.id.split("@")[0]}\n`;
+    }
+    message.sendMessage(teks.trim(), {
+      mentions: participants.map((a) => a.id),
+    });
+  }
+);
+command(
+  {
+    pattern: "poll ?(.*)",
+    fromMe: true,
+    desc: "create poll",
+    type: "tool",
+  },
+  async (message, match) => {
+    let [poll,opt] = match.split(";");
+    if (match.split(";") < 2)
+      return await message.reply(
+        `${prefix}poll question;option1,option2,option3.....`
+      );
+    
+    let options = [];
 
-      teks += ` @${mem.id.split('@')[0]}\n`
-      }
-      message.sendMessage( teks.trim(), {mentions: participants.map(a => a.id)})
-      
+    for (let i of opt.split(',')) {
+      options.push({ optionName: i });
+    }
+    return await message.client.relayMessage(
+      message.jid,
+      {
+        pollCreationMessage: {
+          name: poll,
+          options,
+          selectableOptionsCount: 0,
+        },
+      },
+      {}
+    );
   }
 );
 
