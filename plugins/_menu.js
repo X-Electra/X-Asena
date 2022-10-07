@@ -71,18 +71,18 @@ command(
     menu += `\n╰╼╾╼╾╼╾╼╾╼╾╼╾╼╾╼╾╼`;
     return await message.client.sendMessage(message.jid, {
       image: { url: `https://wallpapercave.com/wp/wp3891779.jpg` },
-      caption: serif_B(menu.toUpperCase()),
+      caption: tiny(menu.toUpperCase()),
       footer: tiny(
         `X-asena Public Bot\nVersion : ${require("../package.json").version}`
       ),
       buttons: [
         {
           buttonId: `${prefix}ping`,
-          buttonText: { displayText: serif_B("PING 🎈") },
+          buttonText: { displayText: tiny("PING 🎈") },
         },
         {
           buttonId: `${prefix}list`,
-          buttonText: { displayText: serif_B("LIST 🎈 ") },
+          buttonText: { displayText: tiny("LIST 🎈 ") },
         },
       ],
     });
