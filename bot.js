@@ -20,7 +20,6 @@ const got = require("got");
 const config = require("./config");
 const { PluginDB } = require("./lib/database/plugins");
 const Greetings = require("./lib/Greetings");
-const { loadDatabase, db } = require("./lib");
 const { MakeSession } = require("./lib/session");
 const store = makeInMemoryStore({
   logger: pino().child({ level: "silent", stream: "store" }),
@@ -81,7 +80,6 @@ async function Xasena() {
     }
 
     if (connection === "open") {
-      loadDatabase();
       conn.sendMessage(conn.user.id, { text: "connected ✔✔" });
       console.log("✅ Login Successful!");
       console.log("⬇️ Installing External Plugins...");
@@ -149,12 +147,8 @@ async function Xasena() {
 
                 command.function(whats, match, msg, conn);
               } else if (text_msg && command.on === "text") {
-                if (!db.data.prefix) {
-                  db.data.prefix = text_msg.match(new RegExp(config.HANDLERS))
-                    ? text_msg.match(new RegExp(config.HANDLERS))[0]
-                    : "";
-                }
-                msg.prefix = db.data.prefix;
+               
+                msg.prefix = ','
                 whats = new Message(conn, msg, ms);
                 command.function(whats, text_msg, msg, conn, m);
               } else if (
