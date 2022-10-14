@@ -146,8 +146,7 @@ command(
     type: "Textpro",
   },
   async (message, match) => {
-    if (match === "")
-      return await message.client.sendMessage(message.jid, NEED_WORD);
+    if (!match) return await message.sendMessage(NEED_WORD);
 
     var topText, bottomText;
     if (match.includes("/")) {
@@ -160,7 +159,7 @@ command(
       `https://docs-jojo.herokuapp.com/api/sparkling?text1=${topText}&text2=${bottomText}`
     );
 
-    await message.client.sendMessage(webimage, {}, "image");
+    await message.sendMessage(webimage, {}, "image");
   }
 );
 
@@ -178,14 +177,13 @@ command(
     type: "Textpro",
   },
   async (message, match) => {
-    if (match === "")
-      return await message.client.sendMessage(message.NEED_WORD);
+    if (!match) return await message.sendMessage(NEED_WORD);
 
     var webimage = await getBuffer(
       `https://docs-jojo.herokuapp.com/api/gaming?text=${match}`
     );
 
-    await message.client.sendMessage(webimage, {}, "image");
+    await message.sendMessage(webimage, {}, "image");
   }
 );
 
@@ -203,14 +201,13 @@ command(
     type: "Textpro",
   },
   async (message, match) => {
-    if (match === "")
-      return await message.client.sendMessage(message.jid, NEED_WORD);
+    if (!match) return await message.sendMessage(NEED_WORD);
 
     var webimage = await getBuffer(
       `https://docs-jojo.herokuapp.com/api/neon_light?text=${match}`
     );
 
-    await message.client.sendMessage(webimage, {}, "image");
+    await message.sendMessage(webimage, {}, "image");
   }
 );
 
@@ -228,14 +225,13 @@ command(
     type: "Textpro",
   },
   async (message, match) => {
-    if (match === "")
-      return await message.client.sendMessage(message.jid, NEED_WORD);
+    if (!match) return await message.sendMessage(NEED_WORD);
 
     var webimage = await getBuffer(
       `https://api.xteam.xyz/textpro/sandwriting?text=${match}&APIKEY=d90a9e986e18778b`
     );
 
-    await message.client.sendMessage(webimage, {}, "image");
+    await message.sendMessage(webimage, {}, "image");
   }
 );
 
@@ -253,14 +249,13 @@ command(
     type: "Textpro",
   },
   async (message, match) => {
-    if (match === "")
-      return await message.client.sendMessage(message.jid, NEED_WORD);
+    if (!match) return await message.sendMessage(NEED_WORD);
 
     var webimage = await getBuffer(
       `https://api.xteam.xyz/textpro/cloudtext?text=${match}&APIKEY=d90a9e986e18778b`
     );
 
-    await message.client.sendMessage(webimage, {}, "image");
+    await message.sendMessage(webimage, {}, "image");
   }
 );
 
@@ -278,8 +273,7 @@ command(
     type: "Textpro",
   },
   async (message, match) => {
-    if (match === "")
-      return await message.client.sendMessage(message.jid, NEED_WORD);
+    if (!match) return await message.sendMessage(NEED_WORD);
 
     var topText, bottomText;
     if (match.includes("/")) {
@@ -292,7 +286,7 @@ command(
       `https://api.xteam.xyz/textpro/ph?text=${topText}&text2=${bottomText}&APIKEY=ab9942f95c09ca89`
     );
 
-    await message.client.sendMessage(webimage, {}, "image");
+    await message.sendMessage(webimage, {}, "image");
   }
 );
 
@@ -310,14 +304,13 @@ command(
     type: "Textpro",
   },
   async (message, match) => {
-    if (match === "")
-      return await message.client.sendMessage(message.jid, NEED_WORD);
+    if (!match) return await message.sendMessage(NEED_WORD);
 
     var webimage = await getBuffer(
       `https://api.xteam.xyz/textpro/snowtext?text=${match}&APIKEY=ab9942f95c09ca89`
     );
 
-    await message.client.sendMessage(webimage, {}, "image");
+    await message.sendMessage(webimage, {}, "image");
   }
 );
 
@@ -335,14 +328,13 @@ command(
     type: "Textpro",
   },
   async (message, match) => {
-    if (match === "")
-      return await message.client.sendMessage(message.jid, NEED_WORD);
+    if (!match) return await message.sendMessage(NEED_WORD);
 
     var webimage = await getBuffer(
       `https://docs-jojo.herokuapp.com/api/text3d?text=${match}`
     );
 
-    await message.client.sendMessage(webimage, {}, "image");
+    await message.sendMessage(webimage, {}, "image");
   }
 );
 

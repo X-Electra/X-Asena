@@ -56,12 +56,15 @@ async function Xasena() {
     shouldSyncHistoryMessage: false,
     downloadHistory: false,
     syncFullHistory: false,
+    getMessage: async (key) =>
+      (store.loadMessage(key.id) || {}).message || {
+        conversation: null,
+      },
   });
   store.bind(conn.ev);
   //store.readFromFile("./database/store.json");
   setInterval(() => {
     store.writeToFile("./database/store.json");
-    console.log("saved store");
   }, 30 * 60 * 1000);
 
   conn.ev.on("creds.update", saveCreds);
@@ -126,7 +129,7 @@ async function Xasena() {
           let msg = await serialize(JSON.parse(JSON.stringify(ms)), conn);
           if (!msg.message) return;
           let text_msg = msg.body;
-          if (text_msg&&config.LOGS)
+          if (text_msg && config.LOGS)
             console.log(
               `At : ${
                 msg.from.endsWith("@g.us")
