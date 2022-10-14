@@ -21,7 +21,8 @@ command(
     desc: "Get News",
     type: "Search",
   },
-  async (message, match, { prefix }, client) => {
+  async (message, match,m, client) => {
+    let {prefix} = message
     if (!match) {
       await client.sendMessage(message.jid, {
         text: `Pick a News Provider`,
@@ -223,23 +224,6 @@ you may not use this file except in compliance with the License.
 X-Asena - X-Electra
 */
 
-command(
-  {
-    pattern: "spdf",
-    fromMe: isPrivate,
-    desc: "Converts Site to PDF.",
-    type: "tool",
-  },
-  async (message, match) => {
-    match = match || message.reply_message.text;
-    if (!match || !isUrl(match)) return await message.reply("_Enter a URL_");
 
-    let url = new URL(match);
-    await message.sendFromUrl(
-      `https://api.html2pdf.app/v1/generate?url=${match}&apiKey=begC4dFAup1b8LyRXxAfjetfqDg2uYx8PWmh9YJ59tTZXiUyh2Vs72HdYQB68vyc`,
-      { fileName: `${url.origin}.pdf`, mimetype: "application/pdf" }
-    );
-  }
-);
 
 

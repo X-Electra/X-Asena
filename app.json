@@ -10,28 +10,28 @@
   "env": {
     "ANTI_LINK": {
       "description": "true/false",
-      "required": false,
-      "value": ""
+      "required": false
     },
     "ANTILINK_ACTION": {
       "description": "kick",
-      "required": false,
-      "value": ""
+      "required": false
     },
     "RMBG_KEY": {
       "description": "Remove bg api key ",
-      "required": false,
-      "value": ""
-    }, 
+      "required": false
+    },
     "SESSION_ID": {
       "description": "Your Session ID",
-      "required": true,
-      "value": ""
+      "required": true
     },
     "HANDLERS": {
       "description": "prefix for commands, enter false for no prefix",
-      "required": false,
-      "value": ""
+      "required": true,
+      "value": ","
+    },
+    "LOGS": {
+      "description": "need to show message logs ?",
+      "required": false
     },
     "PACKNAME": {
       "description": "Sticker Packname",

@@ -38,7 +38,7 @@ command(
     pattern: "tgs",
     fromMe: isPrivate,
     desc: "Download Sticker From Telegram",
-    type: "Tool",
+    type: "tool",
   },
   async (message, match) => {
     if (!match)

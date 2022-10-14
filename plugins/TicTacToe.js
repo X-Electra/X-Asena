@@ -1,4 +1,4 @@
-const { command, parseJid, isPrivate, db } = require("../lib/");
+const { command, parseJid, isPrivate } = require("../lib/");
 command(
   {
     pattern: "ttt ?(.*)",
@@ -7,6 +7,7 @@ command(
     type: "game",
   },
   async (message, match, m) => {
+    let {prefix} = message
     {
       let TicTacToe = require("../lib/tictactoe");
       this.game = this.game ? this.game : {};
@@ -77,10 +78,9 @@ command(
   {
     on: "text",
     fromMe: isPrivate,
-    desc: "description",
-    type: "type",
   },
   async (message, match, m) => {
+    let {prefix} = message
     this.game = this.game ? this.game : {};
     let room = Object.values(this.game).find(
       (room) =>
@@ -96,6 +96,7 @@ command(
       let isWin = !1;
       let isTie = !1;
       let isSurrender = !1;
+      
       if (!/^([1-9]|(me)?give_up|surr?ender|off|skip)$/i.test(match)) return;
       isSurrender = !/^[1-9]$/.test(match);
       if (m.sender !== room.game.currentTurn) {
@@ -166,7 +167,7 @@ ${
           text: str,
           buttons: [
             {
-              buttonId: `${m.prefix}ttt`,
+              buttonId: `${prefix}ttt`,
               buttonText: { displayText: "Play again" },
             },
           ],

@@ -4,7 +4,8 @@ const {
   deleteFilter,
   toggleFilter,
 } = require("../lib/database/filters");
-const { command, isPrivate, tiny, prefix } = require("../lib");
+const { command, isPrivate, tiny } = require("../lib");
+
 const Lang = {
   FILTER_DESC:
     "It adds a filter. If someone writes your filter, it send the answer. If you just write .filter, it show's your filter list.",
@@ -24,8 +25,10 @@ command(
     fromMe: true,
     desc: Lang.FILTER_DESC,
     usage: ".filter keyword:message",
+    type: "group",
   },
   async (message, match) => {
+    let { prefix } = message;
     let text, msg;
     try {
       [text, msg] = match.split(":");
@@ -39,27 +42,17 @@ command(
         filtreler.map(
           (filter) => (mesaj += `✒ ${filter.dataValues.pattern}\n`)
         );
-        mesaj += tiny("use : .filter keyword:message\nto set a filter")
+        mesaj += tiny("use : .filter keyword:message\nto set a filter");
         await message.reply(mesaj);
       }
-    } else if (!text || !msg){
+    } else if (!text || !msg) {
       return await message.reply(
         "```use : .filter keyword:message\nto set a filter```"
-      );}else{
-        await setFilter(message.jid, text, msg, true);
-    return await message.reply(`_Sucessfully set filter for ${text}_`);
-      }}
-);
-
-command(
-  {
-    pattern: "test21 ?(.*)",
-    fromMe: true,
-    desc: "description",
-    type: "type",
-  },
-  async (message, match) => {
-    toggleFilter(message.jid);
+      );
+    } else {
+      await setFilter(message.jid, text, msg, true);
+      return await message.reply(`_Sucessfully set filter for ${text}_`);
+    }
   }
 );
 
@@ -69,6 +62,7 @@ command(
     fromMe: true,
     desc: Lang.STOP_DESC,
     usage: '.stop "hello"',
+    type: "group",
   },
   async (message, match) => {
     if (!match) return await message.reply("\n*Example:* ```.stop hello```");

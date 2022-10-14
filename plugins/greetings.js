@@ -1,4 +1,4 @@
-const { command, prefix, tiny } = require("../lib/");
+const { command,tiny } = require("../lib/");
 const {
   setMessage,
   getMessage,
@@ -11,9 +11,10 @@ command(
     pattern: "welcome ?(.*)",
     fromMe: true,
     desc: "description",
-    type: "type",
+    type: "group",
   },
   async (message, match) => {
+    let {prefix} = message
     if (!message.isGroup) return;
     let status = await getStatus(message.jid, "welcome");
     let toggler = status ? "off" : "on";
@@ -68,7 +69,7 @@ command(
     pattern: "goodbye ?(.*)",
     fromMe: true,
     desc: "description",
-    type: "type",
+    type: "group",
   },
   async (message, match) => {
     if (!message.isGroup) return;

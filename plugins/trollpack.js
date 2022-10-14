@@ -10,9 +10,9 @@ X-Asena - X-Electra
 command(
   {
     pattern: "trollmaker",
-    fromMe:isPrivate,
+    fromMe: isPrivate,
     desc: "you can make your own trolls by this tool",
-    type:'tool'
+    type: "tool",
   },
   async (message, match) => {
     return await message.sendMessage(
@@ -97,7 +97,7 @@ X-Asena - X-Electra
 command(
   {
     pattern: "doggy",
-    fromMe:isPrivate,
+    fromMe: isPrivate,
     dontAddCommandList: false,
     type: "Maker menu",
   },
@@ -127,7 +127,7 @@ X-Asena - X-Electra
 command(
   {
     pattern: "askdog",
-    fromMe:isPrivate,
+    fromMe: isPrivate,
     dontAddCommandList: false,
     type: "Maker menu",
   },
@@ -155,7 +155,7 @@ X-Asena - X-Electra
 command(
   {
     pattern: "happydog",
-    fromMe:isPrivate,
+    fromMe: isPrivate,
     dontAddCommandList: false,
     type: "Maker menu",
   },
@@ -178,7 +178,7 @@ X-Asena - X-Electra
 command(
   {
     pattern: "codedog",
-    fromMe:isPrivate,
+    fromMe: isPrivate,
     dontAddCommandList: false,
     type: "Maker menu",
   },
@@ -201,7 +201,7 @@ X-Asena - X-Electra
 command(
   {
     pattern: "lovedog",
-    fromMe:isPrivate,
+    fromMe: isPrivate,
     dontAddCommandList: false,
     type: "Maker menu",
   },
@@ -229,7 +229,7 @@ X-Asena - X-Electra
 command(
   {
     pattern: "gundog",
-    fromMe:isPrivate,
+    fromMe: isPrivate,
     dontAddCommandList: false,
     type: "Maker menu",
   },
@@ -257,7 +257,7 @@ X-Asena - X-Electra
 command(
   {
     pattern: "angrydog",
-    fromMe:isPrivate,
+    fromMe: isPrivate,
     dontAddCommandList: false,
     type: "Maker menu",
   },
@@ -285,7 +285,7 @@ X-Asena - X-Electra
 command(
   {
     pattern: "seddog",
-    fromMe:isPrivate,
+    fromMe: isPrivate,
     dontAddCommandList: false,
     type: "Maker menu",
   },
@@ -313,7 +313,7 @@ X-Asena - X-Electra
 command(
   {
     pattern: "thugdog",
-    fromMe:isPrivate,
+    fromMe: isPrivate,
     dontAddCommandList: false,
     type: "Maker menu",
   },
@@ -343,7 +343,7 @@ X-Asena - X-Electra
 command(
   {
     pattern: "asedcat",
-    fromMe:isPrivate,
+    fromMe: isPrivate,
     dontAddCommandList: false,
     type: "Maker menu",
   },
@@ -366,7 +366,7 @@ X-Asena - X-Electra
 command(
   {
     pattern: "bsedcat?(.*)",
-    fromMe:isPrivate,
+    fromMe: isPrivate,
     dontAddCommandList: false,
     type: "Maker menu",
   },
@@ -389,7 +389,7 @@ X-Asena - X-Electra
 command(
   {
     pattern: "csedcat?(.*)",
-    fromMe:isPrivate,
+    fromMe: isPrivate,
     dontAddCommandList: false,
     type: "Maker menu",
   },
@@ -412,7 +412,7 @@ X-Asena - X-Electra
 command(
   {
     pattern: "dsedcat",
-    fromMe:isPrivate,
+    fromMe: isPrivate,
     dontAddCommandList: false,
     type: "Maker menu",
   },
@@ -440,7 +440,7 @@ X-Asena - X-Electra
 command(
   {
     pattern: "esedcat",
-    fromMe:isPrivate,
+    fromMe: isPrivate,
     dontAddCommandList: false,
     type: "Maker menu",
   },
@@ -468,7 +468,7 @@ X-Asena - X-Electra
 command(
   {
     pattern: "fsedcat",
-    fromMe:isPrivate,
+    fromMe: isPrivate,
     dontAddCommandList: false,
     type: "Maker menu",
   },
@@ -496,7 +496,7 @@ X-Asena - X-Electra
 command(
   {
     pattern: "alovecat",
-    fromMe:isPrivate,
+    fromMe: isPrivate,
     dontAddCommandList: false,
     type: "Maker menu",
   },
@@ -519,7 +519,7 @@ X-Asena - X-Electra
 command(
   {
     pattern: "blovecat?(.*)",
-    fromMe:isPrivate,
+    fromMe: isPrivate,
     dontAddCommandList: false,
     type: "Maker menu",
   },
@@ -542,7 +542,7 @@ X-Asena - X-Electra
 command(
   {
     pattern: "clovecat",
-    fromMe:isPrivate,
+    fromMe: isPrivate,
     dontAddCommandList: false,
     type: "Maker menu",
   },
@@ -570,7 +570,7 @@ X-Asena - X-Electra
 command(
   {
     pattern: "dlovecat",
-    fromMe:isPrivate,
+    fromMe: isPrivate,
     dontAddCommandList: false,
     type: "Maker menu",
   },
@@ -598,7 +598,7 @@ X-Asena - X-Electra
 command(
   {
     pattern: "elovecat",
-    fromMe:isPrivate,
+    fromMe: isPrivate,
     dontAddCommandList: false,
     type: "Maker menu",
   },
@@ -626,7 +626,7 @@ X-Asena - X-Electra
 command(
   {
     pattern: "fovecat",
-    fromMe:isPrivate,
+    fromMe: isPrivate,
     dontAddCommandList: false,
     type: "Maker menu",
   },
@@ -654,7 +654,7 @@ X-Asena - X-Electra
 command(
   {
     pattern: "aangrycat",
-    fromMe:isPrivate,
+    fromMe: isPrivate,
     dontAddCommandList: false,
     type: "Maker menu",
   },
@@ -677,7 +677,7 @@ X-Asena - X-Electra
 command(
   {
     pattern: "bangrycat?(.*)",
-    fromMe:isPrivate,
+    fromMe: isPrivate,
     dontAddCommandList: false,
     type: "Maker menu",
   },
@@ -700,7 +700,7 @@ X-Asena - X-Electra
 command(
   {
     pattern: "cangrycat",
-    fromMe:isPrivate,
+    fromMe: isPrivate,
     dontAddCommandList: false,
     type: "Maker menu",
   },
@@ -728,7 +728,7 @@ X-Asena - X-Electra
 command(
   {
     pattern: "dangrycat",
-    fromMe:isPrivate,
+    fromMe: isPrivate,
     dontAddCommandList: false,
     type: "Maker menu",
   },
@@ -756,7 +756,7 @@ X-Asena - X-Electra
 command(
   {
     pattern: "eangrycat",
-    fromMe:isPrivate,
+    fromMe: isPrivate,
     dontAddCommandList: false,
     type: "Maker menu",
   },
@@ -784,7 +784,7 @@ X-Asena - X-Electra
 command(
   {
     pattern: "fangrycat",
-    fromMe:isPrivate,
+    fromMe: isPrivate,
     dontAddCommandList: false,
     type: "Maker menu",
   },
@@ -812,7 +812,7 @@ X-Asena - X-Electra
 command(
   {
     pattern: "acutecat",
-    fromMe:isPrivate,
+    fromMe: isPrivate,
     dontAddCommandList: false,
     type: "Maker menu",
   },
@@ -835,7 +835,7 @@ X-Asena - X-Electra
 command(
   {
     pattern: "bcutecat",
-    fromMe:isPrivate,
+    fromMe: isPrivate,
     dontAddCommandList: false,
     type: "Maker menu",
   },
@@ -863,7 +863,7 @@ X-Asena - X-Electra
 command(
   {
     pattern: "ccutecat",
-    fromMe:isPrivate,
+    fromMe: isPrivate,
     dontAddCommandList: false,
     type: "Maker menu",
   },
@@ -891,7 +891,7 @@ X-Asena - X-Electra
 command(
   {
     pattern: "orgsm",
-    fromMe:isPrivate,
+    fromMe: isPrivate,
     dontAddCommandList: false,
     type: "Maker menu",
   },
@@ -914,7 +914,7 @@ X-Asena - X-Electra
 command(
   {
     pattern: "dcutecat",
-    fromMe:isPrivate,
+    fromMe: isPrivate,
     dontAddCommandList: false,
     type: "Maker menu",
   },
@@ -942,7 +942,7 @@ X-Asena - X-Electra
 command(
   {
     pattern: "ecutecat",
-    fromMe:isPrivate,
+    fromMe: isPrivate,
     dontAddCommandList: false,
     type: "Maker menu",
   },
@@ -970,7 +970,7 @@ X-Asena - X-Electra
 command(
   {
     pattern: "fcutecat",
-    fromMe:isPrivate,
+    fromMe: isPrivate,
     dontAddCommandList: false,
     type: "Maker menu",
   },

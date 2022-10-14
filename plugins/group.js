@@ -1,5 +1,5 @@
 const config = require("../config");
-const { command, isPrivate, prefix } = require("../lib/");
+const { command, isPrivate } = require("../lib/");
 const { isAdmin, parsedJid, isUrl } = require("../lib");
 const { cron, saveSchedule } = require("../lib/scheduler");
 /* Copyright (C) 2022 X-Electra.
@@ -259,7 +259,7 @@ command(
     pattern: "tagall ?(.*)",
     fromMe: true,
     desc: "mention all users in group",
-    type: "type",
+    type: "group",
   },
   async (message, match) => {
     if (!message.isGroup) return;
@@ -284,7 +284,7 @@ command(
     pattern: "tag ?(.*)",
     fromMe: true,
     desc: "mention all users in group",
-    type: "type",
+    type: "group",
   },
   async (message, match) => {
     if (!message.isGroup) return;
@@ -303,9 +303,10 @@ command(
     pattern: "poll ?(.*)",
     fromMe: true,
     desc: "create poll",
-    type: "tool",
+    type: "group",
   },
   async (message, match) => {
+       let {prefix} = message
     let [poll,opt] = match.split(";");
     if (match.split(";") < 2)
       return await message.reply(

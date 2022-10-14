@@ -5,6 +5,10 @@ const {
   webp2mp4,
   isUrl,
   isPrivate,
+  getJson,
+  getUrl,
+  isIgUrl,
+  findMusic,
 } = require("../lib/");
 const { yta, ytIdRegex, ytv } = require("../lib/yotube");
 const { search } = require("yt-search");
@@ -28,32 +32,7 @@ you may not use this file except in compliance with the License.
 X-Asena - X-Electra
 */
 
-command(
-  {
-    pattern: "qr",
-    fromMe: isPrivate,
-    desc: "Read/Write Qr.",
-    type: "Tool",
-  },
-  async (message, match) => {
-    match = match || message.reply_message.text;
-    if (match) {
-      let buff = await qrcode(match);
-      return await message.sendMessage(buff, {}, "image");
-    } else if (!message.reply_message || !message.reply_message.image)
-      return await message.sendMessage(
-        "*Example : qr test*\n*Reply to a qr image.*"
-      );
 
-    const { bitmap } = await jimp.read(
-      await message.reply_message.downloadMediaMessage()
-    );
-    const qr = new QRReader();
-    qr.cvideosback = (err, value) =>
-      message.sendMessage(err ?? value.result, { quoted: message.data });
-    qr.decode(bitmap);
-  }
-);
 
 Function(
   {
@@ -97,62 +76,12 @@ you may not use this file except in compliance with the License.
 X-Asena - X-Electra
 */
 
-command(
-  {
-    pattern: "vv",
-    fromMe: isPrivate,
-    desc: "Forwards The View once messsage",
-    type: "tool",
-  },
-  async (message, match, m) => {
-    if (message.reply_message.type !== "view_once")
-      return await message.reply("_Not a View Once_");
-    let buff = await m.quoted.download();
-    return await message.sendFile(buff);
-  }
-);
-
 /* Copyright (C) 2022 X-Electra.
 Licensed under the  GPL-3.0 License;
 you may not use this file except in compliance with the License.
 X-Asena - X-Electra
 */
 
-command(
-  {
-    pattern: "removebg",
-    fromMe: isPrivate,
-    desc: "removes background of an image",
-  },
-  async (message, match) => {
-    if (!message.reply_message || !message.reply_message.image)
-      return await message.reply("_Reply to a photo_");
-    if (RMBG_KEY === false)
-      return await message.reply(
-        `_Get a new api key from https://www.remove.bg/api_\n_set it via_\n_setvar RMBG_KEY: api key_`
-      );
-
-    await message.reply("_Removing Background_");
-    var location = await message.reply_message.downloadMediaMessage();
-
-    var form = new FormData();
-    form.append("image_file", fs.createReadStream(location));
-    form.append("size", "auto");
-
-    var rbg = await got.stream.post("https://api.remove.bg/v1.0/removebg", {
-      body: form,
-      headers: {
-        "X-Api-Key": RMBG_KEY,
-      },
-    });
-
-    await pipeline(rbg, fs.createWriteStream("rbg.png"));
-
-    await message.sendMessage(fs.readFileSync("rbg.png"), {}, "image");
-    await unlink(location);
-    return await unlink("rbg.png");
-  }
-);
 
 /* Copyright (C) 2022 X-Electra.
 Licensed under the  GPL-3.0 License;
@@ -278,6 +207,8 @@ command(
   }
 );
 
+
+
 /* Copyright (C) 2022 X-Electra.
 Licensed under the  GPL-3.0 License;
 you may not use this file except in compliance with the License.
@@ -338,6 +269,25 @@ Licensed under the  GPL-3.0 License;
 you may not use this file except in compliance with the License.
 X-Asena - X-Electra
 */
+
+command(
+  {
+    pattern: "insta ?(.*)",
+    fromMe: isPrivate,
+    desc: "downloads video from instagram",
+    type: "downloader",
+  },
+  async (message, match) => {
+    match = match || message.reply_message.text;
+    if (!match) return await message.reply("_Enter link_");
+    if (!match.includes("instagram.com"))
+      return await message.reply("_Invalid URL_");
+    let response = await getJson(
+      `https://x-asena-api.up.railway.app/ig?q=${match}`
+    );
+    message.sendFromUrl(response.result[0].url);
+  }
+);
 
 command(
   {

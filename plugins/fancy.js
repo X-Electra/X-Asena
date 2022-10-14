@@ -14,7 +14,7 @@ command(
     type: "converter",
   },
   async (message, match) => {
-    if (!message.reply_message || !message.reply_message.text || isNaN(match)) {
+    if (!message.reply_message || !message.reply_message.text || !match ||isNaN(match)) {
       let text = tiny(
         "Fancy text generator\n\nReply to a message\nExample: .fancy 32\n\n"
       );

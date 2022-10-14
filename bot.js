@@ -6,9 +6,9 @@ X-Asena - X-Electra
 
 const {
   default: makeWASocket,
-  useSingleFileAuthState,
   Browsers,
   makeInMemoryStore,
+  useMultiFileAuthState,
 } = require("@adiwajshing/baileys");
 const fs = require("fs");
 const { serialize } = require("./lib/serialize");
@@ -41,17 +41,19 @@ fs.readdirSync("./lib/database/").forEach((plugin) => {
 async function Xasena() {
   console.log("Syncing Database");
   await config.DATABASE.sync();
-
-  const { state, saveState } = useSingleFileAuthState(
+  /*const { state, saveState } = await useSingleFileAuthState(
     "./media/session.json",
     pino({ level: "silent" })
-  );
+  );*/
+  const { state, saveCreds } = await useMultiFileAuthState("session");
   let conn = makeWASocket({
     logger: pino({ level: "silent" }),
     auth: state,
-    printQRInTerminal: false,
-
+    printQRInTerminal: true,
+    generateHighQualityLinkPreview: true,
     browser: Browsers.macOS("Desktop"),
+    fireInitQueries: false,
+    shouldSyncHistoryMessage: false,
     downloadHistory: false,
     syncFullHistory: false,
   });
@@ -61,6 +63,8 @@ async function Xasena() {
     store.writeToFile("./database/store.json");
     console.log("saved store");
   }, 30 * 60 * 1000);
+
+  conn.ev.on("creds.update", saveCreds);
 
   conn.ev.on("connection.update", async (s) => {
     const { connection, lastDisconnect } = s;
@@ -80,7 +84,6 @@ async function Xasena() {
     }
 
     if (connection === "open") {
-      conn.sendMessage(conn.user.id, { text: "connected ✔✔" });
       console.log("✅ Login Successful!");
       console.log("⬇️ Installing External Plugins...");
 
@@ -107,10 +110,13 @@ async function Xasena() {
         }
       });
       console.log("✅ Plugins Installed!");
-
+      let str = `\`\`\`X-asena connected \nversion : ${
+        require("./package.json").version
+      }\nTotal Plugins : ${events.commands.length}\nWorktype: ${
+        config.WORK_TYPE
+      }\`\`\``;
+      conn.sendMessage(conn.user.id, { text: str });
       try {
-        conn.ev.on("creds.update", saveState);
-
         conn.ev.on("group-participants.update", async (data) => {
           Greetings(data, conn);
         });
@@ -120,7 +126,14 @@ async function Xasena() {
           let msg = await serialize(JSON.parse(JSON.stringify(ms)), conn);
           if (!msg.message) return;
           let text_msg = msg.body;
-          if (text_msg) console.log(text_msg);
+          if (text_msg&&config.LOGS)
+            console.log(
+              `At : ${
+                msg.from.endsWith("@g.us")
+                  ? (await conn.groupMetadata(msg.from)).subject
+                  : msg.from
+              }\nFrom : ${msg.sender}\nMessage:${text_msg}`
+            );
 
           events.commands.map(async (command) => {
             if (
@@ -131,39 +144,37 @@ async function Xasena() {
             )
               return;
             let comman;
-
-            try {
-              comman = text_msg.split(" ")[0];
-            } catch {
-              comman = text_msg;
+            if (text_msg) {
+              comman = text_msg.trim().split(/ +/)[0];
+              msg.prefix = new RegExp(config.HANDLERS).test(text_msg)
+                ? text_msg.split("").shift()
+                : ",";
             }
-            if (text_msg)
-              if (
-                command.pattern &&
-                command.pattern.test(comman.toLowerCase())
-              ) {
-                var match = text_msg.trim().split(/ +/).slice(1).join(" ");
-                whats = new Message(conn, msg, ms);
-
-                command.function(whats, match, msg, conn);
-              } else if (text_msg && command.on === "text") {
-               
-                msg.prefix = ','
-                whats = new Message(conn, msg, ms);
-                command.function(whats, text_msg, msg, conn, m);
-              } else if (
-                (command.on === "image" || command.on === "photo") &&
-                msg.type === "imageMessage"
-              ) {
-                whats = new Image(conn, msg, ms);
-                command.function(whats, text_msg, msg, conn, m, ms);
-              } else if (
-                command.on === "sticker" &&
-                msg.type === "stickerMessage"
-              ) {
-                whats = new Sticker(conn, msg, ms);
-                command.function(whats, msg, conn, m, ms);
+            if (command.pattern && command.pattern.test(comman)) {
+              var match;
+              try {
+                match = text_msg.replace(new RegExp(comman, "i"), "").trim();
+              } catch {
+                match = false;
               }
+              whats = new Message(conn, msg, ms);
+              command.function(whats, match, msg, conn);
+            } else if (text_msg && command.on === "text") {
+              whats = new Message(conn, msg, ms);
+              command.function(whats, text_msg, msg, conn, m);
+            } else if (
+              (command.on === "image" || command.on === "photo") &&
+              msg.type === "imageMessage"
+            ) {
+              whats = new Image(conn, msg, ms);
+              command.function(whats, text_msg, msg, conn, m, ms);
+            } else if (
+              command.on === "sticker" &&
+              msg.type === "stickerMessage"
+            ) {
+              whats = new Sticker(conn, msg, ms);
+              command.function(whats, msg, conn, m, ms);
+            }
           });
         });
       } catch (e) {

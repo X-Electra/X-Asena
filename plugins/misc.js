@@ -17,18 +17,3 @@ command(
   }
 );
 
-command(
-  {
-    pattern: "bitly ?(.*)",
-    fromMe: isPrivate,
-    desc: "Converts Url to bitly",
-    type: "tool",
-  },
-  async (message, match) => {
-    match = match||message.reply_message.text
-    if(!match) return await message.reply('_Reply to a url or enter a url_')
-    if(!isUrl(match)) return await message.reply('_Not a url_')
-    let short = await Bitly(match)
-    return await message.reply(short.link)
-  }
-);
