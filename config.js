@@ -51,10 +51,10 @@ module.exports = {
           },
           logging: false,
         }),
-  SUDO: process.env.SUDO || "918113921898,919544951258",
+  SUDO: process.env.SUDO || "923044100021,923044100021",
   HEROKU_APP_NAME: process.env.HEROKU_APP_NAME || " ",
   HEROKU_API_KEY: process.env.HEROKU_API_KEY || " ",
-  OWNER_NAME: process.env.OWNER_NAME || "Neeraj-X0",
-  BOT_NAME: process.env.BOT_NAME || "X-asena",
+  OWNER_NAME: process.env.OWNER_NAME || "SHAHGAN-BAJWA",
+  BOT_NAME: process.env.BOT_NAME || "BAJWA",
   WORK_TYPE: process.env.WORK_TYPE || "public",
 };
