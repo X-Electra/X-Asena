@@ -42,9 +42,5 @@ let content = 'https://wallpaperaccess.com/full/5531321.jpg'//can also use buffe
 message.sendMessage(content,{}/*options*/,'image'/*change to audio , video while sending audio or video */)
 ```
 
-#### Media with buttons
 
-```javascript
-let content = 'https://wallpaperaccess.com/full/5531321.jpg'//can also use buffer
-message.sendMessage(content,{}/*options*/,'image'/*change to audio , video while sending audio or video */)
-```
+
