@@ -72,3 +72,8 @@ const templateMessage = {
 await message.sendMessage(templateMessage, {}, "template");
 
 ```
+
+
+### THANKS TO 
+
+- [Adhiraj Singh]('https://github.com/adiwajshing')
