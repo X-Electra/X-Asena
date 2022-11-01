@@ -76,4 +76,6 @@ await message.sendMessage(templateMessage, {}, "template");
 
 ### THANKS TO 
 
-- [Adhiraj Singh]('https://github.com/adiwajshing')
+- [Adhiraj Singh](https://github.com/adiwajshing)
+- [Yusuf Usta](https://github.com/yusufusta)
+
