@@ -42,5 +42,33 @@ let content = 'https://wallpaperaccess.com/full/5531321.jpg'//can also use buffe
 message.sendMessage(content,{}/*options*/,'image'/*change to audio , video while sending audio or video */)
 ```
 
+### Sticker 
 
+```javascript
 
+message.sendMessage(
+      'url or buffer of image or video(max 10 seconds)',
+      { packname: config.PACKNAME, author: config.AUTHOR },
+      "sticker"
+    );
+
+```
+
+### Template Message
+
+```javascript
+
+const templateButtons = [
+    {index: 1, urlButton: {displayText: '⭐ Star Baileys on GitHub!', url: 'https://github.com/adiwajshing/Baileys'}},
+    {index: 2, quickReplyButton: {displayText: 'This is a reply, just like normal buttons!', id: 'id-like-buttons-message'}},
+]
+
+const templateMessage = {
+    text: "Hi it's a template message",
+    footer: 'Hello World',
+    templateButtons: templateButtons
+}
+
+await message.sendMessage(templateMessage, {}, "template");
+
+```
