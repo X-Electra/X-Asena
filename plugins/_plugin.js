@@ -32,21 +32,20 @@ command(
         url = url.toString();
       }
       var plugin_name;
-      var response = await got(url);
-      if (response.statusCode == 200) {
-        var commands = response.body
-          .match(/(?<=pattern:)(.*)(?=\?(.*))/g)
-          .map((a) => a.trim().replace(/"|'|`/, ""));
-        plugin_name =
-          commands[0] ||
-          plugin_name[1] ||
-          "__" + Math.random().toString(36).substring(8);
+      var { body,statusCode } = await got(url);
+      if (statusCode == 200) {
+        var command = /pattern: ["'](.*)["'],/g.exec(body)     
+        var plugin_name
+        if(command.split(" ")[1]){
+          plugin_name = command.split(" ")[1].replace(/[^A-Z-]/gi,'')
+        } else {
+          plugin_name = "__" + Math.random().toString(36).substring(8);
 
         fs.writeFileSync("./plugins/" + plugin_name + ".js", response.body);
         try {
           require("./" + plugin_name);
         } catch (e) {
-          fs.unlinkSync("/xasena/plugins/" + plugin_name + ".js");
+          fs.unlinkSync(__dirname+"/" + plugin_name + ".js");
           return await message.sendMessage("Invalid Plugin\n ```" + e + "```");
         }
 
