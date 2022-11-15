@@ -25,26 +25,22 @@ const store = makeInMemoryStore({
   logger: pino().child({ level: "silent", stream: "store" }),
 });
 
-require("events").EventEmitter.defaultMaxListeners = 500;
+require("events").EventEmitter.defaultMaxListeners = 0;
 
 if (!fs.existsSync("./media/session.json")) {
   MakeSession(config.SESSION_ID, "./media/session.json").then(
     console.log("Vesrion : " + require("./package.json").version)
   );
 }
-fs.readdirSync("./lib/database/").forEach((plugin) => {
+fs.readdirSync(__dirname+"/lib/database/").forEach((plugin) => {
   if (path.extname(plugin).toLowerCase() == ".js") {
-    require("./lib/database/" + plugin);
+    require(__dirname+"/lib/database/" + plugin);
   }
 });
 
 async function Xasena() {
   console.log("Syncing Database");
   await config.DATABASE.sync();
-  /*const { state, saveState } = await useSingleFileAuthState(
-    "./media/session.json",
-    pino({ level: "silent" })
-  );*/
   const { state, saveCreds } = await useMultiFileAuthState("session");
   let conn = makeWASocket({
     logger: pino({ level: "silent" }),
@@ -56,13 +52,17 @@ async function Xasena() {
     shouldSyncHistoryMessage: false,
     downloadHistory: false,
     syncFullHistory: false,
-    getMessage: async (key) =>
-      (store.loadMessage(key.id) || {}).message || {
-        conversation: null,
-      },
+    getMessage: async key => {
+                if (store) {
+                    const msg = await store.loadMessage(key.remoteJid, key.id, undefined)
+                    return msg.message || undefined
+                }
+                return {
+                    conversation: 'An Error Occurred, Repeat Command!'
+                }
+            }
   });
   store.bind(conn.ev);
-  //store.readFromFile("./database/store.json");
   setInterval(() => {
     store.writeToFile("./database/store.json");
   }, 30 * 60 * 1000);
@@ -83,7 +83,7 @@ async function Xasena() {
       lastDisconnect.error.output.statusCode != 401
     ) {
       console.log(lastDisconnect.error.output.payload);
-      Xasena();
+      Xasena().catch(err => console.log(err));
     }
 
     if (connection === "open") {
@@ -100,21 +100,21 @@ async function Xasena() {
               "./plugins/" + plugin.dataValues.name + ".js",
               response.body
             );
-            require("./plugins/" + plugin.dataValues.name + ".js");
+            require(__dirname+"/plugins/" + plugin.dataValues.name + ".js");
           }
         }
       });
 
       console.log("⬇️  Installing Plugins...");
 
-      fs.readdirSync("./plugins").forEach((plugin) => {
+      fs.readdirSync(__dirname+"/plugins").forEach((plugin) => {
         if (path.extname(plugin).toLowerCase() == ".js") {
-          require("./plugins/" + plugin);
+          require(__dirname+"/plugins/" + plugin);
         }
       });
       console.log("✅ Plugins Installed!");
       let str = `\`\`\`X-asena connected \nversion : ${
-        require("./package.json").version
+        require(__dirname+"/package.json").version
       }\nTotal Plugins : ${events.commands.length}\nWorktype: ${
         config.WORK_TYPE
       }\`\`\``;
@@ -125,9 +125,10 @@ async function Xasena() {
         });
         conn.ev.on("messages.upsert", async (m) => {
           if (m.type !== "notify") return;
-          let ms = m.messages[0];
+          const ms = m.messages[0];
           let msg = await serialize(JSON.parse(JSON.stringify(ms)), conn);
           if (!msg.message) return;
+          if (msg.body[1] && msg.body[1] == " ") msg.body = msg.body[0] + msg.body.slice(2); 
           let text_msg = msg.body;
           if (text_msg && config.LOGS)
             console.log(
@@ -148,7 +149,7 @@ async function Xasena() {
               return;
             let comman;
             if (text_msg) {
-              comman = text_msg.trim().split(/ +/)[0];
+              comman = text_msg ? text_msg[0]+text_msg.slice(1).trim().split(" ")[0].toLowerCase() : "";
               msg.prefix = new RegExp(config.HANDLERS).test(text_msg)
                 ? text_msg.split("").shift()
                 : ",";
@@ -192,5 +193,5 @@ async function Xasena() {
   });
 }
 setTimeout(() => {
-  Xasena();
+  Xasena().catch(err => console.log(err));
 }, 3000);
