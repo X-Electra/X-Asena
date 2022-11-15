@@ -32,7 +32,7 @@ Description : ${i.desc}\`\`\``
       let menu = `╭━━━━━ᆫ ${BOT_NAME} ᄀ━━━
 ┃ ⎆  *OWNER* :  ${OWNER_NAME}
 ┃ ⎆  *PREFIX* : ${prefix}
-┃ ⎆  *HOST NAME* :${hostname()}
+┃ ⎆  *HOST NAME* :${hostname().split("-")[0]}
 ┃ ⎆  *DATE* : ${date}
 ┃ ⎆  *TIME* : ${time}
 ┃ ⎆  *COMMANDS* : ${events.commands.length} 
@@ -51,31 +51,36 @@ Description : ${i.desc}\`\`\``
 
         if (!command.dontAddCommandList && cmd !== undefined) {
           let type;
-          if (!command.type) {
-            type = "misc";
-          } else {
-            type = command.type.toLowerCase();
-          }
-
-          cmnd.push({ cmd, type: type });
-
-          if (!category.includes(type)) category.push(type);
+              if (!command.type) {
+          type = "misc";      
+        } else {
+          type = command.type.toLowerCase();
         }
-      });
-      cmnd.sort();
-      category.sort().forEach((cmmd) => {
-        menu += `\n┠─────〔${cmmd}〕\n╿\n╿╭╼╾╼╾╼╾╼╾╼╾╼╾╼╾╼`;
-        let comad = cmnd.filter(({ type }) => type == cmmd);
-        comad.forEach(({ cmd }, num) => {
-          menu += `\n╿┠ ${cmd.trim()}`;
-        });
-        menu += `\n╿╰╼╾╼╾╼╾╼╾╼╾╼╾╼╾╼\n╿`;
-      });
 
-      menu += `\n╰╼╾╼╾╼╾╼╾╼╾╼╾╼╾╼╾╼`;
+        cmnd.push({ cmd, type: type });
+
+        if (!category.includes(type)) category.push(type);
+      }
+    });
+    cmnd.sort();
+    category.sort().forEach((cmmd) => {
+     menu+=`
+┃  ╭─────────────◆
+┃  │ ⦿---- ${cmmd} ----⦿
+┃  ╰┬────────────◆
+┃  ┌┤`
+let comad = cmnd.filter(({ type }) => type == cmmd);
+      comad.forEach(({ cmd }, num) => {
+ menu += `\n┃  │ ⛥  ${cmd.trim()}`;
+      });
+ menu += `\n┃  ╰─────────────◆`;
+    });
+
+    menu += ` ╰━━━━━━━━━━━──⊷\n`
+    menu += `_🔖Send ${prefix}menu <command name> to get detailed information of specific command._\n*📍Eg:* _${prefix}menu plugin_`;
       return await message.client.sendMessage(message.jid, {
         image: { url: `https://wallpapercave.com/wp/wp3891779.jpg` },
-        caption: serif_B(menu.toUpperCase()),
+        caption: serif_B(menu),
         footer: tiny(
           `X-asena Public Bot\nVersion : ${require("../package.json").version}`
         ),
