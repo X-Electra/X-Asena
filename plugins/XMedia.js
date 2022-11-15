@@ -26,7 +26,7 @@ command(
       .format("mp4")
       .save("output.mp4")
       .on("end", async () => {
-        await message.sendMessage(fs.readFileSync("output.mp4"), {}, "video");
+        await message.sendMessage(fs.readFileSync("output.mp4"), {caption: "_Media From X-Asena"}, "video");
       });
   }
 );
@@ -55,7 +55,7 @@ command(
       .format("mp4")
       .save("output.mp4")
       .on("end", async () => {
-        await message.sendMessage(fs.readFileSync("output.mp4"), {}, "video");
+        await message.sendMessage(fs.readFileSync("output.mp4"), {caption: "_Media From X-Asena"}, "video");
       });
   }
 );
@@ -86,7 +86,7 @@ command(
       .format("mp4")
       .save("output.mp4")
       .on("end", async () => {
-        await message.sendMessage(fs.readFileSync("output.mp4"), {}, "video");
+        await message.sendMessage(fs.readFileSync("output.mp4"), {caption: "_Media From X-Asena"}, "video");
       });
   }
 );
@@ -121,7 +121,7 @@ command(
       ])
       .save("output.mp4")
       .on("end", async () => {
-        await message.sendMessage(fs.readFileSync("output.mp4"), {}, "video");
+        await message.sendMessage(fs.readFileSync("output.mp4"), {caption: "_Media From X-Asena"}, "video");
       });
   }
 );
@@ -156,7 +156,7 @@ command(
       ])
       .save("output.mp4")
       .on("end", async () => {
-        await message.sendMessage(fs.readFileSync("output.mp4"), {}, "video");
+        await message.sendMessage(fs.readFileSync("output.mp4"), {caption: "_Media From X-Asena"}, "video");
       });
   }
 );
@@ -191,7 +191,7 @@ command(
       ])
       .save("output.mp4")
       .on("end", async () => {
-        await message.sendMessage(fs.readFileSync("output.mp4"), {}, "video");
+        await message.sendMessage(fs.readFileSync("output.mp4"), {caption: "_Media From X-Asena"}, "video");
       });
   }
 );
@@ -226,7 +226,7 @@ command(
       ])
       .save("output.mp4")
       .on("end", async () => {
-        await message.sendMessage(fs.readFileSync("output.mp4"), {}, "video");
+        await message.sendMessage(fs.readFileSync("output.mp4"), {caption: "_Media From X-Asena"}, "video");
       });
   }
 );
@@ -261,7 +261,7 @@ command(
       ])
       .save("output.mp4")
       .on("end", async () => {
-        await message.sendMessage(fs.readFileSync("output.mp4"), {}, "video");
+        await message.sendMessage(fs.readFileSync("output.mp4"), {caption: "_Media From X-Asena"}, "video");
       });
   }
 );
@@ -296,7 +296,7 @@ command(
       ])
       .save("output.mp4")
       .on("end", async () => {
-        await message.sendMessage(fs.readFileSync("output.mp4"), {}, "video");
+        await message.sendMessage(fs.readFileSync("output.mp4"), {caption: "_Media From X-Asena"}, "video");
       });
   }
 );
@@ -329,7 +329,7 @@ command(
       ])
       .save("output.mp3")
       .on("end", async () => {
-        await message.sendMessage(fs.readFileSync("output.mp3"), {}, "audio");
+        await message.sendMessage(fs.readFileSync("output.mp3"), {caption: "_Media From X-Asena"}, "audio");
       });
   }
 );
@@ -361,7 +361,7 @@ command(
       ])
       .save("output.mp3")
       .on("end", async () => {
-        await message.sendMessage(fs.readFileSync("output.mp3"), {}, "audio");
+        await message.sendMessage(fs.readFileSync("output.mp3"), {caption: "_Media From X-Asena"}, "audio");
       });
   }
 );
@@ -389,7 +389,7 @@ command(
       .outputOptions(["-y", "-filter_complex", "areverse"])
       .save("output.mp3")
       .on("end", async () => {
-        await message.sendMessage(fs.readFileSync("output.mp3"), {}, "audio");
+        await message.sendMessage(fs.readFileSync("output.mp3"), {caption: "_Media From X-Asena"}, "audio");
       });
   }
 );
@@ -418,7 +418,7 @@ command(
       .fps(22)
       .save("output.mp4")
       .on("end", async () => {
-        await message.sendMessage(fs.readFileSync("output.mp4"), {}, "video");
+        await message.sendMessage(fs.readFileSync("output.mp4"), {caption: "_Media From X-Asena"}, "video");
       });
   }
 );
@@ -448,7 +448,7 @@ command(
       .fps(22)
       .save("output.mp4")
       .on("end", async () => {
-        await message.sendMessage(fs.readFileSync("output.mp4"), {}, "video");
+        await message.sendMessage(fs.readFileSync("output.mp4"), {caption: "_Media From X-Asena"}, "video");
       });
   }
 );
@@ -477,7 +477,7 @@ command(
       .format("mp4")
       .save("output.mp4")
       .on("end", async () => {
-        await message.sendMessage(fs.readFileSync("output.mp4"), {}, "video");
+        await message.sendMessage(fs.readFileSync("output.mp4"), {caption: "_Media From X-Asena"}, "video");
       });
   }
 );
@@ -505,7 +505,7 @@ command(
       .outputOptions(["-y", "-vf", "hue=s=0"])
       .save("output.jpg")
       .on("end", async () => {
-        await message.sendMessage(fs.readFileSync("output.jpg"), {}, "image");
+        await message.sendMessage(fs.readFileSync("output.jpg"), {caption: "_Media From X-Asena"}, "image");
       });
   }
 );
@@ -533,7 +533,7 @@ command(
       .outputOptions(["-y", "-vf", "curves=vintage"])
       .save("output.jpg")
       .on("end", async () => {
-        await message.sendMessage(fs.readFileSync("output.jpg"), {}, "image");
+        await message.sendMessage(fs.readFileSync("output.jpg"), {caption: "_Media From X-Asena"}, "image");
       });
   }
 );
@@ -562,7 +562,7 @@ command(
       .format("mp4")
       .save("output.mp4")
       .on("end", async () => {
-        await message.sendMessage(fs.readFileSync("output.mp4"), {}, "video");
+        await message.sendMessage(fs.readFileSync("output.mp4"), {caption: "_Media From X-Asena"}, "video");
       });
   }
 );
@@ -594,7 +594,7 @@ command(
       ])
       .save("output.jpg")
       .on("end", async () => {
-        await message.sendMessage(fs.readFileSync("output.jpg"), {}, "image");
+        await message.sendMessage(fs.readFileSync("output.jpg"), {caption: "_Media From X-Asena"}, "image");
       });
   }
 );
@@ -626,7 +626,7 @@ command(
       ])
       .save("output.mp4")
       .on("end", async () => {
-        await message.sendMessage(fs.readFileSync("output.mp4"), {}, "video");
+        await message.sendMessage(fs.readFileSync("output.mp4"), {caption: "_Media From X-Asena"}, "video");
       });
   }
 );
@@ -654,7 +654,7 @@ command(
       .outputOptions(["-y", "-af", "asetrate=44100*1.3"])
       .save("output.mp3")
       .on("end", async () => {
-        await message.sendMessage(fs.readFileSync("output.mp3"), {}, "audio");
+        await message.sendMessage(fs.readFileSync("output.mp3"), {caption: "_Media From X-Asena"}, "audio");
       });
   }
 );
@@ -689,7 +689,7 @@ command(
       .format("mp4")
       .save("output.mp4")
       .on("end", async () => {
-        await message.sendMessage(fs.readFileSync("output.mp4"), {}, "video");
+        await message.sendMessage(fs.readFileSync("output.mp4"), {caption: "_Media From X-Asena"}, "video");
       });
   }
 );
@@ -717,7 +717,7 @@ command(
       .outputOptions(["-y", "-af", "asetrate=44100*0.9"])
       .save("output.mp3")
       .on("end", async () => {
-        await message.sendMessage(fs.readFileSync("output.mp3"), {}, "audio");
+        await message.sendMessage(fs.readFileSync("output.mp3"), {caption: "_Media From X-Asena"}, "audio");
       });
   }
 );
@@ -745,7 +745,7 @@ command(
       .outputOptions(["-y", "-filter:a", "atempo=2.0", "-vn"])
       .save("output.mp3")
       .on("end", async () => {
-        await message.sendMessage(fs.readFileSync("output.mp3"), {}, "audio");
+        await message.sendMessage(fs.readFileSync("output.mp3"), {caption: "_Media From X-Asena"}, "audio");
       });
   }
 );
@@ -773,7 +773,7 @@ command(
       .outputOptions(["-y", "-filter:v", "edgedetect=low=0.9:high=0.2"])
       .save("output.jpg")
       .on("end", async () => {
-        await message.sendMessage(fs.readFileSync("output.jpg"), {}, "image");
+        await message.sendMessage(fs.readFileSync("output.jpg"), {caption: "_Media From X-Asena"}, "image");
       });
   }
 );
@@ -801,7 +801,7 @@ command(
       .outputOptions(["-y", "-vf", "unsharp=3:3:1.5"])
       .save("output.jpg")
       .on("end", async () => {
-        await message.sendMessage(fs.readFileSync("output.jpg"), {}, "image");
+        await message.sendMessage(fs.readFileSync("output.jpg"), {caption: "_Media From X-Asena"}, "image");
       });
   }
 );
@@ -832,7 +832,7 @@ command(
         .outputOptions(["-y", "-filter:a", `volume=${parseFloat(match)}`])
         .save("output.mp3")
         .on("end", async () => {
-          await message.sendMessage(fs.readFileSync("output.mp3"), {}, "audio");
+          await message.sendMessage(fs.readFileSync("output.mp3"), {caption: "_Media From X-Asena"}, "audio");
         });
     }
   }
@@ -932,7 +932,7 @@ command(
       .videoFilters("noise=alls=100:allf=t+u")
       .save("output.jpg")
       .on("end", async () => {
-        await message.sendMessage(fs.readFileSync("output.jpg"), {}, "image");
+        await message.sendMessage(fs.readFileSync("output.jpg"), {caption: "_Media From X-Asena"}, "image");
       });
   }
 );
@@ -1008,7 +1008,7 @@ command(
       .videoFilters("eq=brightness=0.5")
       .save("output.jpg")
       .on("end", async () => {
-        await message.sendMessage(fs.readFileSync("output.jpg"), {}, "image");
+        await message.sendMessage(fs.readFileSync("output.jpg"), {caption: "_Media From X-Asena"}, "image");
       });
   }
 );
@@ -1042,7 +1042,7 @@ command(
       .videoFilters("eq=brightness=0.5")
       .save("output.mp4")
       .on("end", async () => {
-        await message.sendMessage(fs.readFileSync("output.mp4"), {}, "video");
+        await message.sendMessage(fs.readFileSync("output.mp4"), {caption: "_Media From X-Asena"}, "video");
       });
   }
 );
@@ -1070,7 +1070,7 @@ command(
       .outputOptions(["-y", "-vf", "curves=color_negative"])
       .save("output.jpg")
       .on("end", async () => {
-        await message.sendMessage(fs.readFileSync("output.jpg"), {}, "image");
+        await message.sendMessage(fs.readFileSync("output.jpg"), {caption: "_Media From X-Asena"}, "image");
       });
   }
 );
@@ -1099,7 +1099,7 @@ command(
       .format("mp4")
       .save("output.mp4")
       .on("end", async () => {
-        await message.sendMessage(fs.readFileSync("output.mp4"), {}, "video");
+        await message.sendMessage(fs.readFileSync("output.mp4"), {caption: "_Media From X-Asena"}, "video");
       });
   }
 );
@@ -1132,7 +1132,7 @@ command(
       .format("mp4")
       .save("output.mp4")
       .on("end", async () => {
-        await message.sendMessage(fs.readFileSync("output.mp4"), {}, "video");
+        await message.sendMessage(fs.readFileSync("output.mp4"), {caption: "_Media From X-Asena"}, "video");
       });
   }
 );
@@ -1164,7 +1164,7 @@ command(
       ])
       .save("output.jpg")
       .on("end", async () => {
-        await message.sendMessage(fs.readFileSync("output.jpg"), {}, "image");
+        await message.sendMessage(fs.readFileSync("output.jpg"), {caption: "_Media From X-Asena"}, "image");
       });
   }
 );
@@ -1193,7 +1193,7 @@ command(
       .format("mp4")
       .save("output.mp4")
       .on("end", async () => {
-        await message.sendMessage(fs.readFileSync("output.mp4"), {}, "video");
+        await message.sendMessage(fs.readFileSync("output.mp4"), {caption: "_Media From X-Asena"}, "video");
       });
   }
 );
@@ -1226,7 +1226,7 @@ command(
       .format("mp4")
       .save("output.mp4")
       .on("end", async () => {
-        await message.sendMessage(fs.readFileSync("output.mp4"), {}, "video");
+        await message.sendMessage(fs.readFileSync("output.mp4"), {caption: "_Media From X-Asena"}, "video");
       });
   }
 );
@@ -1258,7 +1258,7 @@ command(
       ])
       .save("output.jpg")
       .on("end", async () => {
-        await message.sendMessage(fs.readFileSync("output.jpg"), {}, "image");
+        await message.sendMessage(fs.readFileSync("output.jpg"), {caption: "_Media From X-Asena"}, "image");
       });
   }
 );
@@ -1291,7 +1291,7 @@ command(
       .format("mp4")
       .save("slowmo.mp4")
       .on("end", async () => {
-        await message.sendMessage(fs.readFileSync("slowmo.mp4"), {}, "video");
+        await message.sendMessage(fs.readFileSync("slowmo.mp4"), {caption: "_Media From X-Asena"}, "video");
       });
   }
 );
