@@ -38,6 +38,7 @@
     "bitly": "^7.1.2",
     "browser-id3-writer": "^4.4.0",
     "crypto-js": "^4.1.1",
+    "dotenv": "^16.0.0",
     "file-type": "^16.5.3",
     "fluent-ffmpeg": "^2.1.2",
     "g-i-s": "^2.1.6",
