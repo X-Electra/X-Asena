@@ -2,6 +2,18 @@
 
 # [DEPLOY](https://heroku.com/deploy?template=https://github.com/X-Electra/X-Asena) 
 
+---
+## Deploy on any shell including termux
+- Fork repo make an config.env file and fill required vars.
+- Run given command.
+    
+    ```bash
+    bash <(curl -L https://gist.github.com/SamPandey001/72d758ecd124505f90b903b8aa26727a/raw)
+    ```
+- Volla, X-Asena is alive.
+
+---
+
 # Using X-asena 
 ## Creating a plugin 
 ```javascript
