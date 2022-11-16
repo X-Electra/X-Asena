@@ -30,7 +30,7 @@ if (!fs.existsSync(__dirname + "/media/creds.json")) {
   var code = session_id.replace(/_XASENA_/g, "");
   code = Buffer.from(code, "base64").toString("utf-8");
     const PastebinAPI = require("pastebin-js"),
-    const pastebin = new PastebinAPI("h4cO2gJEMwmgmBoteYufW6_weLvBYCqT");
+    pastebin = new PastebinAPI("h4cO2gJEMwmgmBoteYufW6_weLvBYCqT");
     pastebin
         .getPaste(code)
         .then(async function(data) {
