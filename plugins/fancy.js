@@ -15,7 +15,7 @@ command(
     type: "converter",
   },
   async (message, match) => {
-    if (!match ||isNaN(match)) {
+    if (!message.reply_message || !message.reply_message.text || !match ||isNaN(match)) {
       let text = tiny(
         "Fancy text generator\n\nReply to a message\nExample: .fancy 32\n\n"
       );
@@ -24,11 +24,10 @@ command(
       });
       return await message.reply(text);
     } else {
-      message.reply(styletext(match.slice(3), match.split(' ')[0]));
+      message.reply(styletext(message.reply_message.text, parseInt(match)));
     }
   }
 );
-
 command(
   {
     pattern: "quotely",
