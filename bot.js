@@ -26,22 +26,35 @@ const store = makeInMemoryStore({
 });
 
 require("events").EventEmitter.defaultMaxListeners = 0;
-
-if (!fs.existsSync("./media/session.json")) {
-  MakeSession(config.SESSION_ID, "./media/session.json").then(
-    console.log("Vesrion : " + require("./package.json").version)
-  );
+if (!fs.existsSync(__dirname + "/media/creds.json")) {
+  var code = session_id.replace(/_XASENA_/g, "");
+  code = Buffer.from(code, "base64").toString("utf-8");
+    const PastebinAPI = require("pastebin-js"),
+    const pastebin = new PastebinAPI("h4cO2gJEMwmgmBoteYufW6_weLvBYCqT");
+    pastebin
+        .getPaste(code)
+        .then(async function(data) {
+            await fs.writeFileSync(__dirname + "/media/creds.json, data, "utf8")
+            console.log('🚀Generating session from SESSION_ID\n⌛️Please wait 3 Seconds.')
+            console.log("Vesrion : " + require(__dirname+"/package.json").version)
+                //console.log(data);
+        })
+        .fail(function(err) {
+            console.log('X-Asena couldn\'t find session with given SESSION_ID')
+                //  console.log(err);
+            process.exit(0)
+        })
 }
+
 fs.readdirSync(__dirname+"/lib/database/").forEach((plugin) => {
   if (path.extname(plugin).toLowerCase() == ".js") {
     require(__dirname+"/lib/database/" + plugin);
   }
 });
-
 async function Xasena() {
   console.log("Syncing Database");
   await config.DATABASE.sync();
-  const { state, saveCreds } = await useMultiFileAuthState("session");
+  const { state, saveCreds } = await useMultiFileAuthState(__dirname + '/media/');
   let conn = makeWASocket({
     logger: pino({ level: "silent" }),
     auth: state,
