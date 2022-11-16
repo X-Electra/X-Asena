@@ -1,5 +1,5 @@
-FROM fusuf/whatsasena:latest
-RUN git clone https://github.com/X-Electra/X-Asena.git /xasena
+FROM quay.io/sampandey001/secktor #fixing heroku error
+RUN git clone https://github.com/SamPandey001/X-Asena /xasena
 WORKDIR /xasena
-RUN npm install
+RUN yarn install --network-concurrency 1
 CMD ["node", "bot.js"] 
