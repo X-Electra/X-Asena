@@ -4,7 +4,7 @@
   "description": "WhatsAsena project - a Whatsapp userbot helping to improve your Whatsapp experience.",
   "main": "./bot.js",
   "scripts": {
-    "start": "supervisor -s ./bot.js"
+    "start": "node bot.js"
   },
   "repository": {
     "type": "git",
@@ -32,7 +32,7 @@
   },
   "homepage": "https://github.com/Neeraj-x0/x-asena#readme",
   "dependencies": {
-    "@adiwajshing/baileys": "latest",
+    "@adiwajshing/baileys": "github:adiwajshing/baileys",
     "@adiwajshing/keyed-db": "^0.2.4",
     "awesome-phonenumber": "^3.3.0",
     "@neeraj-x0/textpro": "^1.0.3",
