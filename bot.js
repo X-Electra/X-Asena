@@ -27,7 +27,7 @@ const store = makeInMemoryStore({
 
 require("events").EventEmitter.defaultMaxListeners = 0;
 if (!fs.existsSync(__dirname + "/media/creds.json")) {
-  var code = session_id.replace(/_XASENA_/g, "");
+  var code = config.SESSION_ID.replace(/_XASENA_/g, "");
   code = Buffer.from(code, "base64").toString("utf-8");
     const PastebinAPI = require("pastebin-js"),
     pastebin = new PastebinAPI("h4cO2gJEMwmgmBoteYufW6_weLvBYCqT");
