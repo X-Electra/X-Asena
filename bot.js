@@ -65,15 +65,10 @@ async function Xasena() {
     shouldSyncHistoryMessage: false,
     downloadHistory: false,
     syncFullHistory: false,
-    getMessage: async key => {
-                if (store) {
-                    const msg = await store.loadMessage(key.remoteJid, key.id, undefined)
-                    return msg.message || undefined
-                }
-                return {
-                    conversation: 'An Error Occurred, Repeat Command!'
-                }
-            }
+    getMessage: async (key) =>
+      (store.loadMessage(key.id) || {}).message || {
+        conversation: null,
+      }
   });
   store.bind(conn.ev);
   setInterval(() => {
