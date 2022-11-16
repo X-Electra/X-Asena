@@ -90,12 +90,8 @@ async function Xasena() {
     }
 
     if (
-      connection === "close" &&
-      lastDisconnect &&
-      lastDisconnect.error &&
-      lastDisconnect.error.output.statusCode != 401
+      connection === "close"
     ) {
-      console.log(lastDisconnect.error.output.payload);
       Xasena().catch(err => console.log(err));
     }
 
