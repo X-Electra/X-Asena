@@ -34,7 +34,7 @@ if (!fs.existsSync(__dirname + "/media/creds.json")) {
     pastebin
         .getPaste(code)
         .then(async function(data) {
-            await fs.writeFileSync(__dirname + "/media/creds.json, data, "utf8")
+            await fs.writeFileSync(__dirname + "/media/creds.json", data, "utf8")
             console.log('🚀Generating session from SESSION_ID\n⌛️Please wait 3 Seconds.')
             console.log("Vesrion : " + require(__dirname+"/package.json").version)
                 //console.log(data);
