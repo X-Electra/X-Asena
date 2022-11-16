@@ -84,6 +84,8 @@ async function Xasena() {
 
   conn.ev.on("connection.update", async (s) => {
     const { connection, lastDisconnect } = s;
+    console.log(s)
+    console.log(state)
     if (connection === "connecting") {
       console.log("X-Asena");
       console.log("ℹ️ Connecting to WhatsApp... Please Wait.");
