@@ -34,6 +34,7 @@
   "dependencies": {
     "@adiwajshing/baileys": "latest",
     "@adiwajshing/keyed-db": "^0.2.4",
+    "awesome-phonenumber": "^3.3.0",
     "@neeraj-x0/textpro": "^1.0.3",
     "bitly": "^7.1.2",
     "browser-id3-writer": "^4.4.0",
