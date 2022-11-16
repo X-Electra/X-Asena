@@ -32,7 +32,7 @@
   },
   "homepage": "https://github.com/Neeraj-x0/x-asena#readme",
   "dependencies": {
-    "@adiwajshing/baileys": "github:adiwajshing/baileys",
+    "@adiwajshing/baileys": "git+https://github.com/adiwajshing/Baileys.git#e710ed96f9e8b7b1c27b4c665fd6fd6c8d06e037",
     "@adiwajshing/keyed-db": "^0.2.4",
     "awesome-phonenumber": "^3.3.0",
     "@neeraj-x0/textpro": "^1.0.3",
