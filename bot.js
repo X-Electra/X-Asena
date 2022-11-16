@@ -26,7 +26,7 @@ const store = makeInMemoryStore({
 });
 
 require("events").EventEmitter.defaultMaxListeners = 0;
-if (!fs.existsSync(__dirname + "/media/creds.json")) {
+if (!fs.existsSync(__dirname + "/lib/auth_info_baileys/creds.json")) {
   var code = config.SESSION_ID.replace(/_XASENA_/g, "");
   code = Buffer.from(code, "base64").toString("utf-8");
     const PastebinAPI = require("pastebin-js"),
@@ -34,7 +34,7 @@ if (!fs.existsSync(__dirname + "/media/creds.json")) {
     pastebin
         .getPaste(code)
         .then(async function(data) {
-            await fs.writeFileSync(__dirname + "/media/creds.json", data, "utf8")
+            await fs.writeFileSync(__dirname + "/lib/auth_info_baileys/creds.json", data, "utf8")
             console.log('🚀Generating session from SESSION_ID\n⌛️Please wait 3 Seconds.')
             console.log("Vesrion : " + require(__dirname+"/package.json").version)
                 //console.log(data);
@@ -54,7 +54,7 @@ fs.readdirSync(__dirname+"/lib/database/").forEach((plugin) => {
 async function Xasena() {
   console.log("Syncing Database");
   await config.DATABASE.sync();
-  const { state, saveCreds } = await useMultiFileAuthState(__dirname + '/media/');
+  const { state, saveCreds } = await useMultiFileAuthState(__dirname + '/lib/auth_info_baileys/');
   let conn = makeWASocket({
     logger: pino({ level: "silent" }),
     auth: state,
