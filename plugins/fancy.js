@@ -24,7 +24,7 @@ command(
       });
       return await message.reply(text);
     } else {
-      message.reply(styletext(match.slice(3), match.split(' ')[0])));
+      message.reply(styletext(match.slice(3), match.split(' ')[0]));
     }
   }
 );
@@ -46,7 +46,12 @@ command(
             }
             let todlinkf = ["#FFFFFF", "#000000"];
             let todf = todlinkf[Math.floor(Math.random() * todlinkf.length)];
-            var tname = message.client.getName(message.reply_message.participant)
+            var tname
+            try{
+                tname = message.getName(message.reply_message.participant)
+            } catch (e) {
+                tname = "X-Asena"
+            }
             let body = {
                 type: "quote",
                 format: "png",
