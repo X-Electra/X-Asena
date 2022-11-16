@@ -88,13 +88,6 @@ async function Xasena() {
       console.log("X-Asena");
       console.log("ℹ️ Connecting to WhatsApp... Please Wait.");
     }
-
-    if (
-      connection === "close"
-    ) {
-      Xasena().catch(err => console.log(err));
-    }
-
     if (connection === "open") {
       console.log("✅ Login Successful!");
       console.log("⬇️ Installing External Plugins...");
@@ -128,6 +121,13 @@ async function Xasena() {
         config.WORK_TYPE
       }\`\`\``;
       conn.sendMessage(conn.user.id, { text: str });
+      if (connection === 'close') {
+                    console.log('Connection closed with bot. Please put New Session ID again.')
+                    Xasena().catch(err => console.log(err))
+                } else {
+                    /*
+                     */
+                }
       try {
         conn.ev.on("group-participants.update", async (data) => {
           Greetings(data, conn);
