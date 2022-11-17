@@ -4,7 +4,7 @@
   "description": "WhatsAsena project - a Whatsapp userbot helping to improve your Whatsapp experience.",
   "main": "./bot.js",
   "scripts": {
-    "start": "node bot.js"
+    "start": "supervisor -s ./bot.js"
   },
   "repository": {
     "type": "git",
