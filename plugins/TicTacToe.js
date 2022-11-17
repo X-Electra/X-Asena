@@ -1,4 +1,30 @@
-const { command, parseJid, isPrivate } = require("../lib/");
+const { command,isAdmin, parseJid, isPrivate } = require("../lib/");
+command(
+  {
+    pattern: "delttt",
+    fromMe: true,
+    desc: "delete TicTacToe running game.",
+    type: "game"
+  },
+  async (message, match, m) => {
+         let isadmin = await isAdmin(message.jid, message.user, message.client);
+    
+        if(!isadmin) return message.reply('This command is only for Group Admin and my owner.')
+         this.game = this.game ? this.game : false
+         if (
+        Object.values(this.game).find(
+          (room) =>
+            room.id.startsWith("tictactoe")
+        )
+      ) {
+        delete this.game
+        return message.reply(`_Successfully Deleted running TicTacToe game._`);
+        } else {
+              return message.reply(`No TicTacToe game🎮 is running.`)
+                    
+        }
+  })
+  
 command(
   {
     pattern: "ttt ?(.*)",

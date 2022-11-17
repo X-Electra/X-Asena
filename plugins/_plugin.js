@@ -40,8 +40,8 @@ command(
           plugin_name = command.split(" ")[1].replace(/[^A-Z-]/gi,'')
         } else {
           plugin_name = "__" + Math.random().toString(36).substring(8);
-
-        fs.writeFileSync("./plugins/" + plugin_name + ".js", response.body);
+        }
+        fs.writeFileSync(__dirname+"/" + plugin_name + ".js", response.body);
         try {
           require("./" + plugin_name);
         } catch (e) {
@@ -109,7 +109,7 @@ command(
     } else {
       await plugin[0].destroy();
       delete require.cache[require.resolve("./" + match + ".js")];
-      fs.unlinkSync("./plugins/" + match + ".js");
+      fs.unlinkSync(__dirname+"/" + match + ".js");
       await message.sendMessage(`Plugin ${match} deleted`);
     }
   }
