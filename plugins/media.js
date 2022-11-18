@@ -76,18 +76,7 @@ you may not use this file except in compliance with the License.
 X-Asena - X-Electra
 */
 
-/* Copyright (C) 2022 X-Electra.
-Licensed under the  GPL-3.0 License;
-you may not use this file except in compliance with the License.
-X-Asena - X-Electra
-*/
 
-
-/* Copyright (C) 2022 X-Electra.
-Licensed under the  GPL-3.0 License;
-you may not use this file except in compliance with the License.
-X-Asena - X-Electra
-*/
 
 command(
   {
@@ -285,7 +274,7 @@ command(
     let response = await getJson(
       `https://x-asena-api.up.railway.app/ig?q=${match}`
     );
-    message.sendFromUrl(response.result[0].url);
+    message.sendFromUrl(response.result);
   }
 );
 
