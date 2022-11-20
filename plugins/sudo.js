@@ -31,7 +31,8 @@ command(
   { pattern: "getsudo ?(.*)", 
     fromMe: true, 
     desc: "shows sudo", 
-    type: "Human tool" },
+    type: "Human tool" 
+  },
   async (message, match) => {
     const vars = await heroku
       .get(baseURI + "/config-vars")
