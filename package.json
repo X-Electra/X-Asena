@@ -57,6 +57,7 @@
     "qrcode-reader": "^1.0.4",
     "scraper-x0": "^1.0.6",
     "sequelize": "^6.23.0",
+    "link-preview-js": "^3.0.4",
     "sharp": "^0.30.7",
     "simple-git": "^3.14.1",
     "sqlite3": "^5.1.1",
