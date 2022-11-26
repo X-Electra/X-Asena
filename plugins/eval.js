@@ -14,6 +14,7 @@ const {
   isUrl,
   parsedJid,
   styletext,
+  decodeJid,
   yt,
   ytIdRegex,
   yta,

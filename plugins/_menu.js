@@ -51,33 +51,33 @@ Description : ${i.desc}\`\`\``
 
         if (!command.dontAddCommandList && cmd !== undefined) {
           let type;
-              if (!command.type) {
-          type = "misc";      
-        } else {
-          type = command.type.toLowerCase();
+          if (!command.type) {
+            type = "misc";
+          } else {
+            type = command.type.toLowerCase();
+          }
+
+          cmnd.push({ cmd, type: type });
+
+          if (!category.includes(type)) category.push(type);
         }
-
-        cmnd.push({ cmd, type: type });
-
-        if (!category.includes(type)) category.push(type);
-      }
-    });
-    cmnd.sort();
-    category.sort().forEach((cmmd) => {
-     menu+=`
+      });
+      cmnd.sort();
+      category.sort().forEach((cmmd) => {
+        menu += `
 ┃  ╭─────────────◆
 ┃  │ ⦿---- ${cmmd} ----⦿
 ┃  ╰┬────────────◆
-┃  ┌┤`
-let comad = cmnd.filter(({ type }) => type == cmmd);
-      comad.forEach(({ cmd }, num) => {
- menu += `\n┃  │ ⛥  ${cmd.trim()}`;
+┃  ┌┤`;
+        let comad = cmnd.filter(({ type }) => type == cmmd);
+        comad.forEach(({ cmd }, num) => {
+          menu += `\n┃  │ ⛥  ${cmd.trim()}`;
+        });
+        menu += `\n┃  ╰─────────────◆`;
       });
- menu += `\n┃  ╰─────────────◆`;
-    });
 
-    menu += ` ╰━━━━━━━━━━━──⊷\n`
-    menu += `_🔖Send ${prefix}menu <command name> to get detailed information of specific command._\n*📍Eg:* _${prefix}menu plugin_`;
+      menu += ` ╰━━━━━━━━━━━──⊷\n`;
+      menu += `_🔖Send ${prefix}menu <command name> to get detailed information of specific command._\n*📍Eg:* _${prefix}menu plugin_`;
       return await message.client.sendMessage(message.jid, {
         image: { url: `https://wallpapercave.com/wp/wp3891779.jpg` },
         caption: menu,
@@ -133,8 +133,8 @@ command(
     });
     cmnd.sort();
     cmnd.forEach(({ cmd, desc }, num) => {
-      menu += `├ ${(num += 1)} *${tiny(cmd.trim())}*\n`;
-      if (desc) menu += `├ ${tiny("use : " + desc)}\n`;
+      menu += `├ ${(num += 1)} *${cmd.trim()}*\n`;
+      if (desc) menu += `├ ${"use : " + desc}\n`;
     });
     menu += `╰──────────────────────────`;
     return await message.reply(menu);

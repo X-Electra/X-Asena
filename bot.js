@@ -1,5 +1,3 @@
-
-
 const {
   default: makeWASocket,
   Browsers,
@@ -18,17 +16,19 @@ const config = require("./config");
 const { PluginDB } = require("./lib/database/plugins");
 const Greetings = require("./lib/Greetings");
 const { MakeSession } = require("./lib/session");
+const { async } = require("q");
+const { decodeJid } = require("./lib");
 const store = makeInMemoryStore({
   logger: pino().child({ level: "silent", stream: "store" }),
 });
 async function Singmulti() {
-  await MakeSession(config.SESSION_ID,__dirname+'/session.json')
+  if (!fs.existsSync(__dirname + "/session.json"))
+    await MakeSession(config.SESSION_ID, __dirname + "/session.json");
   const { state } = await useMultiFileAuthState(__dirname + "/session");
   await singleToMulti("session.json", __dirname + "/session", state);
 }
-Singmulti()
+//Singmulti()
 require("events").EventEmitter.defaultMaxListeners = 0;
-
 
 fs.readdirSync(__dirname + "/lib/database/").forEach((plugin) => {
   if (path.extname(plugin).toLowerCase() == ".js") {
@@ -36,7 +36,9 @@ fs.readdirSync(__dirname + "/lib/database/").forEach((plugin) => {
   }
 });
 async function Xasena() {
-  const { state ,saveCreds} = await useMultiFileAuthState(__dirname + "/session");
+  const { state, saveCreds } = await useMultiFileAuthState(
+    __dirname + "/session"
+  );
   console.log("Syncing Database");
   await config.DATABASE.sync();
   let conn = makeWASocket({
@@ -57,10 +59,16 @@ async function Xasena() {
   store.bind(conn.ev);
   setInterval(() => {
     store.writeToFile("./database/store.json");
-  }, 30 * 60 * 1000);
+  }, 30 * 1000);
 
   conn.ev.on("creds.update", saveCreds);
-
+  conn.ev.on("contacts.update", (update) => {
+    for (let contact of update) {
+      let id = decodeJid(contact.id);
+      if (store && store.contacts)
+        store.contacts[id] = { id, name: contact.notify };
+    }
+  });
   conn.ev.on("connection.update", async (s) => {
     const { connection, lastDisconnect } = s;
     if (connection === "connecting") {
@@ -108,11 +116,12 @@ async function Xasena() {
         conn.ev.on("messages.upsert", async (m) => {
           if (m.type !== "notify") return;
           const ms = m.messages[0];
-          let msg = await serialize(JSON.parse(JSON.stringify(ms)), conn);
+          let msg = await serialize(JSON.parse(JSON.stringify(ms)), conn,store);
           if (!msg.message) return;
           if (msg.body[1] && msg.body[1] == " ")
             msg.body = msg.body[0] + msg.body.slice(2);
           let text_msg = msg.body;
+          msg.store = store;
           if (text_msg && config.LOGS)
             console.log(
               `At : ${
@@ -172,7 +181,7 @@ async function Xasena() {
       }
     }
     if (connection === "close") {
-      console.log(s)
+      console.log(s);
       console.log(
         "Connection closed with bot. Please put New Session ID again."
       );
@@ -182,12 +191,13 @@ async function Xasena() {
        */
     }
   });
-  process.on("uncaughtException", (err) => {
+  process.on("uncaughtException", async (err) => {
     let error = err.message;
-    // conn.sendMessage(conn.user.id, { text: error });
+    await conn.sendMessage(conn.user.id, { text: error });
     console.log(err);
   });
 }
+
 setTimeout(() => {
   Xasena().catch((err) => console.log(err));
 }, 3000);

@@ -9,6 +9,7 @@ const {
   getUrl,
   isIgUrl,
   findMusic,
+  postJson,
 } = require("../lib/");
 const { yta, ytIdRegex, ytv } = require("../lib/yotube");
 const { search } = require("yt-search");
@@ -26,9 +27,6 @@ const stream = require("stream");
 const { promisify } = require("util");
 const pipeline = promisify(stream.pipeline);
 const fs = require("fs");
-
-
-
 
 Function(
   {
@@ -66,7 +64,6 @@ async function gimage(query, amount = 5) {
   });
 }
 
-
 command(
   {
     pattern: "photo",
@@ -83,8 +80,6 @@ command(
     return await message.sendMessage(buff, {}, "image");
   }
 );
-
-
 
 command(
   {
@@ -103,8 +98,6 @@ command(
     return await message.sendMessage(buffer, {}, "video");
   }
 );
-
-
 
 command(
   {
@@ -146,8 +139,6 @@ command(
   }
 );
 
-
-
 command(
   {
     pattern: "video",
@@ -173,10 +164,6 @@ command(
   }
 );
 
-
-
-
-
 command(
   {
     pattern: "mp3",
@@ -191,7 +178,6 @@ command(
     return await message.sendMessage(buff, { mimetype: "audio/mpeg" }, "audio");
   }
 );
-
 
 command(
   {
@@ -220,26 +206,6 @@ command(
       console.log(e);
       message.reply("_No content found_");
     }
-  }
-);
-
-
-command(
-  {
-    pattern: "insta ?(.*)",
-    fromMe: isPrivate,
-    desc: "downloads video from instagram",
-    type: "downloader",
-  },
-  async (message, match) => {
-    match = match || message.reply_message.text;
-    if (!match) return await message.reply("_Enter link_");
-    if (!match.includes("instagram.com"))
-      return await message.reply("_Invalid URL_");
-    let response = await getJson(
-      `https://x-asena-api.up.railway.app/ig?q=${match}`
-    );
-    message.sendFromUrl(response.result);
   }
 );
 
@@ -279,8 +245,6 @@ command(
   }
 );
 
-
-
 command(
   {
     pattern: "ytv",
@@ -302,8 +266,6 @@ command(
   }
 );
 
-
-
 command(
   {
     pattern: "yta",
@@ -321,7 +283,7 @@ command(
       });
       return await message.sendMessage(
         buff,
-        { mimetype: "audio/mpeg", quoted: message.data },
+        { mimetype: "audio/mpeg", quoted: message},
         "audio"
       );
     });
