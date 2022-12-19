@@ -84,6 +84,7 @@ const templateMessage = {
 await message.sendMessage(templateMessage, {}, "template");
 
 ```
+### [External Plugins](https://github.com/X-Electra/X-Asena/wiki/Plugins)
 ## Any Doubts ? 
 [![JOIN WHATSAPP GROUP](https://raw.githubusercontent.com/Neeraj-x0/Neeraj-x0/main/photos/suddidina-join-whatsapp.png)](https://chat.whatsapp.com/ESiNt1pudB1Js6QRZtM0jg)
 #### Official Image
