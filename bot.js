@@ -4,21 +4,31 @@ const {
   makeInMemoryStore,
   useMultiFileAuthState,
 } = require("@adiwajshing/baileys");
+const singleToMulti = require("./lib/singleToMulti");
 const fs = require("fs");
 const { serialize } = require("./lib/serialize");
-const { Message, Image, Sticker, Video } = require("./lib/Classes");
+const { Message, Image, Sticker } = require("./lib/Base");
 const pino = require("pino");
 const path = require("path");
 const events = require("./lib/event");
 const got = require("got");
 const config = require("./config");
 const { PluginDB } = require("./lib/database/plugins");
-
+const Greetings = require("./lib/Greetings");
+const { MakeSession } = require("./lib/session");
+const { async } = require("q");
 const { decodeJid } = require("./lib");
-
 const store = makeInMemoryStore({
   logger: pino().child({ level: "silent", stream: "store" }),
 });
+async function Singmulti() {
+  if (!fs.existsSync(__dirname + "/session.json"))
+    await MakeSession(config.SESSION_ID, __dirname + "/session.json");
+  const { state } = await useMultiFileAuthState(__dirname + "/session");
+  await singleToMulti("session.json", __dirname + "/session", state);
+}
+Singmulti()
+require("events").EventEmitter.defaultMaxListeners = 0;
 
 fs.readdirSync(__dirname + "/lib/database/").forEach((plugin) => {
   if (path.extname(plugin).toLowerCase() == ".js") {
@@ -100,19 +110,18 @@ async function Xasena() {
       conn.sendMessage(conn.user.id, { text: str });
 
       try {
-        
+        conn.ev.on("group-participants.update", async (data) => {
+          Greetings(data, conn);
+        });
         conn.ev.on("messages.upsert", async (m) => {
           if (m.type !== "notify") return;
           const ms = m.messages[0];
-          let msg = await serialize(
-            JSON.parse(JSON.stringify(ms)),
-            conn,
-            store,
-            m
-          );
+          let msg = await serialize(JSON.parse(JSON.stringify(ms)), conn,store);
           if (!msg.message) return;
-          //console.log(JSON.stringify(msg, null, 3));
+          if (msg.body[1] && msg.body[1] == " ")
+            msg.body = msg.body[0] + msg.body.slice(2);
           let text_msg = msg.body;
+          msg.store = store;
           if (text_msg && config.LOGS)
             console.log(
               `At : ${
@@ -130,18 +139,23 @@ async function Xasena() {
               )
             )
               return;
-            if (text_msg && command.pattern && command.pattern.test(text_msg)) {
+            let comman;
+            if (text_msg) {
+              comman = text_msg
+                ? text_msg[0] +
+                  text_msg.slice(1).trim().split(" ")[0].toLowerCase()
+                : "";
+              msg.prefix = new RegExp(config.HANDLERS).test(text_msg)
+                ? text_msg.split("").shift()
+                : ",";
+            }
+            if (command.pattern && command.pattern.test(comman)) {
               var match;
-              strings = text_msg.match(command.pattern);
-              
               try {
-                match = strings[4].trim();
+                match = text_msg.replace(new RegExp(comman, "i"), "").trim();
               } catch {
                 match = false;
               }
-              msg.prefix = strings[1].trim();
-              msg.command = strings[3].trim();
-              console.log(msg.prefix,msg.command)
               whats = new Message(conn, msg, ms);
               command.function(whats, match, msg, conn);
             } else if (text_msg && command.on === "text") {
@@ -159,14 +173,11 @@ async function Xasena() {
             ) {
               whats = new Sticker(conn, msg, ms);
               command.function(whats, msg, conn, m, ms);
-            } else if (command.on == "video" && msg.type == "videoMessage") {
-              whats = new Video(conn, msg, ms);
-              command.function(whats, text_msg, msg, conn, m, ms);
             }
           });
         });
       } catch (e) {
-        console.log(e, "\n\n", JSON.stringify(msg));
+        console.log(e + "\n\n\n\n\n" + JSON.stringify(msg));
       }
     }
     if (connection === "close") {
@@ -175,6 +186,9 @@ async function Xasena() {
         "Connection closed with bot. Please put New Session ID again."
       );
       Xasena().catch((err) => console.log(err));
+    } else {
+      /*
+       */
     }
   });
   process.on("uncaughtException", async (err) => {
@@ -183,4 +197,7 @@ async function Xasena() {
     console.log(err);
   });
 }
-Xasena().catch((err) => console.log(err));
+
+setTimeout(() => {
+  Xasena().catch((err) => console.log(err));
+}, 3000);
