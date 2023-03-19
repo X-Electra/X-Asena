@@ -27,7 +27,7 @@ async function Singmulti() {
   const { state } = await useMultiFileAuthState(__dirname + "/session");
   await singleToMulti("session.json", __dirname + "/session", state);
 }
-Singmulti()
+//Singmulti()
 require("events").EventEmitter.defaultMaxListeners = 0;
 
 fs.readdirSync(__dirname + "/lib/database/").forEach((plugin) => {
