@@ -22,7 +22,7 @@
     },
     "SESSION_ID": {
       "description": "Your Session ID",
-      "required": true
+      "required": false
     },
     "HANDLERS": {
       "description": "prefix for commands, enter false for no prefix",
