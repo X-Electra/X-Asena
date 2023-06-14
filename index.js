@@ -12,7 +12,7 @@ let config = require("./config");
 const pino = require("pino");
 logger = pino({ level: "silent" });
 const plugins = require("./lib/plugins");
-const { serialize } = require("./lib");
+const { serialize, Greetings } = require("./lib");
 
 fs.readdirSync(__dirname + "/assets/database/").forEach((db) => {
   if (path.extname(db).toLowerCase() == ".js") {
@@ -62,6 +62,9 @@ async function Xasena() {
         config.WORK_TYPE
       }\`\`\``;
       conn.sendMessage(conn.user.id, { text: str });
+      conn.ev.on("group-participants.update", async (data) => {
+        Greetings(data, conn);
+      });
       conn.ev.on("messages.upsert", async (m) => {
         if (m.type !== "notify") return;
         let msg = await serialize(

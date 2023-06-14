@@ -5,8 +5,6 @@ const {
 } = require("../assets/database/filters");
 const { command, isPrivate, tiny } = require("../lib");
 
-
-
 command(
   {
     pattern: "filter",
@@ -16,7 +14,7 @@ command(
     type: "group",
   },
   async (message, match) => {
-    console.log(match)
+    console.log(match);
     let text, msg;
     try {
       [text, msg] = match.split(":");
@@ -30,7 +28,7 @@ command(
         filtreler.map(
           (filter) => (mesaj += `✒ ${filter.dataValues.pattern}\n`)
         );
-        mesaj += "use : .filter keyword:message\nto set a filter"
+        mesaj += "use : .filter keyword:message\nto set a filter";
         await message.reply(mesaj);
       }
     } else if (!text || !msg) {
@@ -46,7 +44,7 @@ command(
 
 command(
   {
-    pattern: "stop ?(.*)",
+    pattern: "stop",
     fromMe: true,
     desc: "Stops a previously added filter.",
     usage: '.stop "hello"',
@@ -55,12 +53,12 @@ command(
   async (message, match) => {
     if (!match) return await message.reply("\n*Example:* ```.stop hello```");
 
-    del = await deleteFilter(message.jid, match);
+    del = await deleteFilter(message.jid, match).then(
+      async () => await message.reply(`_Filter ${match} deleted_`)
+    );
 
     if (!del) {
-      await message.reply( "No existing filter matches the provided input.");
-    } else {
-      await message.reply(`_Filter ${match} deleted_`);
+      await message.reply("No existing filter matches the provided input.");
     }
   }
 );
