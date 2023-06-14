@@ -14,6 +14,7 @@
 - run ```node .`` again to run it again after you stop the bot
 
 ---
+# ⚠️⚠️ You cant use x-asena without forking
 
 # Using X-asena 
 ## Creating a plugin 
