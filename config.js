@@ -10,6 +10,7 @@ const toBool = (x) => x === 'true';
 const DATABASE_URL = process.env.DATABASE_URL || './assets/database.db';
 
 module.exports = {
+  GIT_USERNAME:'Neeraj-x0',
   ANTILINK: toBool(process.env.ANTI_LINK) || false,
   LOGS: toBool(process.env.LOGS) || true,
   ANTILINK_ACTION: process.env.ANTI_LINK || 'kick',
