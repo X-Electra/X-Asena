@@ -6,8 +6,8 @@
     - nodejs
 - clone the repo
 - change the directory to cloned repo
-- run ```npm install``
-- run ```npm install qrcode-terminal``
+- run ```npm install```
+- run ```npm install qrcode-terminal```
 - run ```node .```
 - scan the qr
 - Done your bot is alive 
