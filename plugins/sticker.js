@@ -1,8 +1,5 @@
 const config = require("../config");
 const { command, isPrivate } = require("../lib/");
-
-
-
 command(
   {
     pattern: "sticker",

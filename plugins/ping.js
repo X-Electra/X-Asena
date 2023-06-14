@@ -1,4 +1,4 @@
-const { command, isPrivate } = require("../lib/");
+const { command} = require("../lib/");
 command(
   {
     pattern: "ping",

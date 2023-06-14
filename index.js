@@ -1,40 +1,38 @@
-const {
-  default: makeWASocket,
-  useMultiFileAuthState,
-  makeCacheableSignalKeyStore,
-  isJidBroadcast,
-  Browsers,
-} = require("@whiskeysockets/baileys");
-const path = require("path");
 const { Image, Message, Sticker, Video } = require("./lib/Messages");
 let fs = require("fs");
 let config = require("./config");
-const pino = require("pino");
-logger = pino({ level: "silent" });
-const plugins = require("./lib/plugins");
-const { serialize, Greetings } = require("./lib");
-
+const path = require("path");
+const {
+  socket,
+  multiauth,
+  cachestore,
+  jidbcast,
+  xasena,
+  logs,
+  addons,
+  format,
+  greet,
+} = require("./x-asena");
 fs.readdirSync(__dirname + "/assets/database/").forEach((db) => {
   if (path.extname(db).toLowerCase() == ".js") {
     require(__dirname + "/assets/database/" + db);
   }
 });
+
 async function Xasena() {
-  const { state, saveCreds } = await useMultiFileAuthState(
-    __dirname + "/session"
-  );
-  let conn = makeWASocket({
-    logger,
-    browser: Browsers.macOS("Desktop"),
+  const { state, saveCreds } = await multiauth(__dirname + "/session");
+  let conn = socket({
+    logger: logs,
+    browser: xasena.macOS("Desktop"),
     syncFullHistory: true,
     version: [2, 2323, 4],
     printQRInTerminal: true,
     auth: {
       creds: state.creds,
-      keys: makeCacheableSignalKeyStore(state.keys, logger),
+      keys: cachestore(state.keys, logs),
     },
     generateHighQualityLinkPreview: true,
-    shouldIgnoreJid: (jid) => isJidBroadcast(jid),
+    shouldIgnoreJid: (jid) => jidbcast(jid),
   });
   conn.ev.on("connection.update", async (s) => {
     const { connection, lastDisconnect } = s;
@@ -58,19 +56,16 @@ async function Xasena() {
 
       let str = `\`\`\`X-asena connected \nversion : ${
         require(__dirname + "/package.json").version
-      }\nTotal Plugins : ${plugins.commands.length}\nWorktype: ${
+      }\nTotal Plugins : ${addons.commands.length}\nWorktype: ${
         config.WORK_TYPE
       }\`\`\``;
       conn.sendMessage(conn.user.id, { text: str });
       conn.ev.on("group-participants.update", async (data) => {
-        Greetings(data, conn);
+        greet(data, conn);
       });
       conn.ev.on("messages.upsert", async (m) => {
         if (m.type !== "notify") return;
-        let msg = await serialize(
-          JSON.parse(JSON.stringify(m.messages[0])),
-          conn
-        );
+        let msg = await format(JSON.parse(JSON.stringify(m.messages[0])), conn);
         if (!msg) return;
         let text_msg = msg.body;
         if (text_msg && config.LOGS)
@@ -81,7 +76,7 @@ async function Xasena() {
                 : msg.from
             }\nFrom : ${msg.sender}\nMessage:${text_msg}`
           );
-        plugins.commands.map(async (command) => {
+        addons.commands.map(async (command) => {
           if (
             command.fromMe &&
             !config.SUDO.split(",").includes(
@@ -103,7 +98,9 @@ async function Xasena() {
             case command.pattern && command.pattern.test(comman):
               let match;
               try {
-                match = text_msg.replace(new RegExp(command.pattern, "i"), "").trim();
+                match = text_msg
+                  .replace(new RegExp(command.pattern, "i"), "")
+                  .trim();
               } catch {
                 match = false;
               }
@@ -129,7 +126,7 @@ async function Xasena() {
                 command.function(whats, msg, conn, m);
               }
               break;
-              case command.on === "video":
+            case command.on === "video":
               if (msg.type === "videoMessage") {
                 whats = new Video(conn, msg);
                 command.function(whats, msg, conn, m);
@@ -150,4 +147,6 @@ async function Xasena() {
     }
   });
 }
-Xasena();
+setTimeout(() => {
+  Xasena();
+}, 6000);

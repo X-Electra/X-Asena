@@ -1,4 +1,11 @@
 {
+  "name": "x-asena",
+  "version": "2.0.0",
+  "description": "Whatsapp Bot",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib"
+  },
   "dependencies": {
     "@adiwajshing/keyed-db": "^0.2.4",
     "@hapi/boom": "^10.0.1",
@@ -11,6 +18,24 @@
     "pino": "^8.14.1",
     "qrcode-terminal": "^0.12.0",
     "sequelize": "^6.23.0",
-    "sqlite3": "^5.1.6"
-  }
+    "sqlite3": "^5.1.6",
+    "x-asena": "^1.0.1"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/X-Electra/X-Asena.git"
+  },
+  "keywords": [
+    "bot",
+    "whatsapp"
+  ],
+  "author": "Neeraj-x0",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/X-Electra/X-Asena/issues"
+  },
+  "homepage": "https://github.com/X-Electra/X-Asena#readme"
 }
