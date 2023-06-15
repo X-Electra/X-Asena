@@ -11,7 +11,7 @@ const {
   logs,
   addons, 
   format,
-  greet,
+  greet, 
 } = require("./x-asena");
 fs.readdirSync(__dirname + "/assets/database/").forEach((db) => {
   if (path.extname(db).toLowerCase() == ".js") {
