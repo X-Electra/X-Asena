@@ -18,7 +18,7 @@ fs.readdirSync(__dirname + "/assets/database/").forEach((db) => {
     require(__dirname + "/assets/database/" + db);
   }
 });
-
+ 
 async function Xasena() {
   const { state, saveCreds } = await multiauth(__dirname + "/session");
   let conn = socket({
