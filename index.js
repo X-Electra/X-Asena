@@ -1,38 +1,33 @@
+const {
+  default: makeWASocket,
+  useMultiFileAuthState,
+  Browsers,
+} = require("@whiskeysockets/baileys");
+const path = require("path");
 const { Image, Message, Sticker, Video } = require("./lib/Messages");
 let fs = require("fs");
 let config = require("./config");
-const path = require("path");
-const {
-  socket,
-  multiauth,
-  cachestore,
-  jidbcast,
-  xasena,
-  logs,
-  addons, 
-  format,
-  greet, 
-} = require("./x-asena");
+const pino = require("pino");
+logger = pino({ level: "silent" });
+const plugins = require("./lib/plugins");
+const { serialize, Greetings } = require("./lib");
+
 fs.readdirSync(__dirname + "/assets/database/").forEach((db) => {
   if (path.extname(db).toLowerCase() == ".js") {
     require(__dirname + "/assets/database/" + db);
   }
 });
- 
 async function Xasena() {
-  const { state, saveCreds } = await multiauth(__dirname + "/session");
-  let conn = socket({
-    logger: logs,
-    browser: xasena.macOS("Desktop"),
-    syncFullHistory: true,
-    version: [2, 2323, 4],
+  const { state, saveCreds } = await useMultiFileAuthState(
+    __dirname + "/session"
+  );
+  let conn = makeWASocket({
+    auth: state,
     printQRInTerminal: true,
-    auth: {
-      creds: state.creds,
-      keys: cachestore(state.keys, logs),
-    },
-    generateHighQualityLinkPreview: true,
-    shouldIgnoreJid: (jid) => jidbcast(jid),
+    logger: pino({ level: "silent" }),
+    browser: Browsers.macOS("Desktop"),
+    downloadHistory: false,
+    syncFullHistory: false,
   });
   conn.ev.on("connection.update", async (s) => {
     const { connection, lastDisconnect } = s;
@@ -56,16 +51,19 @@ async function Xasena() {
 
       let str = `\`\`\`X-asena connected \nversion : ${
         require(__dirname + "/package.json").version
-      }\nTotal Plugins : ${addons.commands.length}\nWorktype: ${
+      }\nTotal Plugins : ${plugins.commands.length}\nWorktype: ${
         config.WORK_TYPE
       }\`\`\``;
       conn.sendMessage(conn.user.id, { text: str });
       conn.ev.on("group-participants.update", async (data) => {
-        greet(data, conn);
+        Greetings(data, conn);
       });
       conn.ev.on("messages.upsert", async (m) => {
         if (m.type !== "notify") return;
-        let msg = await format(JSON.parse(JSON.stringify(m.messages[0])), conn);
+        let msg = await serialize(
+          JSON.parse(JSON.stringify(m.messages[0])),
+          conn
+        );
         if (!msg) return;
         let text_msg = msg.body;
         if (text_msg && config.LOGS)
@@ -76,7 +74,7 @@ async function Xasena() {
                 : msg.from
             }\nFrom : ${msg.sender}\nMessage:${text_msg}`
           );
-        addons.commands.map(async (command) => {
+        plugins.commands.map(async (command) => {
           if (
             command.fromMe &&
             !config.SUDO.split(",").includes(
@@ -139,14 +137,14 @@ async function Xasena() {
         });
       });
     }
-    if (connection === "close") {
-      console.log(s);
-      console.log("Connection closed with bot.");
-      Xasena().catch((err) => console.log(err));
-    } else {
+    if (
+      connection === "close" &&
+      lastDisconnect &&
+      lastDisconnect.error &&
+      lastDisconnect.error.output.statusCode != 401
+    ) {
+      Xasena();
     }
   });
 }
-setTimeout(() => {
-  Xasena();
-}, 6000);
+Xasena();

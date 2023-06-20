@@ -42,7 +42,6 @@ command(
   }
 );
 
-
 command(
   {
     pattern: "stop",
