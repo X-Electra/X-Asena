@@ -168,7 +168,9 @@ const connect = async () => {
     });
     return conn;
   };
-  Xasena();
+  Xasena().catch(error => {
+    console.log(error)
+  });
 };
 
 connect();
