@@ -1,37 +1,40 @@
+const fs = require("fs").promises;
+const pino = require("pino");
 const {
   default: makeWASocket,
   useMultiFileAuthState,
   Browsers,
   delay,
   DisconnectReason,
+  makeInMemoryStore,
 } = require("@whiskeysockets/baileys");
+require("events").EventEmitter.defaultMaxListeners = 15;
 const path = require("path");
 const { Image, Message, Sticker, Video } = require("./lib/Messages");
-let fs = require("fs");
-let config = require("./config");
-const pino = require("pino");
-logger = pino({
-  level: "silent",
-});
+const config = require("./config");
 const plugins = require("./lib/plugins");
 const { serialize, Greetings } = require("./lib");
 
-fs.readdirSync(__dirname + "/assets/database/").forEach((db) => {
-  if (path.extname(db).toLowerCase() == ".js") {
-    require(__dirname + "/assets/database/" + db);
-  }
-});
+const logger = pino({ level: "silent" });
+const store = makeInMemoryStore({ logger: logger.child({ stream: "store" }) });
+
+const readAndRequireFiles = async (directory) => {
+  const files = await fs.readdir(directory);
+  return Promise.all(
+    files
+      .filter((file) => path.extname(file).toLowerCase() === ".js")
+      .map((file) => require(path.join(directory, file)))
+  );
+};
 
 const connect = async () => {
   console.log("X-Asena");
   console.log("Syncing Database");
   config.DATABASE.sync();
   console.log("⬇  Installing Plugins...");
-  fs.readdirSync(__dirname + "/plugins").forEach((plugin) => {
-    if (path.extname(plugin).toLowerCase() == ".js") {
-      require(__dirname + "/plugins/" + plugin);
-    }
-  });
+
+  await readAndRequireFiles(__dirname + "/assets/database/");
+  await readAndRequireFiles(__dirname + "/assets/plugins/");
   console.log("✅ Plugins Installed!");
 
   const Xasena = async () => {
@@ -41,14 +44,17 @@ const connect = async () => {
     let conn = makeWASocket({
       auth: state,
       printQRInTerminal: true,
-      logger: pino({
-        level: "silent",
-      }),
+      logger: pino({ level: "silent" }),
       browser: Browsers.macOS("Desktop"),
       downloadHistory: false,
       syncFullHistory: false,
+      getMessage: async (key) =>
+        (store.loadMessage(key.id) || {}).message || { conversation: null },
     });
-
+    store.bind(conn.ev);
+    setInterval(() => {
+      store.writeToFile("./assets/database/store.json");
+    }, 30 * 1000);
     conn.ev.on("connection.update", async (s) => {
       const { connection, lastDisconnect } = s;
       if (connection === "connecting") {
@@ -56,18 +62,20 @@ const connect = async () => {
       }
       if (connection === "open") {
         console.log("✅ Login Successful!");
-        let str = `\`\`\`X-asena connected \nversion : ${
-          require(__dirname + "/package.json").version
-        }\nTotal Plugins : ${plugins.commands.length}\nWorktype: ${
-          config.WORK_TYPE
-        }\`\`\``;
+        const packageVersion = require("./package.json").version;
+        const totalPlugins = plugins.commands.length;
+        const workType = config.WORK_TYPE;
+        const str = `\`\`\`X-asena connected
+  Version: ${packageVersion}
+  Total Plugins: ${totalPlugins}
+  Worktype: ${workType}
+  \`\`\``;
         conn.sendMessage(conn.user.id, {
           text: str,
         });
       }
 
       if (connection === "close") {
-        const { error, message } = lastDisconnect.error?.output.payload;
         if (
           lastDisconnect.error?.output?.statusCode !==
           DisconnectReason.loggedOut
@@ -114,13 +122,10 @@ const connect = async () => {
           return;
         }
 
-        let comman = text_msg
-          ? text_msg[0].toLowerCase() + text_msg.slice(1).trim()
-          : "";
+        let comman = text_msg;
         msg.prefix = new RegExp(config.HANDLERS).test(text_msg)
           ? text_msg[0].toLowerCase()
-          : ",";
-
+          : "!";
         let whats;
         switch (true) {
           case command.pattern && command.pattern.test(comman):
@@ -166,11 +171,18 @@ const connect = async () => {
         }
       });
     });
+    process.on('uncaughtException', async (err) => {
+      await conn.sendMessage(conn.user.id, { text: err.message})
+    });
     return conn;
   };
-  Xasena().catch(error => {
-    console.log(error)
-  });
+  try {
+    await Xasena();
+  } catch (error) {
+    console.log(error);
+  }
 };
 
-connect();
+setTimeout(async () => {
+  await connect();
+},100);

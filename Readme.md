@@ -21,7 +21,7 @@
 ## Creating a plugin
 
 ```javascript
-const { command, isPrivate } = require("../lib/"); //importing functions
+const { command, isPrivate } = require("../../lib/"); //importing functions
 
 command(
   {
