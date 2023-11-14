@@ -18,3 +18,24 @@ command(
     );
   }
 );
+
+command(
+  {
+    pattern: "take",
+    fromMe: isPrivate,
+    desc: "_Converts Photo or video to sticker_",
+    type: "converter",
+  },
+  async (message, match, m) => {
+    if (!message.reply_message.sticker)
+      return await message.reply("_Reply to a sticker_");
+   const  packname = match.split(';')[0]||config.PACKNAME
+   const  author = match.split(';')[1]||config.AUTHOR
+    let buff = await m.quoted.download();
+    message.sendMessage(
+      buff,
+      { packname,author },
+      "sticker"
+    );
+  }
+);

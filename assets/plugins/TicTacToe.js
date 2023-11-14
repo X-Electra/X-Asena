@@ -98,7 +98,8 @@ command(
   {
     on: "text",
     fromMe: isPrivate,
-  },
+    pattern:false,
+    dontAddCommandList:true  },
   async (message, match, m) => {
     let {prefix} = message
     this.game = this.game ? this.game : {};

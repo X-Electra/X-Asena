@@ -8,6 +8,7 @@ const {
   DisconnectReason,
   makeInMemoryStore,
 } = require("@whiskeysockets/baileys");
+const { PausedChats } = require("./assets/database");
 require("events").EventEmitter.defaultMaxListeners = 15;
 const path = require("path");
 const { Image, Message, Sticker, Video } = require("./lib/Messages");
@@ -68,8 +69,7 @@ const connect = async () => {
         const str = `\`\`\`X-asena connected
   Version: ${packageVersion}
   Total Plugins: ${totalPlugins}
-  Worktype: ${workType}
-  \`\`\``;
+  Worktype: ${workType}\`\`\``;
         conn.sendMessage(conn.user.id, {
           text: str,
         });
@@ -102,8 +102,24 @@ const connect = async () => {
         JSON.parse(JSON.stringify(m.messages[0])),
         conn
       );
-      if (!msg) return;
       let text_msg = msg.body;
+      if (!msg) return;
+      const regex = new RegExp(`${config.HANDLERS}( ?resume)`, "is");
+      isResume = regex.test(text_msg);
+      const chatId = msg.from;
+      try {
+        const pausedChats = await PausedChats.getPausedChats();
+        if (
+          pausedChats.some(
+            (pausedChat) => pausedChat.chatId === chatId && !isResume
+          )
+        ) {
+          return;
+        }
+      } catch (error) {
+        console.error(error);
+      }
+
       if (text_msg && config.LOGS)
         console.log(
           `At : ${
@@ -171,8 +187,8 @@ const connect = async () => {
         }
       });
     });
-    process.on('uncaughtException', async (err) => {
-      await conn.sendMessage(conn.user.id, { text: err.message})
+    process.on("uncaughtException", async (err) => {
+      await conn.sendMessage(conn.user.id, { text: err.message });
     });
     return conn;
   };
@@ -185,4 +201,4 @@ const connect = async () => {
 
 setTimeout(async () => {
   await connect();
-},100);
+}, 100);

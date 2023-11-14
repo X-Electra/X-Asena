@@ -63,7 +63,7 @@ command(
   }
 );
 
-command({ on: "text", fromMe: isPrivate }, async (message, match) => {
+command({ on: "text", fromMe: isPrivate ,dontAddCommandList: true}, async (message, match) => {
   var filtreler = await getFilter(message.jid);
   if (!filtreler) return;
   filtreler.map(async (filter) => {

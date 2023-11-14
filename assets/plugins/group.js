@@ -3,91 +3,110 @@ const { isAdmin, parsedJid } = require("../../lib");
 
 command(
   {
-    pattern: "add ",
-    fromMe: isPrivate,
-    desc: "Adds a person to group",
+    pattern: "add ?(.*)",
+    fromMe: true,
+    desc: "add a person to group",
     type: "group",
   },
   async (message, match) => {
     if (!message.isGroup)
       return await message.reply("_This command is for groups_");
+
     match = match || message.reply_message.jid;
     if (!match) return await message.reply("_Mention user to add");
-    let isadmin = await isAdmin(message.jid, message.user, message.client);
+
+    const isadmin = await isAdmin(message.jid, message.user, message.client);
+
     if (!isadmin) return await message.reply("_I'm not admin_");
-    let jid = parsedJid(match);
-    await message.add(jid);
-    return await message.reply(`@${jid[0].split("@")[0]} added`, {
-      mentions: jid,
+    const jid = parsedJid(match);
+
+    await message.client.groupParticipantsUpdate(message.jid, jid, "add");
+
+    return await message.reply(`_@${jid[0].split("@")[0]} added_`, {
+      mentions: [jid],
     });
   }
 );
 
 command(
   {
-    pattern: "kick ",
-    fromMe: isPrivate,
+    pattern: "kick ?(.*)",
+    fromMe: true,
     desc: "kicks a person from group",
     type: "group",
   },
   async (message, match) => {
     if (!message.isGroup)
       return await message.reply("_This command is for groups_");
+
     match = match || message.reply_message.jid;
-    if (!match) return await message.reply("_Mention user to kick");
-    let isadmin = await isAdmin(message.jid, message.user, message.client);
+    if (!match) return await message.reply("_Mention user to kick_");
+
+    const isadmin = await isAdmin(message.jid, message.user, message.client);
+
     if (!isadmin) return await message.reply("_I'm not admin_");
-    let jid = parsedJid(match);
-    await message.kick(jid);
-    return await message.reply(`@${jid[0].split("@")[0]} kicked`, {
-      mentions: jid,
+    const jid = parsedJid(match);
+
+    await message.client.groupParticipantsUpdate(message.jid, jid, "remove");
+
+    return await message.reply(`_@${jid[0].split("@")[0]} kicked_`, {
+      mentions: [jid],
     });
   }
 );
-
-
-
 command(
   {
-    pattern: "promote ",
-    fromMe: isPrivate,
-    desc: "promote a member",
+    pattern: "promote ?(.*)",
+    fromMe: true,
+    desc: "promote to admin",
     type: "group",
   },
   async (message, match) => {
     if (!message.isGroup)
       return await message.reply("_This command is for groups_");
+
     match = match || message.reply_message.jid;
     if (!match) return await message.reply("_Mention user to promote_");
-    let isadmin = await isAdmin(message.jid, message.user, message.client);
+
+    const isadmin = await isAdmin(message.jid, message.user, message.client);
+
     if (!isadmin) return await message.reply("_I'm not admin_");
-    let jid = parsedJid(match);
-    await message.promote(jid);
-    return await message.reply(`@${jid[0].split("@")[0]} promoted as admin`, {
-      mentions: jid,
+    const jid = parsedJid(match);
+
+    await message.client.groupParticipantsUpdate(message.jid, jid, "promote");
+
+    return await message.reply(`_@${jid[0].split("@")[0]} promoted as admin_`, {
+      mentions: [jid],
     });
   }
 );
-
 command(
   {
-    pattern: "demote ",
-    fromMe: isPrivate,
-    desc: "demote a member",
+    pattern: "demote ?(.*)",
+    fromMe: true,
+    desc: "demote from admin",
     type: "group",
   },
   async (message, match) => {
     if (!message.isGroup)
       return await message.reply("_This command is for groups_");
+
     match = match || message.reply_message.jid;
-    if (!match) return await message.reply("_Mention user to demote");
-    let isadmin = await isAdmin(message.jid, message.user, message.client);
+    if (!match) return await message.reply("_Mention user to demote_");
+
+    const isadmin = await isAdmin(message.jid, message.user, message.client);
+
     if (!isadmin) return await message.reply("_I'm not admin_");
-    let jid = parsedJid(match);
-    await message.demote(jid);
-    return await message.reply(`@${jid[0].split("@")[0]} demoted from admin`, {
-      mentions: jid,
-    });
+    const jid = parsedJid(match);
+
+    await message.client.groupParticipantsUpdate(message.jid, jid, "demote");
+
+    return await message.reply(
+      `_@${jid[0].split("@")[0]} demoted from admin_`,
+      {
+        mentions: [jid],
+      }
+    );
   }
 );
 
@@ -128,7 +147,7 @@ command(
 command(
   {
     pattern: "gjid",
-    fromMe: true,
+    fromMe: isPrivate,
     desc: "gets jid of all group members",
     type: "group",
   },
@@ -168,17 +187,17 @@ command(
 
 command(
   {
-    pattern: "tag ?(.*)",
+    pattern: "tag",
     fromMe: true,
     desc: "mention all users in group",
     type: "group",
   },
   async (message, match) => {
-    match = match || message.reply.text;
+    match = match || message.reply_message.text;
+    if (!match) return message.reply("_Enter or reply to a text to tag_");
     if (!message.isGroup) return;
-    if (!match) return message.reply(match);
     const { participants } = await message.client.groupMetadata(message.jid);
-    message.sendMessage(match.trim(), {
+    message.sendMessage(match, {
       mentions: participants.map((a) => a.id),
     });
   }
