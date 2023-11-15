@@ -118,7 +118,7 @@ command(
       let jid = message.mention[0] || message.reply_message.jid;
       if (!jid) return await message.reply("_Reply to a person or mention_");
       await message.block(jid);
-      return await message.sendMessage(`_@${jid.split("@")[0]} unblocked_`, {
+      return await message.sendMessage(message.jid,`_@${jid.split("@")[0]} unblocked_`, {
         mentions: [jid],
       });
     } else {
@@ -136,7 +136,7 @@ command(
     type: "user",
   },
   async (message, match) => {
-    return await message.sendMessage(
+    return await message.sendMessage(message.jid,
       message.mention[0] || message.reply_message.jid || message.jid
     );
   }
@@ -150,10 +150,10 @@ command(
     type: "user",
   },
   async (message, match) => {
-    await message.sendMessage("Restarting...");
+    await message.sendMessage(message.jid,"Restarting...");
     exec("pm2 restart x-asena", (error, stdout, stderr) => {
       if (error) {
-        return message.sendMessage(`Error: ${error}`);
+        return message.sendMessage(message.jid,`Error: ${error}`);
       }
       return;
     });

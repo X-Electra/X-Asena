@@ -34,9 +34,10 @@ command(
 
     if (match) {
       let buff = await qrcode(match);
-      return await message.sendMessage(buff, {}, "image");
+      return await message.sendMessage(message.jid, buff, {}, "image");
     } else if (!message.reply_message || !message.reply_message.image) {
       return await message.sendMessage(
+        message.jid,
         "*Example : qr test*\n*Reply to a qr image.*"
       );
     }
@@ -51,11 +52,11 @@ command(
     );
     readQR(buffer)
       .then(async (data) => {
-        return await message.sendMessage(data);
+        return await message.sendMessage(message.jid, data);
       })
       .catch(async (error) => {
         console.error("Error:", error.message);
-        return await message.sendMessage(error.message);
+        return await message.sendMessage(message.jid, error.message);
       });
   }
 );
@@ -94,4 +95,3 @@ command(
     }
   }
 );
-

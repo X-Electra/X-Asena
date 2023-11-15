@@ -18,6 +18,7 @@ const { serialize, Greetings } = require("./lib");
 
 const logger = pino({ level: "silent" });
 const store = makeInMemoryStore({ logger: logger.child({ stream: "store" }) });
+const cron = require("node-cron");
 
 const readAndRequireFiles = async (directory) => {
   const files = await fs.readdir(directory);
@@ -28,6 +29,31 @@ const readAndRequireFiles = async (directory) => {
   );
 };
 
+const sessionPath = __dirname + "/session";
+const fileNameRegex = /^(sender|session).*$/;
+cron.schedule(
+  "0 15 * * *",
+  async () => {
+    try {
+      const files = await fs.readdir(sessionPath);
+      const filesToDelete = files.filter((file) => fileNameRegex.test(file));
+
+      await Promise.all(
+        filesToDelete.map(async (file) => {
+          const filePath = `${sessionPath}/${file}`;
+          await fs.unlink(filePath);
+        })
+      );
+      console.log("Session cache deleted");
+    } catch (err) {
+      console.error("Error:", err);
+    }
+  },
+  {
+    scheduled: true,
+    timezone: "Asia/Kolkata",
+  }
+);
 const connect = async () => {
   console.log("X-Asena");
   console.log("Syncing Database");

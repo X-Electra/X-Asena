@@ -150,7 +150,7 @@ command(
   async (message, match, m) => {
     try {
       const result = await XKCDComic();
-      message.sendMessage(result.imageUrl, { quoted: message.data }, "image");
+      message.sendMessage(message.jid,result.imageUrl, { quoted: message.data }, "image");
     } catch (error) {
       console.error("Error:", error.message);
       message.reply("Error fetching XKCD comic.");
@@ -178,7 +178,7 @@ command(
 
       if (jokeData && !jokeData.error) {
         const jokeMessage = jokeData.setup+'\n'+jokeData.delivery;
-        message.sendMessage(jokeMessage);
+        message.sendMessage(message.jid,jokeMessage);
       } else {
         console.error("Error fetching joke:", jokeData);
         message.reply("Failed to fetch a joke. Please try again later.");

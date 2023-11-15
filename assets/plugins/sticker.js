@@ -11,7 +11,7 @@ command(
     if (!(message.reply_message.video || message.reply_message.image))
       return await message.reply("_Reply to photo or video_");
     let buff = await m.quoted.download();
-    message.sendMessage(
+    message.sendMessage(message.jid,
       buff,
       { packname: config.PACKNAME, author: config.AUTHOR },
       "sticker"
@@ -32,7 +32,7 @@ command(
    const  packname = match.split(';')[0]||config.PACKNAME
    const  author = match.split(';')[1]||config.AUTHOR
     let buff = await m.quoted.download();
-    message.sendMessage(
+    message.sendMessage(message.jid,
       buff,
       { packname,author },
       "sticker"

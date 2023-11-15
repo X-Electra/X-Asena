@@ -1,30 +1,30 @@
-const { command,isAdmin, parseJid, isPrivate } = require("../../lib/");
+const { command, isAdmin, parseJid, isPrivate } = require("../../lib/");
 command(
   {
     pattern: "delttt",
     fromMe: true,
     desc: "delete TicTacToe running game.",
-    type: "game"
+    type: "game",
   },
   async (message, match, m) => {
-         let isadmin = await isAdmin(message.jid, message.user, message.client);
-    
-        if(!isadmin) return message.reply('This command is only for Group Admin and my owner.')
-         this.game = this.game ? this.game : false
-         if (
-        Object.values(this.game).find(
-          (room) =>
-            room.id.startsWith("tictactoe")
-        )
-      ) {
-        delete this.game
-        return message.reply(`_Successfully Deleted running TicTacToe game._`);
-        } else {
-              return message.reply(`No TicTacToe game🎮 is running.`)
-                    
-        }
-  })
-  
+    let isadmin = await isAdmin(message.jid, message.user, message.client);
+
+    if (!isadmin)
+      return message.reply(
+        "This command is only for Group Admin and my owner."
+      );
+    this.game = this.game ? this.game : false;
+    if (
+      Object.values(this.game).find((room) => room.id.startsWith("tictactoe"))
+    ) {
+      delete this.game;
+      return message.reply(`_Successfully Deleted running TicTacToe game._`);
+    } else {
+      return message.reply(`No TicTacToe game🎮 is running.`);
+    }
+  }
+);
+
 command(
   {
     pattern: "ttt ?(.*)",
@@ -33,7 +33,7 @@ command(
     type: "game",
   },
   async (message, match, m) => {
-    let {prefix} = message
+    let { prefix } = message;
     {
       let TicTacToe = require("../../lib/tictactoe");
       this.game = this.game ? this.game : {};
@@ -65,10 +65,10 @@ command(
             6: "6️⃣",
             7: "7️⃣",
             8: "8️⃣",
-            9: "9️⃣", 
+            9: "9️⃣",
           }[v];
         });
-        let str = `Room ID: ${room.id}
+        let str = `*_TicTacToe_*
 
 ${arr.slice(0, 3).join("")}
 ${arr.slice(3, 6).join("")}
@@ -76,8 +76,10 @@ ${arr.slice(6).join("")}
 
 Current turn: @${room.game.currentTurn.split("@")[0]}
 `;
-
-        return await message.sendMessage(str,{mentions: parseJid(str)});
+        let mentions = parseJid(str);
+        for (let i of mentions) {
+          return await message.client.sendMessage(i, { text: str, mentions });
+        }
       } else {
         room = {
           id: "tictactoe-" + +new Date(),
@@ -98,10 +100,11 @@ command(
   {
     on: "text",
     fromMe: isPrivate,
-    pattern:false,
-    dontAddCommandList:true  },
+    pattern: false,
+    dontAddCommandList: true,
+  },
   async (message, match, m) => {
-    let {prefix} = message
+    let { prefix } = message;
     this.game = this.game ? this.game : {};
     let room = Object.values(this.game).find(
       (room) =>
@@ -117,7 +120,7 @@ command(
       let isWin = !1;
       let isTie = !1;
       let isSurrender = !1;
-      
+
       if (!/^([1-9]|(me)?give_up|surr?ender|off|skip)$/i.test(match)) return;
       isSurrender = !/^[1-9]$/.test(match);
       if (m.sender !== room.game.currentTurn) {
@@ -183,7 +186,7 @@ ${
 
       if ((room.game._currentTurn ^ isSurrender ? room.x : room.o) !== m.chat)
         room[room.game._currentTurn ^ isSurrender ? "x" : "o"] = m.chat;
-        message.sendMessage(str,{mentions: parseJid(str)});
+      message.sendMessage(message.jid,str, { mentions: parseJid(str) });
       if (isTie || isWin) {
         delete this.game[room.id];
       }

@@ -58,7 +58,7 @@ message.reply("Hi");
 
 ```javascript
 let content = "https://wallpaperaccess.com/full/5531321.jpg"; //can also use buffer
-message.sendMessage(
+message.sendMessage(jid,
   content,
   {} /*options*/,
   "image" /*change to audio , video while sending audio or video */
@@ -68,7 +68,7 @@ message.sendMessage(
 ### Sticker
 
 ```javascript
-message.sendMessage(
+message.sendMessage(jid,
   "url or buffer of image or video(max 10 seconds)",
   { packname: config.PACKNAME, author: config.AUTHOR },
   "sticker"
