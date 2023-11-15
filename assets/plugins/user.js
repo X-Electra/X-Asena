@@ -1,6 +1,7 @@
-const { command, isAdmin } = require("../../lib");
+const { command, isAdmin ,parsedJid} = require("../../lib");
 const { exec } = require("child_process");
 const { PausedChats, WarnDB } = require("../database");
+const { WARN_COUNT } = require("../../config");
 const { saveWarn, resetWarn } = WarnDB;
 
 command(
@@ -12,7 +13,6 @@ command(
   },
   async (message) => {
     const chatId = message.key.remoteJid;
-
     try {
       await PausedChats.savePausedChat(chatId);
       message.reply("Chat paused successfully.");
@@ -118,9 +118,13 @@ command(
       let jid = message.mention[0] || message.reply_message.jid;
       if (!jid) return await message.reply("_Reply to a person or mention_");
       await message.block(jid);
-      return await message.sendMessage(message.jid,`_@${jid.split("@")[0]} unblocked_`, {
-        mentions: [jid],
-      });
+      return await message.sendMessage(
+        message.jid,
+        `_@${jid.split("@")[0]} unblocked_`,
+        {
+          mentions: [jid],
+        }
+      );
     } else {
       await message.unblock(message.jid);
       return await message.reply("_User unblocked_");
@@ -136,7 +140,8 @@ command(
     type: "user",
   },
   async (message, match) => {
-    return await message.sendMessage(message.jid,
+    return await message.sendMessage(
+      message.jid,
       message.mention[0] || message.reply_message.jid || message.jid
     );
   }
@@ -150,10 +155,10 @@ command(
     type: "user",
   },
   async (message, match) => {
-    await message.sendMessage(message.jid,"Restarting...");
+    await message.sendMessage(message.jid, "Restarting...");
     exec("pm2 restart x-asena", (error, stdout, stderr) => {
       if (error) {
-        return message.sendMessage(message.jid,`Error: ${error}`);
+        return message.sendMessage(message.jid, `Error: ${error}`);
       }
       return;
     });
@@ -189,14 +194,26 @@ command(
 
     const warnInfo = await saveWarn(userId, reason);
     let userWarnCount = warnInfo ? warnInfo.warnCount : 0;
-    userWarnCount =+1
-
-    return await message.reply(
-      `_User @${userId.split("@")[0]} warned._ \n_Warn Count: ${
-        userWarnCount
-      }._ \n_Reason: ${reason}_`,
+    userWarnCount++;
+    await message.reply(
+      `_User @${
+        userId.split("@")[0]
+      } warned._ \n_Warn Count: ${userWarnCount}._ \n_Reason: ${reason}_`,
       { mentions: [userId] }
     );
+    if (userWarnCount > WARN_COUNT) {
+      const jid = parsedJid(userId);
+      await message.sendMessage(
+        message.jid,
+        "Warn limit exceeded kicking user"
+      );
+      return await message.client.groupParticipantsUpdate(
+        message.jid,
+        jid,
+        "remove"
+      );
+    }
+    return;
   }
 );
 
