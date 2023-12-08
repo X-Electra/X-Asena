@@ -186,7 +186,11 @@ ${
 
       if ((room.game._currentTurn ^ isSurrender ? room.x : room.o) !== m.chat)
         room[room.game._currentTurn ^ isSurrender ? "x" : "o"] = m.chat;
-      message.sendMessage(message.jid,str, { mentions: parseJid(str) });
+      let mentions = parseJid(str);
+      for (let i of mentions) {
+        return await message.client.sendMessage(i, { text: str, mentions });
+      }
+
       if (isTie || isWin) {
         delete this.game[room.id];
       }

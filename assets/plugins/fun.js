@@ -150,7 +150,12 @@ command(
   async (message, match, m) => {
     try {
       const result = await XKCDComic();
-      message.sendMessage(message.jid,result.imageUrl, { quoted: message.data }, "image");
+      message.sendMessage(
+        message.jid,
+        result.imageUrl,
+        { quoted: message.data },
+        "image"
+      );
     } catch (error) {
       console.error("Error:", error.message);
       message.reply("Error fetching XKCD comic.");
@@ -170,15 +175,26 @@ command(
     desc: "Fetch a random joke",
     dontAddCommandList: false,
   },
-  async (message) => {
+  async (message, match) => {
     try {
-      const jokeData = await getJson(
-        "https://v2.jokeapi.dev/joke/Any?type=twopart"
-      );
+      let jokeData;
+      if (match && match.toLowerCase() == "dark") {
+        jokeData = await getJson(
+          "https://v2.jokeapi.dev/joke/Dark?type=twopart"
+        );
+      } else if (match && match.toLowerCase() == "pun") {
+        jokeData = await getJson(
+          "https://v2.jokeapi.dev/joke/Pun?type=twopart"
+        );
+      } else {
+        jokeData = await getJson(
+          "https://v2.jokeapi.dev/joke/Any?type=twopart"
+        );
+      }
 
       if (jokeData && !jokeData.error) {
-        const jokeMessage = jokeData.setup+'\n'+jokeData.delivery;
-        message.sendMessage(message.jid,jokeMessage);
+        const jokeMessage = jokeData.setup + "\n" + jokeData.delivery;
+        message.sendMessage(message.jid, jokeMessage);
       } else {
         console.error("Error fetching joke:", jokeData);
         message.reply("Failed to fetch a joke. Please try again later.");
