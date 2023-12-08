@@ -61,6 +61,7 @@ command(
       });
   }
 );
+
 command(
   {
     pattern: "bitly ?(.*)",
