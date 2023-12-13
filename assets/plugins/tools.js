@@ -121,18 +121,19 @@ command(
         )}&q_artist=${encodeURIComponent(
           artist
         )}&f_has_lyrics=1&apikey=${API_KEY}`;
-        console.log(searchUrl)
+        console.log(searchUrl);
         const searchData = await getJson(searchUrl);
 
         const trackList = searchData.message.body.track_list;
 
         if (trackList.length > 0) {
           trackId = trackList[0].track.track_id;
+          
         } else {
           const allTracksUrl = `${BASE_URL}track.search?q_artist=${encodeURIComponent(
             artist
           )}&apikey=${API_KEY}`;
-          console.log(allTracksUrl)
+          console.log(allTracksUrl);
           const allTracksData = await getJson(allTracksUrl);
 
           const allTracks = allTracksData.message.body.track_list;
@@ -144,7 +145,7 @@ command(
 
         if (trackId) {
           const lyricsUrl = `${BASE_URL}track.lyrics.get?track_id=${trackId}&apikey=${API_KEY}`;
-          console.log(lyricsUrl)
+          console.log(lyricsUrl);
           const lyricsData = await getJson(lyricsUrl);
 
           let lyrics = lyricsData.message.body.lyrics.lyrics_body;
@@ -155,13 +156,10 @@ command(
           const data = {
             artist_name: artist,
             song: song,
-            lyrics: lyrics.replace(/()/),
+            lyrics: lyrics.replace(/\(\d+\)$/, ""),
           };
 
-          return await message.reply(`
-            *Artist:* ${data.artist_name}
-            *Song:* ${data.song}
-            *Lyrics:*\n${data.lyrics}
+          return await message.reply(`*Artist:* ${data.artist_name}\n*Song:* ${data.song}\n*Lyrics:*\n${data.lyrics.trim()}
           `);
         } else {
           return await message.reply(

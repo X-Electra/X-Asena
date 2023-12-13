@@ -29,7 +29,6 @@ const logger = pino({ level: "silent" });
 
 const store = makeInMemoryStore({ logger: logger.child({ stream: "store" }) });
 
-
 const readAndRequireFiles = async (directory) => {
   const files = await fs.readdir(directory);
   return Promise.all(
@@ -39,7 +38,6 @@ const readAndRequireFiles = async (directory) => {
   );
 };
 const sessionPath = __dirname + "/session";
-
 
 const connect = async () => {
   console.log("X-Asena");
@@ -105,7 +103,9 @@ const connect = async () => {
     });
 
     conn.ev.on("creds.update", saveCreds);
-
+    conn.ev.on("messages.reaction", async (data) => {
+      fs.writeFile("./tmp.txt", JSON.stringify(data,null,2).toString());
+    });
     conn.ev.on("group-participants.update", async (data) => {
       Greetings(data, conn);
     });
