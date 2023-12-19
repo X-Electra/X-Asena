@@ -1,0 +1,24 @@
+[
+  {
+    "key": {
+      "remoteJid": "556599071373-1583262565@g.us",
+      "fromMe": false,
+      "id": "DB0FF77AB6E9E3A36742269980EA6800",
+      "participant": "556599482717@s.whatsapp.net"
+    },
+    "reaction": {
+      "key": {
+        "remoteJid": "556599071373-1583262565@g.us",
+        "fromMe": false,
+        "id": "7C4470066118455B35AB380FF8ED1FEC",
+        "participant": "556598199518@s.whatsapp.net"
+      },
+      "text": "👍🏻",
+      "senderTimestampMs": {
+        "low": -2096358863,
+        "high": 396,
+        "unsigned": false
+      }
+    }
+  }
+]
