@@ -26,6 +26,7 @@
     "jszip": "^3.10.1",
     "node-cron": "^3.0.3",
     "node-webpmux": "^3.1.7",
+    "open-sans-fontface": "^1.4.0",
     "openai": "^4.17.4",
     "pino": "^8.14.1",
     "pm2": "^5.3.0",

@@ -1,9 +1,5 @@
-const {
-  getFilter,
-  setFilter,
-  deleteFilter,
-} = require("../database/filters");
-const { command, isPrivate, tiny } = require("../../lib");
+const { getFilter, setFilter, deleteFilter } = require("../database/filters");
+const { command} = require("../../lib");
 
 command(
   {
@@ -53,9 +49,8 @@ command(
   async (message, match) => {
     if (!match) return await message.reply("\n*Example:* ```.stop hello```");
 
-    del = await deleteFilter(message.jid, match).then(
-      async () => await message.reply(`_Filter ${match} deleted_`)
-    );
+    del = await deleteFilter(message.jid, match);
+    await message.reply(`_Filter ${match} deleted_`);
 
     if (!del) {
       await message.reply("No existing filter matches the provided input.");
@@ -63,20 +58,23 @@ command(
   }
 );
 
-command({ on: "text", fromMe: isPrivate ,dontAddCommandList: true}, async (message, match) => {
-  var filtreler = await getFilter(message.jid);
-  if (!filtreler) return;
-  filtreler.map(async (filter) => {
-    pattern = new RegExp(
-      filter.dataValues.regex
-        ? filter.dataValues.pattern
-        : "\\b(" + filter.dataValues.pattern + ")\\b",
-      "gm"
-    );
-    if (pattern.test(match)) {
-      await message.reply(filter.dataValues.text, {
-        quoted: message,
-      });
-    }
-  });
-});
+command(
+  { on: "text", fromMe: false, dontAddCommandList: true },
+  async (message, match) => {
+    var filtreler = await getFilter(message.jid);
+    if (!filtreler) return;
+    filtreler.map(async (filter) => {
+      pattern = new RegExp(
+        filter.dataValues.regex
+          ? filter.dataValues.pattern
+          : "\\b(" + filter.dataValues.pattern + ")\\b",
+        "gm"
+      );
+      if (pattern.test(match)) {
+        await message.reply(filter.dataValues.text, {
+          quoted: message,
+        });
+      }
+    });
+  }
+);

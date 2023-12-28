@@ -15,10 +15,12 @@ command(
 
     for (let key of participants) {
       let jid = parsedJid(key.id);
-      await message.kick(jid);
-      await message.reply(`@${jid[0].split("@")[0]} kicked`, {
-        mentions: jid,
-      });
+      if (!(parsedJid(message.client.user.id)[0] in jid)) {
+        await message.kick(jid);
+        await message.reply(`@${jid[0].split("@")[0]} kicked`, {
+          mentions: jid,
+        });
+      }
     }
   }
 );

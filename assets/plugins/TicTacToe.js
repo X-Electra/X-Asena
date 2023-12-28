@@ -5,6 +5,7 @@ command(
     fromMe: true,
     desc: "delete TicTacToe running game.",
     type: "game",
+    dontAddCommandList:true
   },
   async (message, match, m) => {
     let isadmin = await isAdmin(message.jid, message.user, message.client);
@@ -27,13 +28,12 @@ command(
 
 command(
   {
-    pattern: "ttt ?(.*)",
+    pattern: "ttt",
     fromMe: isPrivate,
     desc: "Play TicTacToe",
     type: "game",
   },
   async (message, match, m) => {
-    let { prefix } = message;
     {
       let TicTacToe = require("../../lib/tictactoe");
       this.game = this.game ? this.game : {};
@@ -99,12 +99,11 @@ Current turn: @${room.game.currentTurn.split("@")[0]}
 command(
   {
     on: "text",
-    fromMe: isPrivate,
+    fromMe: false,
     pattern: false,
     dontAddCommandList: true,
   },
   async (message, match, m) => {
-    let { prefix } = message;
     this.game = this.game ? this.game : {};
     let room = Object.values(this.game).find(
       (room) =>

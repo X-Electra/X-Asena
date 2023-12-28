@@ -1,8 +1,8 @@
-const { command} = require("../../lib/");
+const { command, isPrivate} = require("../../lib/");
 command(
   {
     pattern: "ping",
-    fromMe: false,
+    fromMe: isPrivate,
     desc: "To check ping",
     type: "user",
   },

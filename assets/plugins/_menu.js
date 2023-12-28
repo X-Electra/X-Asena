@@ -12,7 +12,7 @@ command(
     type: "user",
   },
   async (message, match) => {
-    let uptime = await  pm2Uptime();
+   
     if (match) {
       for (let i of plugins.commands) {
         if (
@@ -36,7 +36,7 @@ Description: ${i.desc}\`\`\``);
 ┃ ⎆  *DATE*: ${date}
 ┃ ⎆  *TIME*: ${time}
 ┃ ⎆  *COMMANDS*: ${plugins.commands.length} 
-┃ ⎆  *UPTIME*: ${clockString(uptime)} 
+┃ ⎆  *UPTIME*: ${clockString(process.uptime())} 
 ╰━━━━━━━━━━━━━━━\n`;
       let cmnd = [];
       let cmd;
@@ -56,10 +56,10 @@ Description: ${i.desc}\`\`\``);
       });
       cmnd.sort();
       category.sort().forEach((cmmd) => {
-        menu += `\n\t⦿---- *${cmmd.toUpperCase()}* ----⦿`;
+        menu += `\n\t⦿---- *${cmmd.toUpperCase()}* ----⦿\n`;
         let comad = cmnd.filter(({ type }) => type == cmmd);
         comad.forEach(({ cmd }) => {
-          menu += `\n⛥  ${cmd.trim()}`;
+          menu += `\n⛥  _${cmd.trim()}_ `;
         });
         menu += `\n`;
       });
@@ -96,7 +96,7 @@ command(
     });
     cmnd.sort();
     cmnd.forEach(({ cmd, desc }, num) => {
-      menu += `${(num += 1)} *${cmd.trim()}*\n`;
+      menu += `\`\`\`${(num += 1)} ${cmd.trim()}\`\`\`\n`;
       if (desc) menu += `Use: \`\`\`${desc}\`\`\`\n\n`;
     });
     menu += ``;
