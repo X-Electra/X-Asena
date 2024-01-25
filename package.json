@@ -1,6 +1,6 @@
 {
-  "name": "x-asena",
-  "version": "2.0.0",
+  "name": "Shadow",
+  "version": "0.0.1",
   "description": "Whatsapp Bot",
   "main": "index.js",
   "directories": {
@@ -25,6 +25,7 @@
     "jsqr": "^1.4.0",
     "jszip": "^3.10.1",
     "node-cron": "^3.0.3",
+    "node-fetch": "^2.6.1",
     "node-webpmux": "^3.1.7",
     "open-sans-fontface": "^1.4.0",
     "openai": "^4.17.4",
@@ -41,20 +42,20 @@
     "x-asena": "^1.0.1"
   },
   "scripts": {
-    "start": "pm2 start index.js --name x-asena"
+    "start": "pm2 start index.js --name shadow"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/X-Electra/X-Asena.git"
+    "url": "git+https://github.com/Cipher0071/Shadow.git"
   },
   "keywords": [
     "bot",
     "whatsapp"
   ],
-  "author": "Neeraj-x0",
+  "author": "Cipher",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/X-Electra/X-Asena/issues"
+    "url": "https://github.com/Cipher0071/Shadow/issues"
   },
-  "homepage": "https://github.com/X-Electra/X-Asena#readme"
+  "homepage": "https://github.com/Cipher0071/Shadow#readme"
 }
