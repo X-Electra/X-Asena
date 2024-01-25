@@ -77,7 +77,7 @@ const connect = async () => {
         const packageVersion = require("./package.json").version;
         const totalPlugins = plugins.commands.length;
         const workType = config.WORK_TYPE;
-        const str = `\`\`\`X-asena connected
+        const str = `\`\`\`Shadow connected successfully
   Version: ${packageVersion}
   Total Plugins: ${totalPlugins}
   Worktype: ${workType}\`\`\``;
