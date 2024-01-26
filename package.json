@@ -10,6 +10,7 @@
     "@adiwajshing/keyed-db": "^0.2.4",
     "@hapi/boom": "^10.0.1",
     "@whiskeysockets/baileys": "^6.3.0",
+    "@ffmpeg-installer/ffmpeg": "^1.1.0",
     "acrcloud": "^1.4.0",
     "axios": "^1.4.0",
     "bitly": "^7.1.2",
