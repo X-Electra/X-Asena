@@ -40,7 +40,7 @@ const readAndRequireFiles = async (directory) => {
 const sessionPath = __dirname + "/session";
 
 const connect = async () => {
-  console.log("X-Asena");
+  console.log("shadow");
   console.log("Syncing Database");
   config.DATABASE.sync();
   console.log("⬇  Installing Plugins...");
@@ -48,7 +48,7 @@ const connect = async () => {
   await readAndRequireFiles(__dirname + "/assets/plugins/");
   console.log("✅ Plugins Installed!");
 
-  const Xasena = async () => {
+  const shadow = async () => {
     const { state, saveCreds } = await useMultiFileAuthState(
       __dirname + "/session"
     );
@@ -77,7 +77,7 @@ const connect = async () => {
         const packageVersion = require("./package.json").version;
         const totalPlugins = plugins.commands.length;
         const workType = config.WORK_TYPE;
-        const str = `\`\`\`X-asena connected
+        const str = `\`\`\`Shadow connected successfully
   Version: ${packageVersion}
   Total Plugins: ${totalPlugins}
   Worktype: ${workType}\`\`\``;
@@ -92,7 +92,7 @@ const connect = async () => {
           DisconnectReason.loggedOut
         ) {
           await delay(300);
-          Xasena();
+          shadow();
           console.log("reconnecting...");
         } else {
           console.log("connection closed\nDevice logged out.");
@@ -206,7 +206,7 @@ const connect = async () => {
     return conn;
   };
   try {
-    await Xasena();
+    await shadow();
   } catch (error) {
     console.log(error);
   }
