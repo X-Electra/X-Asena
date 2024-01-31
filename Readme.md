@@ -12,8 +12,8 @@
 - run `npm install pm2 -g`
 - run `node .`
 - scan the qr
-- Done your bot is alive
-- run ``node .` again to run it again after you stop the bot
+- stop bot by ctrl+c
+- run `npm start` again to run it
 
 ---
 
