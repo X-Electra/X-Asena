@@ -15,7 +15,7 @@
     "bitly": "^4.1.1",
     "browser-id3-writer": "^4.4.0",
     "canvas": "^2.11.2",
-    "download-git-repo": "^0.0.2",
+    "download-git-repo": "^3.0.2",
     "file-type": "^16.5.3",
     "fluent-ffmpeg": "^2.1.2",
     "form-data": "^4.0.0",
