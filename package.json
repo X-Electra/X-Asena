@@ -12,10 +12,10 @@
     "@whiskeysockets/baileys": "^6.3.0",
     "acrcloud": "^1.4.0",
     "axios": "^1.4.0",
-    "bitly": "^7.1.2",
+    "bitly": "^4.1.1",
     "browser-id3-writer": "^4.4.0",
     "canvas": "^2.11.2",
-    "download-git-repo": "^3.0.2",
+    "download-git-repo": "^0.0.2",
     "file-type": "^16.5.3",
     "fluent-ffmpeg": "^2.1.2",
     "form-data": "^4.0.0",
@@ -37,7 +37,7 @@
     "say": "^0.16.0",
     "sequelize": "^6.23.0",
     "spotifydl-core": "^0.2.0",
-    "sqlite3": "^5.1.6",
+    "sqlite3": "^5.1.7",
     "x-asena": "^1.0.1"
   },
   "scripts": {

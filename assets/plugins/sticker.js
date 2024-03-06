@@ -16,21 +16,18 @@ command(
       )
     )
       return await message.reply("_Reply to photo/video/text_");
-    if (message.reply_message.text) {
-      return await textToImage(message.reply_message.text,message);
-    } else {
-      let buff = await m.quoted.download();
-      message.sendMessage(
-        message.jid,
-        buff,
-        { packname: config.PACKNAME, author: config.AUTHOR },
-        "sticker"
-      );
-    }
+
+    let buff = await m.quoted.download();
+    message.sendMessage(
+      message.jid,
+      buff,
+      { packname: config.PACKNAME, author: config.AUTHOR },
+      "sticker"
+    );
   }
 );
 
-const { createCanvas } = require("canvas");
+/*const { createCanvas } = require("canvas");
 
 async function textToImage(message,conn) {
   // Set up canvas
@@ -124,7 +121,7 @@ function breakTextIntoLines(ctx, text, maxWidth) {
   lines.push(currentLine);
   return lines;
 }
-
+*/
 command(
   {
     pattern: "take",
@@ -166,9 +163,9 @@ command(
   },
   async (message, match, m) => {
     let buff = await m.quoted.download();
-    console.log(typeof buff)
+    console.log(typeof buff);
     buff = await toAudio(buff, "mp3");
-    console.log(typeof buff)
+    console.log(typeof buff);
     return await message.sendMessage(
       message.jid,
       buff,
