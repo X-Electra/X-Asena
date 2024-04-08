@@ -1,9 +1,6 @@
 const { Sequelize } = require("sequelize");
 const fs = require("fs");
-
-if (fs.existsSync("config.env")) {
-  require("dotenv").config({ path: "./config.env" });
-}
+require("dotenv").config();
 
 const toBool = (x) => x === "true";
 
@@ -15,6 +12,7 @@ module.exports = {
   ANTILINK_ACTION: process.env.ANTI_LINK || "kick",
   SESSION_ID: process.env.SESSION_ID || "idvu3oj6_XASENA_w46_XASENA_nb8c",
   LANG: process.env.LANG || "EN",
+  AUTH_TOKEN: "6b79d69224525c9efcb716c50b12b7f5c231be918a34744184f66e35951090e3",
   HANDLERS:
     process.env.HANDLER === "false" || process.env.HANDLER === "null"
       ? "^"
@@ -26,7 +24,7 @@ module.exports = {
   WELCOME_MSG: process.env.WELCOME_MSG || "Hi @user Welcome to @gname",
   GOODBYE_MSG: process.env.GOODBYE_MSG || "Hi @user It was Nice Seeing you",
   AUTHOR: process.env.AUTHOR || "X-electra",
-  SUDO: process.env.SUDO || "918765432109",
+  SUDO: process.env.SUDO || "918113921898,919598157259",
   HEROKU_APP_NAME: process.env.HEROKU_APP_NAME || "",
   HEROKU_API_KEY: process.env.HEROKU_API_KEY || "",
   OWNER_NAME: process.env.OWNER_NAME || "Neeraj-X0",

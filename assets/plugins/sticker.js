@@ -3,7 +3,7 @@ const { command, isPrivate, toAudio } = require("../../lib/");
 command(
   {
     pattern: "sticker",
-    fromMe: isPrivate,
+    fromMe: true,
     desc: "Converts Photo/video/text to sticker",
     type: "converter",
   },
@@ -125,7 +125,7 @@ function breakTextIntoLines(ctx, text, maxWidth) {
 command(
   {
     pattern: "take",
-    fromMe: isPrivate,
+    fromMe: true,
     desc: "Converts Photo or video to sticker",
     type: "converter",
   },
@@ -142,7 +142,7 @@ command(
 command(
   {
     pattern: "photo",
-    fromMe: isPrivate,
+    fromMe: true,
     desc: "Changes sticker to Photo",
     type: "converter",
   },
@@ -157,7 +157,7 @@ command(
 command(
   {
     pattern: "mp3",
-    fromMe: isPrivate,
+    fromMe: true,
     desc: "converts video/voice to mp3",
     type: "downloader",
   },

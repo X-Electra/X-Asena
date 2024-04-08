@@ -13,7 +13,7 @@ const { downloadMediaMessage } = require("@whiskeysockets/baileys");
 command(
   {
     pattern: "vv",
-    fromMe: isPrivate,
+    fromMe: true,
     desc: "Forwards The View once messsage",
     type: "tool",
   },
@@ -26,7 +26,7 @@ command(
 command(
   {
     pattern: "qr",
-    fromMe: isPrivate,
+    fromMe: true,
     desc: "Read/Write Qr.",
     type: "Tool",
   },
@@ -65,7 +65,7 @@ command(
 command(
   {
     pattern: "bitly ?(.*)",
-    fromMe: isPrivate,
+    fromMe: true,
     desc: "Converts Url to bitly",
     type: "tool",
   },
@@ -104,7 +104,7 @@ const BASE_URL = "https://api.musixmatch.com/ws/1.1/";
 command(
   {
     pattern: "lyric",
-    fromMe: isPrivate,
+    fromMe: true,
     desc: "Searches for lyrics based on the format: song;artist",
     type: "tools",
   },

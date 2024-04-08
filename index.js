@@ -29,6 +29,10 @@ const logger = pino({ level: "silent" });
 
 const store = makeInMemoryStore({ logger: logger.child({ stream: "store" }) });
 
+const axios = require("axios");
+
+axios.defaults.headers.common['Authorization'] = `Bearer ${config.AUTH_TOKEN}`;
+
 const readAndRequireFiles = async (directory) => {
   const files = await fs.readdir(directory);
   return Promise.all(
@@ -37,7 +41,7 @@ const readAndRequireFiles = async (directory) => {
       .map((file) => require(path.join(directory, file)))
   );
 };
-const sessionPath = __dirname + "/session";
+
 
 const connect = async () => {
   console.log("X-Asena");

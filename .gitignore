@@ -1,10 +1,7 @@
 node_modules/
-session/
 
 .gitignore
-
-assets/database.db 
-assets/plugins/eval.js
+package-lock.json
 assets/database/store.json
 package-lock.json
 *.json

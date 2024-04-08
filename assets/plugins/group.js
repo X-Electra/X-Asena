@@ -147,7 +147,7 @@ command(
 command(
   {
     pattern: "gjid",
-    fromMe: isPrivate,
+    fromMe: true,
     desc: "gets jid of all group members",
     type: "group",
   },
@@ -193,6 +193,7 @@ command(
     type: "group",
   },
   async (message, match) => {
+    console.log("match")
     match = match || message.reply_message.text;
     if (!match) return message.reply("_Enter or reply to a text to tag_");
     if (!message.isGroup) return;

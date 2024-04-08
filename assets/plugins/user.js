@@ -23,6 +23,24 @@ command(
   }
 );
 
+ command(
+  {
+    pattern: "shutdown",
+    fromMe: true,
+    desc: "stops the bot",
+    type: "user",
+  },
+  async (message, match) => {
+    await message.sendMessage(message.jid, "shutting down...");
+    exec("pm2 stop x-asena", (error, stdout, stderr) => {
+      if (error) {
+        return message.sendMessage(message.jid, `Error: ${error}`);
+      }
+      return;
+    });
+  }
+);
+
 command(
   {
     pattern: "resume",
