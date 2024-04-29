@@ -12,7 +12,7 @@ module.exports = {
   ANTILINK_ACTION: process.env.ANTI_LINK || "kick",
   SESSION_ID: process.env.SESSION_ID || "idvu3oj6_XASENA_w46_XASENA_nb8c",
   LANG: process.env.LANG || "EN",
-  AUTH_TOKEN: "6b79d69224525c9efcb716c50b12b7f5c231be918a34744184f66e35951090e3",
+  AUTH_TOKEN: "",
   HANDLERS:
     process.env.HANDLER === "false" || process.env.HANDLER === "null"
       ? "^"

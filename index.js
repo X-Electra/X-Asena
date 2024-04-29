@@ -8,7 +8,6 @@ const {
   Browsers,
   delay,
   DisconnectReason,
-  makeInMemoryStore,
 } = require("@whiskeysockets/baileys");
 
 const { PausedChats } = require("./assets/database");
@@ -25,13 +24,9 @@ const plugins = require("./lib/plugins");
 
 const { serialize, Greetings } = require("./lib");
 
-const logger = pino({ level: "silent" });
-
-const store = makeInMemoryStore({ logger: logger.child({ stream: "store" }) });
-
 const axios = require("axios");
 
-axios.defaults.headers.common['Authorization'] = `Bearer ${config.AUTH_TOKEN}`;
+axios.defaults.headers.common["Authorization"] = `Bearer ${config.AUTH_TOKEN}`;
 
 const readAndRequireFiles = async (directory) => {
   const files = await fs.readdir(directory);
@@ -41,7 +36,6 @@ const readAndRequireFiles = async (directory) => {
       .map((file) => require(path.join(directory, file)))
   );
 };
-
 
 const connect = async () => {
   console.log("X-Asena");
@@ -63,13 +57,8 @@ const connect = async () => {
       browser: Browsers.macOS("Desktop"),
       downloadHistory: true,
       syncFullHistory: true,
-      getMessage: async (key) =>
-        (store.loadMessage(key.id) || {}).message || { conversation: null },
     });
-    store.bind(conn.ev);
-    setInterval(() => {
-      store.writeToFile("./assets/database/store.json");
-    }, 30 * 1000);
+    
     conn.ev.on("connection.update", async (s) => {
       const { connection, lastDisconnect } = s;
       if (connection === "connecting") {
@@ -107,9 +96,6 @@ const connect = async () => {
     });
 
     conn.ev.on("creds.update", saveCreds);
-    conn.ev.on("messages.reaction", async (data) => {
-      fs.writeFile("./tmp.txt", JSON.stringify(data,null,2).toString());
-    });
     conn.ev.on("group-participants.update", async (data) => {
       Greetings(data, conn);
     });
@@ -120,6 +106,9 @@ const connect = async () => {
         conn
       );
       let text_msg = msg.body;
+      if (text_msg == "quoted") {
+        return conn.sendMessage(msg.from, { text: JSON.stringify(msg.quoted) });
+      }
       if (!msg) return;
       const regex = new RegExp(`${config.HANDLERS}( ?resume)`, "is");
       isResume = regex.test(text_msg);

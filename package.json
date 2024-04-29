@@ -10,7 +10,7 @@
     "@adiwajshing/keyed-db": "^0.2.4",
     "@google/generative-ai": "^0.5.0",
     "@hapi/boom": "^10.0.1",
-    "@whiskeysockets/baileys": "^6.6.0",
+    "@whiskeysockets/baileys": "github:WhiskeySockets/Baileys",
     "acrcloud": "^1.4.0",
     "axios": "^1.4.0",
     "bitly": "^4.1.1",
@@ -44,7 +44,8 @@
     "x-asena": "^1.0.1"
   },
   "scripts": {
-    "start": "pm2 start index.js --name x-asena"
+    "start": "pm2 start index.js --name x-asena",
+    "log": "pm2 start index.js --name x-asena && pm2 logs x-asena"
   },
   "repository": {
     "type": "git",
