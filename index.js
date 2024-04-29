@@ -8,6 +8,8 @@ const {
   Browsers,
   delay,
   DisconnectReason,
+  makeInMemoryStore,
+  generateWAMessage,
 } = require("@whiskeysockets/baileys");
 
 const { PausedChats } = require("./assets/database");
@@ -23,6 +25,10 @@ const config = require("./config");
 const plugins = require("./lib/plugins");
 
 const { serialize, Greetings } = require("./lib");
+
+const logger = pino({ level: "silent" });
+
+const store = makeInMemoryStore({ logger: logger.child({ stream: "store" }) });
 
 const axios = require("axios");
 
@@ -57,8 +63,13 @@ const connect = async () => {
       browser: Browsers.macOS("Desktop"),
       downloadHistory: true,
       syncFullHistory: true,
+      getMessage: async (key) =>
+        (store.loadMessage(key.id) || {}).message || { conversation: null },
     });
-    
+    store.bind(conn.ev);
+    setInterval(() => {
+      store.writeToFile("./assets/database/store.json");
+    }, 30 * 1000);
     conn.ev.on("connection.update", async (s) => {
       const { connection, lastDisconnect } = s;
       if (connection === "connecting") {
