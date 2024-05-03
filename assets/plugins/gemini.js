@@ -23,9 +23,9 @@ command(
 
       fs.writeFileSync("image.jpg", image);
       const text = await gemini(match, image, {
-        id
+        id,
       });
-      return await message.sendMessage(message.jid, text);
+      return await message.reply(text);
     }
     match = message.reply_message
       ? message.reply_message.text + `\n\n${match || ""}`
