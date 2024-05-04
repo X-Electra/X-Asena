@@ -1,5 +1,6 @@
 const config = require("../../config");
 const { command, isPrivate, toAudio } = require("../../lib/");
+const { webp2mp4 } = require("../../lib/functions");
 command(
   {
     pattern: "sticker",
@@ -147,7 +148,7 @@ command(
     type: "converter",
   },
   async (message, match, m) => {
-    if (message.reply_message.mtype !== "stickerMessage")
+    if (!message.reply_message.sticker)
       return await message.reply("_Not a sticker_");
     let buff = await m.quoted.download();
     return await message.sendMessage(message.jid, buff, {}, "image");
@@ -174,3 +175,29 @@ command(
     );
   }
 );
+
+command(
+  {
+    pattern: "mp4",
+    fromMe: isPrivate,
+    desc: "converts video/voice to mp4",
+    type: "downloader",
+  },
+  async (message, match, m) => {
+    if (!message.reply_message.video||!message.reply_message.sticker||!message.reply_message.audio)
+      return await message.reply("_Reply to a sticker/audio/video_");
+    let buff = await m.quoted.download();
+    if (message.reply_message.sticker) {
+      buff = await webp2mp4(buff);
+    } else {
+      buff = await toAudio(buff, "mp4");
+    }
+    return await message.sendMessage(
+      message.jid,
+      buff,
+      { mimetype: "video/mp4" },
+      "video"
+    );
+  }
+);
+
