@@ -18,7 +18,6 @@ const chatDb = config.DATABASE.define("Chat", {
   },
 });
 
-
 const messageDb = config.DATABASE.define("message", {
   jid: {
     type: DataTypes.STRING,
@@ -47,28 +46,36 @@ const contactDb = config.DATABASE.define("contact", {
 });
 
 const saveContact = async (jid, name) => {
-  if (isJidGroup(jid)) return;
-  const exists = await contactDb.findOne({ where: { jid } });
-  if (exists) {
-    if (exists.name === name) {
-      return;
+  try {
+    if (isJidGroup(jid)) return;
+    const exists = await contactDb.findOne({ where: { jid } });
+    if (exists) {
+      if (exists.name === name) {
+        return;
+      }
+      await contactDb.update({ name }, { where: { jid } });
+    } else {
+      await contactDb.create({ jid, name });
     }
-    await contactDb.update({ name }, { where: { jid } });
-  } else {
-    await contactDb.create({ jid, name });
+  } catch (e) {
+    console.log(e);
   }
 };
 
 const saveMessage = async (message, user) => {
-  const jid = message.key.remoteJid;
-  const id = message.key.id;
-  const msg = message;
-  await saveContact(user, message.pushName);
-  let exists = await messageDb.findOne({ where: { id, jid } });
-  if (exists) {
-    await messageDb.update({ message: msg }, { where: { id, jid } });
-  } else {
-    await messageDb.create({ id, jid, message: msg });
+  try {
+    const jid = message.key.remoteJid;
+    const id = message.key.id;
+    const msg = message;
+    await saveContact(user, message.pushName);
+    let exists = await messageDb.findOne({ where: { id, jid } });
+    if (exists) {
+      await messageDb.update({ message: msg }, { where: { id, jid } });
+    } else {
+      await messageDb.create({ id, jid, message: msg });
+    }
+  } catch (e) {
+    console.log(e);
   }
 };
 
