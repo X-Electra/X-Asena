@@ -58,16 +58,20 @@ const saveContact = async (jid, name) => {
   }
 };
 
-const saveMessage = async (message,user) => {
+const saveMessage = async (message, user) => {
   const jid = message.key.remoteJid;
   const id = message.key.id;
   const msg = message;
   await saveContact(user, message.pushName);
-  return await messageDb.create({ jid, id, message: msg });
+  let exists = await messageDb.findOne({ where: { id, jid } });
+  if (exists) {
+    await messageDb.update({ message: msg }, { where: { id, jid } });
+  } else {
+    await messageDb.create({ id, jid, message: msg });
+  }
 };
 
-const loadMessage = async (id,jid) => {
-  
+const loadMessage = async (id, jid) => {
   const message = await messageDb.findOne({
     where: { id, jid },
   });
