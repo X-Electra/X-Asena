@@ -31,6 +31,7 @@ module.exports = {
   HEROKU: toBool(process.env.HEROKU) || false,
   BOT_NAME: process.env.BOT_NAME || "X-asena",
   WORK_TYPE: process.env.WORK_TYPE || "public",
+  SESSION_URL: process.env.SESSION_URL || "",
   DATABASE_URL: DATABASE_URL,
   DATABASE:
     DATABASE_URL === "./assets/database.db"

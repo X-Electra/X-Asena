@@ -3,6 +3,7 @@ const path = require("path");
 const config = require("./config");
 const connect = require("./lib/connection");
 const { getandRequirePlugins } = require("./assets/database/plugins");
+const { getJson } = require("./lib");
 
 global.__basedir = __dirname;
 
@@ -21,6 +22,7 @@ const readAndRequireFiles = async (directory) => {
 };
 
 async function initialize() {
+ 
   console.log("X-Asena");
   try {
     await readAndRequireFiles(path.join(__dirname, "/assets/database/"));
