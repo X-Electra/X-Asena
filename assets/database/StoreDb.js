@@ -9,7 +9,7 @@ const chatDb = config.DATABASE.define("Chat", {
     primaryKey: true,
   },
   conversationTimestamp: {
-    type: DataTypes.NUMBER,
+    type: DataTypes.INTEGER,
     allowNull: false,
   },
   isGroup: {
@@ -17,6 +17,7 @@ const chatDb = config.DATABASE.define("Chat", {
     allowNull: false,
   },
 });
+
 
 const messageDb = config.DATABASE.define("message", {
   jid: {
