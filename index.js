@@ -2,11 +2,10 @@ const fs = require("fs").promises;
 const path = require("path");
 const config = require("./config");
 const connect = require("./lib/connection");
+const { getandRequirePlugins } = require("./assets/database/plugins");
 
-// Set global variable for base directory
 global.__basedir = __dirname;
 
-// Function to read and require JavaScript files from a directory
 const readAndRequireFiles = async (directory) => {
   try {
     const files = await fs.readdir(directory);
@@ -17,29 +16,23 @@ const readAndRequireFiles = async (directory) => {
     );
   } catch (error) {
     console.error("Error reading and requiring files:", error);
-    throw error; // Rethrow the error for higher-level handling
+    throw error;
   }
 };
 
-// Main function to connect and initialize
 async function initialize() {
   console.log("X-Asena");
-
-
-
   try {
-    // Read and require database files
     await readAndRequireFiles(path.join(__dirname, "/assets/database/"));
     console.log("Syncing Database");
-    // Sync database
+
     await config.DATABASE.sync();
 
-    // Read and require plugin files
     console.log("⬇  Installing Plugins...");
     await readAndRequireFiles(path.join(__dirname, "/assets/plugins/"));
+    await getandRequirePlugins();
     console.log("✅ Plugins Installed!");
 
-    // Connect to the main function
     await connect();
   } catch (error) {
     console.error("Initialization error:", error);
@@ -47,5 +40,4 @@ async function initialize() {
   }
 }
 
-// Call the initialization function
 initialize();
