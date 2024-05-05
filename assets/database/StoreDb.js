@@ -74,7 +74,7 @@ const saveMessage = async (message, user) => {
 
 const loadMessage = async (id, jid) => {
   const message = await messageDb.findOne({
-    where: { id, jid },
+    where: { id },
   });
   return message.dataValues;
 };
