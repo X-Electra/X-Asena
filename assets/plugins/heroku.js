@@ -17,13 +17,13 @@ command(
   },
   async (message) => {
     await message.reply(`_Restarting_`);
-    if (Config.HEROKU_APP_NAME === "") {
-      return await message.reply("Add `HEROKU_APP_NAME` env variable");
-    }
-    if (Config.HEROKU_API_KEY === "") {
-      return await message.reply("Add `HEROKU_API_KEY` env variable");
-    }
     if (Config.HEROKU) {
+      if (Config.HEROKU_APP_NAME === "") {
+        return await message.reply("Add `HEROKU_APP_NAME` env variable");
+      }
+      if (Config.HEROKU_API_KEY === "") {
+        return await message.reply("Add `HEROKU_API_KEY` env variable");
+      }
       await heroku.delete(baseURI + "/dynos").catch(async (error) => {
         await message.reply(`HEROKU : ${error.body.message}`);
       });
@@ -49,13 +49,13 @@ command(
     type: "heroku",
   },
   async (message) => {
-    if (Config.HEROKU_APP_NAME === "") {
-      return await message.reply("Add `HEROKU_APP_NAME` env variable");
-    }
-    if (Config.HEROKU_API_KEY === "") {
-      return await message.reply("Add `HEROKU_API_KEY` env variable");
-    }
-    if (config.HEROKU) {
+    if (Config.HEROKU) {
+      if (Config.HEROKU_APP_NAME === "") {
+        return await message.reply("Add `HEROKU_APP_NAME` env variable");
+      }
+      if (Config.HEROKU_API_KEY === "") {
+        return await message.reply("Add `HEROKU_API_KEY` env variable");
+      }
       await heroku
         .get(baseURI + "/formation")
         .then(async (formation) => {
@@ -84,12 +84,13 @@ command(
     type: "heroku",
   },
   async (message) => {
+    if (!Config.HEROKU)
+      return await message.reply("You are not using Heroku as your server.");
+
     if (Config.HEROKU_APP_NAME === "")
       return await message.reply("Add `HEROKU_APP_NAME` env variable");
     if (Config.HEROKU_API_KEY === "")
       return await message.reply("Add `HEROKU_API_KEY env variable");
-    if (!Config.HEROKU)
-      return await message.reply("You are not using Heroku as your server.");
 
     try {
       heroku

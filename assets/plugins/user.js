@@ -165,23 +165,6 @@ command(
   }
 );
 
-command(
-  {
-    pattern: "restart",
-    fromMe: true,
-    desc: "Restart the bot",
-    type: "user",
-  },
-  async (message, match) => {
-    await message.sendMessage(message.jid, "Restarting...");
-    exec("pm2 restart x-asena", (error, stdout, stderr) => {
-      if (error) {
-        return message.sendMessage(message.jid, `Error: ${error}`);
-      }
-      return;
-    });
-  }
-);
 
 command(
   {
