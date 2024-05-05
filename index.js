@@ -25,6 +25,8 @@ const readAndRequireFiles = async (directory) => {
 async function initialize() {
   console.log("X-Asena");
 
+
+
   try {
     // Read and require database files
     await readAndRequireFiles(path.join(__dirname, "/assets/database/"));
