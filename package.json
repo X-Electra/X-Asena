@@ -16,7 +16,6 @@
     "axios": "^1.4.0",
     "bitly": "^4.1.1",
     "browser-id3-writer": "^4.4.0",
-    "canvas": "^2.11.2",
     "dotenv": "^16.4.5",
     "file-type": "^16.5.3",
     "fluent-ffmpeg": "^2.1.2",
@@ -44,7 +43,8 @@
     "socket.io-client": "^4.7.5",
     "spotifydl-core": "^0.2.0",
     "sqlite3": "^5.1.7",
-    "x-asena": "^1.0.1"
+    "x-asena": "^1.0.1",
+    "ytsr": "^3.8.4"
   },
   "scripts": {
     "start": "node index.js",
