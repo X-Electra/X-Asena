@@ -184,7 +184,11 @@ command(
     type: "downloader",
   },
   async (message, match, m) => {
-    if (!message.reply_message.video||!message.reply_message.sticker||!message.reply_message.audio)
+    if (
+      !message.reply_message.video ||
+      !message.reply_message.sticker ||
+      !message.reply_message.audio
+    )
       return await message.reply("_Reply to a sticker/audio/video_");
     let buff = await m.quoted.download();
     if (message.reply_message.sticker) {
@@ -201,3 +205,17 @@ command(
   }
 );
 
+command(
+  {
+    pattern: "img",
+    fromMe: true,
+    desc: "Converts Sticker to image",
+    type: "converter",
+  },
+  async (message, match, m) => {
+    if (!message.reply_message.sticker)
+      return await message.reply("_Reply to a sticker_");
+    let buff = await m.quoted.download();
+    return await message.sendMessage(message.jid, buff, {}, "image");
+  }
+);
