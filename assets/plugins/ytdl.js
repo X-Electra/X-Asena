@@ -70,14 +70,23 @@ command(
     let { dlink, title } = await ytsdl(match);
     await message.reply(`_Downloading ${title}_`);
     let buff = await getBuffer(dlink);
-    return await message.sendMessage(message.jid, buff, "audio");
+    buff = await toAudio(buff, "mp3");
+    return await message.sendMessage(
+      message.jid,
+      buff,
+      {
+        mimetype: "audio/mp4",
+        filename: title + ".mp3",
+      },
+      "audio"
+    );
   }
 );
 
 command(
   {
-    pattern: "video",
-    fromMe: isPrivate,
+    pattern: "vid",
+    fromMe: true,
     desc: "Download video from youtube",
   },
   async (message, match) => {
@@ -85,6 +94,14 @@ command(
     if (!match) return await message.reply("Give me a query");
     let { dlink, title } = await ytsdl(match, "video");
     await message.reply(`_Downloading ${title}_`);
-    return await message.sendMessage(message.jid, dlink, "video");
+    return await message.sendMessage(
+      message.jid,
+      dlink,
+      {
+        mimetype: "video/mp4",
+        filename: title + ".mp4",
+      },
+      "video"
+    );
   }
 );
