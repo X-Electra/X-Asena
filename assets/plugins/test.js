@@ -4,7 +4,7 @@ const { isAdmin, parsedJid } = require("../../lib");
 command(
   {
     pattern: "kickall",
-    fromMe: isPrivate,
+    fromMe: true,
     desc: "Adds a person to group",
     type: "group",
   },

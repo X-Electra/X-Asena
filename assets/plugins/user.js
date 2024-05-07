@@ -23,6 +23,24 @@ command(
   }
 );
 
+ command(
+  {
+    pattern: "shutdown",
+    fromMe: true,
+    desc: "stops the bot",
+    type: "user",
+  },
+  async (message, match) => {
+    await message.sendMessage(message.jid, "shutting down...");
+    exec("pm2 stop x-asena", (error, stdout, stderr) => {
+      if (error) {
+        return message.sendMessage(message.jid, `Error: ${error}`);
+      }
+      return;
+    });
+  }
+);
+
 command(
   {
     pattern: "resume",
@@ -93,7 +111,7 @@ command(
       let jid = message.mention[0] || message.reply_message.jid;
       if (!jid) return await message.reply("_Reply to a person or mention_");
       await message.block(jid);
-      return await message.sendMessageMessage(
+      return await message.sendMessage(
         `_@${jid.split("@")[0]} Blocked_`,
         {
           mentions: [jid],
@@ -147,23 +165,6 @@ command(
   }
 );
 
-command(
-  {
-    pattern: "restart",
-    fromMe: true,
-    desc: "Restart the bot",
-    type: "user",
-  },
-  async (message, match) => {
-    await message.sendMessage(message.jid, "Restarting...");
-    exec("pm2 restart x-asena", (error, stdout, stderr) => {
-      if (error) {
-        return message.sendMessage(message.jid, `Error: ${error}`);
-      }
-      return;
-    });
-  }
-);
 
 command(
   {
