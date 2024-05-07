@@ -21,12 +21,11 @@ command(
     let { dlink, title } = await yta(match);
     await message.reply(`_Downloading ${title}_`);
     let buff = await getBuffer(dlink);
-    buff = await toAudio(buff, "mp3");
     return await message.sendMessage(
       message.jid,
       buff,
       {
-        mimetype: "audio/mp4",
+        mimetype: "audio/mpeg",
         filename: title + ".mp3",
       },
       "audio"
@@ -70,12 +69,11 @@ command(
     let { dlink, title } = await ytsdl(match);
     await message.reply(`_Downloading ${title}_`);
     let buff = await getBuffer(dlink);
-    buff = await toAudio(buff, "mp3");
     return await message.sendMessage(
       message.jid,
       buff,
       {
-        mimetype: "audio/mp4",
+        mimetype: "audio/mpeg",
         filename: title + ".mp3",
       },
       "audio"
