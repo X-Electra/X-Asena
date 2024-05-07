@@ -6,7 +6,7 @@ const { hostname } = require("os");
 command(
   {
     pattern: "menu",
-    fromMe: isPrivate,
+    fromMe: true,
     desc: "Show All Commands",
     dontAddCommandList: true,
     type: "user",
@@ -71,10 +71,11 @@ Description: ${i.desc}\`\`\``);
   }
 );
 
+
 command(
   {
     pattern: "list",
-    fromMe: isPrivate,
+    fromMe: true,
     desc: "Show All Commands",
     type: "user",
     dontAddCommandList: true,

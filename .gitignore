@@ -1,10 +1,9 @@
 node_modules/
 session/
 
-.gitignore
 
-assets/database.db 
+# Ignore the build directory
+
 assets/plugins/eval.js
 assets/database/store.json
-package-lock.json
-*.json
+assets/database.db

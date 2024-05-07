@@ -10,7 +10,6 @@ command(
     type: "group",
   },
   async (message, match) => {
-    console.log(match);
     let text, msg;
     try {
       [text, msg] = match.split(":");

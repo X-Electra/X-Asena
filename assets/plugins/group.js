@@ -3,7 +3,7 @@ const { isAdmin, parsedJid } = require("../../lib");
 
 command(
   {
-    pattern: "add ?(.*)",
+    pattern: "add",
     fromMe: true,
     desc: "add a person to group",
     type: "group",
@@ -30,7 +30,7 @@ command(
 
 command(
   {
-    pattern: "kick ?(.*)",
+    pattern: "kick",
     fromMe: true,
     desc: "kicks a person from group",
     type: "group",
@@ -56,7 +56,7 @@ command(
 );
 command(
   {
-    pattern: "promote ?(.*)",
+    pattern: "promote",
     fromMe: true,
     desc: "promote to admin",
     type: "group",
@@ -82,7 +82,7 @@ command(
 );
 command(
   {
-    pattern: "demote ?(.*)",
+    pattern: "demote",
     fromMe: true,
     desc: "demote from admin",
     type: "group",
@@ -147,7 +147,7 @@ command(
 command(
   {
     pattern: "gjid",
-    fromMe: isPrivate,
+    fromMe: true,
     desc: "gets jid of all group members",
     type: "group",
   },
@@ -167,7 +167,7 @@ command(
 
 command(
   {
-    pattern: "tagall ?(.*)",
+    pattern: "tagall",
     fromMe: true,
     desc: "mention all users in group",
     type: "group",
@@ -193,6 +193,7 @@ command(
     type: "group",
   },
   async (message, match) => {
+    console.log("match")
     match = match || message.reply_message.text;
     if (!match) return message.reply("_Enter or reply to a text to tag_");
     if (!message.isGroup) return;
