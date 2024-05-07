@@ -1,10 +1,4 @@
-const {
-  command,
-  qrcode,
-  Bitly,
-  isUrl,
-  readQr,
-} = require("../../lib/");
+const { command, qrcode, Bitly, isUrl, readQr } = require("../../lib/");
 
 const { downloadMediaMessage } = require("@whiskeysockets/baileys");
 const { getLyrics } = require("../../lib/functions");
@@ -23,26 +17,31 @@ command(
 
 // STATUS SAVER ( MAKE fromMe: false TO USE AS PUBLIC )
 command(
-  { 
+  {
     on: "text",
     fromMe: true,
     desc: "Save or Give Status Updates",
     dontAddCommandList: true,
-    type: "Tool"
+    type: "Tool",
   },
   async (message, match, m) => {
-    try{
+    try {
       if (message.isGroup) return;
       const triggerKeywords = ["save", "send", "sent", "snt", "give", "snd"];
-      const cmdz = match.toLowerCase().split(' ')[0];
-      if (triggerKeywords.some(tr => cmdz.includes(tr))) {
+      const cmdz = match.toLowerCase().split(" ")[0];
+      if (triggerKeywords.some((tr) => cmdz.includes(tr))) {
         const relayOptions = { messageId: m.quoted.key.id };
-        return await message.client.relayMessage(message.jid, m.quoted.message, relayOptions);
+        return await message.client.relayMessage(
+          message.jid,
+          m.quoted.message,
+          relayOptions
+        );
       }
     } catch (error) {
       console.error("[Error]:", error);
     }
-  });
+  }
+);
 
 command(
   {
@@ -52,34 +51,27 @@ command(
     type: "Tool",
   },
   async (message, match, m) => {
-    match = match || (message.reply_message && message.reply_message.text);
+    match = match || message.reply_message.text;
 
     if (match) {
       let buff = await qrcode(match);
       return await message.sendMessage(message.jid, buff, {}, "image");
-    } else if (!message.reply_message || !message.reply_message.image) {
+    } else if (message.reply_message.image) {
+      const buffer = await m.quoted.download();
+      readQr(buffer)
+        .then(async (data) => {
+          return await message.sendMessage(message.jid, data);
+        })
+        .catch(async (error) => {
+          console.error("Error:", error.message);
+          return await message.sendMessage(message.jid, error.message);
+        });
+    } else {
       return await message.sendMessage(
         message.jid,
         "*Example : qr test*\n*Reply to a qr image.*"
       );
     }
-
-    const buffer = await downloadMediaMessage(
-      message.reply_message,
-      "buffer",
-      {},
-      {
-        reuploadRequest: message.client.updateMediaMessage,
-      }
-    );
-    readQr(buffer)
-      .then(async (data) => {
-        return await message.sendMessage(message.jid, data);
-      })
-      .catch(async (error) => {
-        console.error("Error:", error.message);
-        return await message.sendMessage(message.jid, error.message);
-      });
   }
 );
 
