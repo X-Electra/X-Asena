@@ -111,7 +111,7 @@ command(
       let jid = message.mention[0] || message.reply_message.jid;
       if (!jid) return await message.reply("_Reply to a person or mention_");
       await message.block(jid);
-      return await message.sendMessageMessage(
+      return await message.sendMessage(
         `_@${jid.split("@")[0]} Blocked_`,
         {
           mentions: [jid],
