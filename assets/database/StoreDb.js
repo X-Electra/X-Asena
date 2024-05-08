@@ -86,7 +86,7 @@ const loadMessage = async (id) => {
   const message = await messageDb.findOne({
     where: { id },
   });
-  return message.dataValues;
+  return message.dataValues ? message.dataValues : false;
 };
 
 const saveChat = async (chat) => {
