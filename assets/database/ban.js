@@ -28,6 +28,7 @@ const isBanned = async (chatid) => {
 const banUser = async (chatid) => {
   return new Promise(async (resolve, reject) => {
     try {
+      const ban = await banBotDb.findOne({ where: { chatid } });
       if (ban) {
         await ban.update({ ban: true });
       } else {
