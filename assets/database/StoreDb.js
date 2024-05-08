@@ -47,6 +47,7 @@ const contactDb = config.DATABASE.define("contact", {
 
 const saveContact = async (jid, name) => {
   try {
+    if (!jid || !name) return;
     if (isJidGroup(jid)) return;
     const exists = await contactDb.findOne({ where: { jid } });
     if (exists) {
@@ -67,6 +68,7 @@ const saveMessage = async (message, user) => {
     const jid = message.key.remoteJid;
     const id = message.key.id;
     const msg = message;
+    if (!id || !jid || !msg) return;
     await saveContact(user, message.pushName);
     let exists = await messageDb.findOne({ where: { id, jid } });
     if (exists) {
@@ -80,6 +82,7 @@ const saveMessage = async (message, user) => {
 };
 
 const loadMessage = async (id) => {
+  if (!id) return;
   const message = await messageDb.findOne({
     where: { id },
   });
@@ -90,6 +93,7 @@ const saveChat = async (chat) => {
   if (chat.id === "status@broadcast") return;
   if (chat.id === "broadcast") return;
   let isGroup = isJidGroup(chat.id);
+  if (!chat.id || !chat.conversationTimestamp) return;
   let chatexists = await chatDb.findOne({ where: { id: chat.id } });
   if (chatexists) {
     await chatDb.update(
