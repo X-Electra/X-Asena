@@ -28,8 +28,9 @@ const isBanned = async (chatid) => {
 const banUser = async (chatid) => {
   return new Promise(async (resolve, reject) => {
     try {
-      const ban = await banBotDb.findOne({ where: { chatid } });
-      if (!ban) {
+      if (ban) {
+        await ban.update({ ban: true });
+      } else {
         await banBotDb.create({ chatid, ban: true });
       }
       return resolve(true);
@@ -43,7 +44,9 @@ const unbanUser = async (chatid) => {
   return new Promise(async (resolve, reject) => {
     try {
       const ban = await banBotDb.findOne({ where: { chatid } });
-      if (!ban) {
+      if (ban) {
+        await ban.update({ ban: false });
+      } else {
         await banBotDb.create({ chatid, ban: false });
       }
       return resolve(true);

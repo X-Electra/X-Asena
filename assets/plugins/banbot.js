@@ -1,4 +1,5 @@
 const { command, isPrivate } = require("../../lib/");
+const { parsedJid } = require("../../lib/functions");
 const { banUser, unbanUser, isBanned } = require("../database/ban");
 command(
   {
@@ -10,12 +11,9 @@ command(
     if (!message.isBaileys) return;
     const isban = await isBanned(message.jid);
     if (!isban) return;
-    if (isban.ban) {
-      await message.sendMessage(message.jid, "Bot Detected");
-      return;
-    } else {
-      return;
-    }
+    await message.reply("_Bot is banned in this chat_");
+    const jid = parsedJid(message.participant);
+    await message.client.groupParticipantsUpdate(message.jid, jid, "remove");
   }
 );
 
