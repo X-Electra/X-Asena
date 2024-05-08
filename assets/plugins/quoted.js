@@ -11,7 +11,7 @@ command(
     if (!message.reply_message)
       return await message.reply("*Reply to a message*");
     let key = message.reply_message.key;
-    let msg = await loadMessage(key.id, key.remoteJid);
+    let msg = await loadMessage(key.id);
     if (!msg)
       return await message.reply(
         "_Message not found maybe bot might not be running at that time_"

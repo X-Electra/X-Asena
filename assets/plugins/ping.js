@@ -1,4 +1,5 @@
-const { command, isPrivate} = require("../../lib/");
+const { fromBuffer, mimeTypes } = require("file-type");
+const { command, isPrivate } = require("../../lib/");
 command(
   {
     pattern: "ping",
@@ -8,10 +9,13 @@ command(
   },
   async (message, match) => {
     const start = new Date().getTime();
-    await message.sendMessage(message.jid,"```Ping!```");
+    await message.sendMessage(message.jid, "```Ping!```");
     const end = new Date().getTime();
-    return await message.sendMessage(message.jid,
+    return await message.sendMessage(
+      message.jid,
       "*Pong!*\n ```" + (end - start) + "``` *ms*"
     );
   }
 );
+
+

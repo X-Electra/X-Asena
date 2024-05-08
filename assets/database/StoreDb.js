@@ -79,7 +79,7 @@ const saveMessage = async (message, user) => {
   }
 };
 
-const loadMessage = async (id, jid) => {
+const loadMessage = async (id) => {
   const message = await messageDb.findOne({
     where: { id },
   });

@@ -18,13 +18,14 @@ module.exports = {
       ? "^"
       : "^[#]",
   RMBG_KEY: process.env.RMBG_KEY || false,
-  BRANCH: "master",
+  BRANCH: "main",
   WARN_COUNT: 3,
   PACKNAME: process.env.PACKNAME || "X-asena",
   WELCOME_MSG: process.env.WELCOME_MSG || "Hi @user Welcome to @gname",
   GOODBYE_MSG: process.env.GOODBYE_MSG || "Hi @user It was Nice Seeing you",
   AUTHOR: process.env.AUTHOR || "X-electra",
-  SUDO: process.env.SUDO || "918113921898,919598157259,918590508376,919383400679",
+  SUDO:
+    process.env.SUDO || "918113921898,919598157259,918590508376,919383400679",
   HEROKU_APP_NAME: process.env.HEROKU_APP_NAME || "",
   HEROKU_API_KEY: process.env.HEROKU_API_KEY || "",
   OWNER_NAME: process.env.OWNER_NAME || "Neeraj-X0",
@@ -32,6 +33,8 @@ module.exports = {
   BOT_NAME: process.env.BOT_NAME || "X-asena",
   WORK_TYPE: process.env.WORK_TYPE || "public",
   SESSION_URL: process.env.SESSION_URL || "",
+  DELETED_LOG: toBool(process.env.DELETED_LOG) || false,
+  DELETED_LOG_CHAT: process.env.DELETED_LOG_CHAT || false,
   DATABASE_URL: DATABASE_URL,
   DATABASE:
     DATABASE_URL === "./assets/database.db"
