@@ -35,10 +35,10 @@ async function initialize() {
     await getandRequirePlugins();
     console.log("✅ Plugins Installed!");
 
-    await connect();
+    return  await connect();
   } catch (error) {
     console.error("Initialization error:", error);
-    process.exit(1); // Exit with error status
+    return process.exit(1); // Exit with error status
   }
 }
 
