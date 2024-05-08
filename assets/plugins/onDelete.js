@@ -15,10 +15,7 @@ command(
         "Please set DELETED_LOG_CHAT in ENV to use log delete message"
       );
     let msg = await loadMessage(message.messageId);
-    if (!msg)
-      return await message.reply(
-        "_Message not found maybe bot might not be running at that time_"
-      );
+    if (!msg) return;
     msg = await serialize(
       JSON.parse(JSON.stringify(msg.message)),
       message.client
