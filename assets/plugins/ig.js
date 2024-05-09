@@ -1,4 +1,4 @@
-const { command, getUrl, igdl, isIgUrl } = require("../../lib/");
+const { command, getUrl, igdl, isIgUrl,isPrivate } = require("../../lib/");
 command(
   {
     pattern: "insta",

@@ -1,4 +1,4 @@
-const { command, qrcode, Bitly, isUrl, readQr } = require("../../lib/");
+const { command, qrcode, Bitly,isPrivate, isUrl, readQr } = require("../../lib/");
 
 const { downloadMediaMessage } = require("@whiskeysockets/baileys");
 const { getLyrics } = require("../../lib/functions");

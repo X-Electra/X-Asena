@@ -1,4 +1,4 @@
-  const { command } = require("../../lib");
+  const { command,isPrivate } = require("../../lib");
   let db = {};
 
   command(
