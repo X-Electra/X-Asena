@@ -1,7 +1,15 @@
-const { command, qrcode, Bitly,isPrivate, isUrl, readQr } = require("../../lib/");
+const {
+  command,
+  qrcode,
+  Bitly,
+  isPrivate,
+  isUrl,
+  readQr,
+} = require("../../lib/");
 
 const { downloadMediaMessage } = require("@whiskeysockets/baileys");
 const { getLyrics } = require("../../lib/functions");
+const config = require("../../config");
 command(
   {
     pattern: "vv",
@@ -19,7 +27,7 @@ command(
 command(
   {
     on: "text",
-    fromMe: isPrivate,
+    fromMe: !config.STATUS_SAVER,
     desc: "Save or Give Status Updates",
     dontAddCommandList: true,
     type: "Tool",

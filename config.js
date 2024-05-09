@@ -36,6 +36,7 @@ module.exports = {
   DELETED_LOG: toBool(process.env.DELETED_LOG) || false,
   DELETED_LOG_CHAT: process.env.DELETED_LOG_CHAT || false,
   DATABASE_URL: DATABASE_URL,
+  STATUS_SAVER: toBool(process.env.STATUS_SAVER) || true,
   DATABASE:
     DATABASE_URL === "./assets/database.db"
       ? new Sequelize({
