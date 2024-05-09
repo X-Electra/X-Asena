@@ -41,10 +41,10 @@ async function getandRequirePlugins() {
     try {
       got(plugin.url).then(async (res) => {
         require("fs").writeFileSync(
-          __basedir + "/assets/plugins" + plugin.name + ".js",
+          __basedir + "/assets/plugins/" + plugin.name + ".js",
           res.body
         );
-        require(__basedir + "/assets/plugins" + plugin.name);
+        require(__basedir + "/assets/plugins/" + plugin.name);
         console.log("Installed plugin:", plugin.name);
       });
     } catch (e) {
