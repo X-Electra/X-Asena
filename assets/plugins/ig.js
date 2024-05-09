@@ -2,7 +2,7 @@ const { command, getUrl, igdl, isIgUrl } = require("../../lib/");
 command(
   {
     pattern: "insta",
-    fromMe: true,
+    fromMe: isPrivate,
     desc: "To download instagram media",
     type: "user",
   },

@@ -2,7 +2,7 @@ const { command, isAdmin, parseJid, isPrivate } = require("../../lib/");
 command(
   {
     pattern: "delttt",
-    fromMe: true,
+    fromMe: isPrivate,
     desc: "delete TicTacToe running game.",
     type: "game",
     dontAddCommandList:true
@@ -29,7 +29,7 @@ command(
 command(
   {
     pattern: "ttt",
-    fromMe: true,
+    fromMe: isPrivate,
     desc: "Play TicTacToe",
     type: "game",
   },

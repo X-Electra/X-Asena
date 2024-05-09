@@ -4,7 +4,7 @@ const { loadMessage, getName } = require("../database/StoreDb");
 command(
   {
     on: "delete",
-    fromMe: isPrivate,
+    fromMe: false,
     desc: "Logs the recent deleted message",
   },
   async (message, match) => {

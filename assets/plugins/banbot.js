@@ -4,7 +4,7 @@ const { banUser, unbanUser, isBanned } = require("../database/ban");
 command(
   {
     on: "message",
-    fromMe: isPrivate,
+    fromMe: true,
     dontAddCommandList: true,
   },
   async (message, match) => {
@@ -20,7 +20,7 @@ command(
 command(
   {
     pattern: "banbot",
-    fromMe: isPrivate,
+    fromMe: true,
     desc: "ban bot from a chat",
     type: "",
   },
@@ -38,7 +38,7 @@ command(
 command(
   {
     pattern: "unbanbot",
-    fromMe: isPrivate,
+    fromMe: true,
     desc: "Unban bot from a chat",
     type: "user",
   },

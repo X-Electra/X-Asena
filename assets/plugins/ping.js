@@ -3,7 +3,7 @@ const { command, isPrivate } = require("../../lib/");
 command(
   {
     pattern: "ping",
-    fromMe: true,
+    fromMe: isPrivate,
     desc: "To check ping",
     type: "user",
   },

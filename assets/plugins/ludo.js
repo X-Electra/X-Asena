@@ -3,8 +3,8 @@
 
   command(
     {
-      pattern: "lud",
-      fromMe: true,
+      pattern: "ludo",
+      fromMe: isPrivate,
       desc: "play ludo",
       type: "user",
     },

@@ -3,7 +3,7 @@ const { command, parsedJid } = require("../../lib/");
 command(
   {
     pattern: "fd",
-    fromMe: true,
+    fromMe: isPrivate,
     desc: "Forwards the replied Message",
     type: "Util",
   },

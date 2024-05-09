@@ -83,8 +83,8 @@ command(
 
 command(
   {
-    pattern: "vid",
-    fromMe: true,
+    pattern: "video",
+    fromMe: isPrivate,
     desc: "Download video from youtube",
   },
   async (message, match) => {

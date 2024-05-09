@@ -7,7 +7,7 @@ const { command } = require("../../lib");
 command(
   {
     pattern: "c",
-    fromMe: true,
+    fromMe: isPrivate,
   },
   async (m, match) => {
     const client = m.client;

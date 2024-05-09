@@ -79,7 +79,7 @@ command(
 command(
   {
     pattern: "dyno",
-    fromMe: isPrivate,
+    fromMe: true,
     desc: "Show Quota info",
     type: "heroku",
   },

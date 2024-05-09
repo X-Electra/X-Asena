@@ -4,7 +4,7 @@ const { webp2mp4 } = require("../../lib/functions");
 command(
   {
     pattern: "sticker",
-    fromMe: true,
+    fromMe: isPrivate,
     desc: "Converts Photo/video/text to sticker",
     type: "converter",
   },
@@ -32,7 +32,7 @@ command(
 command(
   {
     pattern: "take",
-    fromMe: true,
+    fromMe: isPrivate,
     desc: "Converts Photo or video to sticker",
     type: "converter",
   },
@@ -49,7 +49,7 @@ command(
 command(
   {
     pattern: "photo",
-    fromMe: true,
+    fromMe: isPrivate,
     desc: "Changes sticker to Photo",
     type: "converter",
   },
@@ -64,7 +64,7 @@ command(
 command(
   {
     pattern: "mp3",
-    fromMe: true,
+    fromMe: isPrivate,
     desc: "converts video/voice to mp3",
     type: "downloader",
   },
@@ -114,7 +114,7 @@ command(
 command(
   {
     pattern: "img",
-    fromMe: true,
+    fromMe: isPrivate,
     desc: "Converts Sticker to image",
     type: "converter",
   },
