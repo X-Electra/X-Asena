@@ -9,7 +9,7 @@ command(
     type: "user",
   },
   async (message, match) => {
-    await message.sendMessage("_Updating..._");
+    await message.sendMessage(message.jid, "_Updating..._");
     exec("git pull", async (error, stdout, stderr) => {
       if (error) {
         return message.sendMessage(message.jid, error.message);
