@@ -8,7 +8,7 @@ command(
   {
     pattern: "update",
     fromMe: true,
-    desc: "shows the changes in the latest commit",
+    desc: "Update the bot",
     type: "user",
   },
   async (message, match) => {
