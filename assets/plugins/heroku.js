@@ -29,7 +29,7 @@ command(
       });
     } else {
       require("child_process").exec(
-        "pm2 restart x-asena",
+        "pm2 restart "+Config.PROCESSNAME,
         (error, stdout, stderr) => {
           if (error) {
             return message.sendMessage(message.jid, `Error: ${error}`);
