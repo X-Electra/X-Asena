@@ -13,7 +13,11 @@ command(
     if (!isban) return;
     await message.reply("_Bot is banned in this chat_");
     const jid = parsedJid(message.participant);
-    await message.client.groupParticipantsUpdate(message.jid, jid, "remove");
+    return await message.client.groupParticipantsUpdate(
+      message.jid,
+      jid,
+      "remove"
+    );
   }
 );
 

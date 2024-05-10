@@ -29,7 +29,7 @@ command(
 command(
   {
     pattern: "ttt",
-    fromMe: isPrivate,
+    fromMe: false,
     desc: "Play TicTacToe",
     type: "game",
   },
