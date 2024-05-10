@@ -17,6 +17,8 @@ command(
       if (stderr) {
         return message.sendMessage(message.jid, stderr);
       }
+      if (stdout && stdout == "Already up to date.")
+        return message.sendMessage(message.jid, "_Already up to date._");
       message.sendMessage(message.jid, "_Updated successfully!_");
       exec("pm2 restart " + PROCESSNAME, (error, stdout, stderr) => {
         if (error) {
