@@ -1,29 +1,53 @@
 const { PROCESSNAME } = require("../../config");
 const { command } = require("../../lib/");
 const { exec } = require("child_process");
-const git = require("simple-git");
+const simplegit = require("simple-git");
+const git = simplegit();
+
 command(
   {
     pattern: "update",
     fromMe: true,
-    desc: "update the bot",
+    desc: "shows the changes in the latest commit",
     type: "user",
   },
   async (message, match) => {
-    await message.sendMessage(message.jid, "_Updating..._");
-    const available = await git().silent(true).pull("origin", "master");
-    if (available.summary.changes) {
-      await message.sendMessage(message.jid, "_Updated! Restarting..._");
-      exec("pm2 restart " + PROCESSNAME, (error, stdout, stderr) => {
-        if (error) {
-          return message.sendMessage(message.jid, error.message);
+    prefix = message.prefix;
+    await git.fetch();
+    var branch = (await git.branch()).current;
+    var commits = await git.log([branch + "..origin/" + branch]);
+    if (match === "now") {
+      if (commits.total === 0) {
+        return await message.sendMessage(
+          message.jid,
+          "```No changes in the latest commit```"
+        );
+      }
+      await message.sendMessage(message.jid, "*Updating...*");
+      await exec("git pull", async (err, stdout, stderr) => {
+        if (err) {
+          return await message.sendMessage(message.jid, "```" + stderr + "```");
         }
-        if (stderr) {
-          return message.sendMessage(message.jid, stderr);
-        }
+        await message.sendMessage(message.jid, "*Restarting...*");
+        await exec("pm2 restart " + PROCESSNAME);
       });
     } else {
-      await message.sendMessage(message.jid, "_Already up-to-date._");
+      if (commits.total === 0) {
+        return await message.sendMessage(
+          message.jid,
+          "```No changes in the latest commit```"
+        );
+      } else {
+        let changes = "_New update available!_\n\n";
+        changes += "*Commits:* ```" + commits.total + "```\n";
+        changes += "*Branch:* ```" + branch + "```\n";
+        changes += "*Changes:* \n";
+        commits.all.forEach((commit, index) => {
+          changes += "```" + (index + 1) + ". " + commit.message + "```\n";
+        });
+        changes += "\n*To update, send* ```" + prefix + "update now```";
+        await message.sendMessage(message.jid, changes);
+      }
     }
   }
 );
