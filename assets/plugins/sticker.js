@@ -1,6 +1,6 @@
 const config = require("../../config");
 const { command, isPrivate, toAudio } = require("../../lib/");
-const { webp2mp4 } = require("../../lib/functions");
+const { webp2mp4, textToImg } = require("../../lib/functions");
 command(
   {
     pattern: "sticker",
@@ -17,7 +17,15 @@ command(
       )
     )
       return await message.reply("_Reply to photo/video/text_");
-
+    if (message.reply_message.text) {
+      let buff = await textToImg(message.reply_message.text);
+      return await message.sendMessage(
+        message.jid,
+        buff,
+        { mimetype: "image/webp" },
+        "stickerMessage"
+      );
+    }
     let buff = await m.quoted.download();
     message.sendMessage(
       message.jid,
@@ -27,7 +35,6 @@ command(
     );
   }
 );
-
 
 command(
   {
