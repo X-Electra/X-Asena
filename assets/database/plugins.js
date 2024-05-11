@@ -53,4 +53,4 @@ async function getandRequirePlugins() {
   });
 }
 
-module.exports = { PluginDB, installPlugin ,  getandRequirePlugins};
+module.exports = { PluginDB, installPlugin, getandRequirePlugins };

@@ -3,7 +3,6 @@ const path = require("path");
 const config = require("./config");
 const connect = require("./lib/connection");
 const { getandRequirePlugins } = require("./assets/database/plugins");
-const { getJson } = require("./lib");
 
 global.__basedir = __dirname;
 

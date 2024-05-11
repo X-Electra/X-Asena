@@ -54,9 +54,9 @@ const saveContact = async (jid, name) => {
       if (exists.name === name) {
         return;
       }
-      await contactDb.update({ name }, { where: { jid } });
+      return await contactDb.update({ name }, { where: { jid } });
     } else {
-      await contactDb.create({ jid, name });
+      return await contactDb.create({ jid, name });
     }
   } catch (e) {
     console.log(e);
@@ -72,9 +72,9 @@ const saveMessage = async (message, user) => {
     await saveContact(user, message.pushName);
     let exists = await messageDb.findOne({ where: { id, jid } });
     if (exists) {
-      await messageDb.update({ message: msg }, { where: { id, jid } });
+      return await messageDb.update({ message: msg }, { where: { id, jid } });
     } else {
-      await messageDb.create({ id, jid, message: msg });
+      return await messageDb.create({ id, jid, message: msg });
     }
   } catch (e) {
     console.log(e);
@@ -86,7 +86,8 @@ const loadMessage = async (id) => {
   const message = await messageDb.findOne({
     where: { id },
   });
-  return message.dataValues ? message.dataValues : false;
+  if (message) return message.dataValues;
+  return false;
 };
 
 const saveChat = async (chat) => {
@@ -96,12 +97,12 @@ const saveChat = async (chat) => {
   if (!chat.id || !chat.conversationTimestamp) return;
   let chatexists = await chatDb.findOne({ where: { id: chat.id } });
   if (chatexists) {
-    await chatDb.update(
+    return await chatDb.update(
       { conversationTimestamp: chat.conversationTimestamp },
       { where: { id: chat.id } }
     );
   } else {
-    await chatDb.create({
+    return await chatDb.create({
       id: chat.id,
       conversationTimestamp: chat.conversationTimestamp,
       isGroup,
@@ -111,6 +112,7 @@ const saveChat = async (chat) => {
 
 const getName = async (jid) => {
   const contact = await contactDb.findOne({ where: { jid } });
+  if (!contact) return jid.split("@")[0].replace(/_/g, " ");
   return contact.name;
 };
 module.exports = {
