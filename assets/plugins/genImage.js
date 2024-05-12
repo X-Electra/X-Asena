@@ -11,7 +11,7 @@ command(
     match = match || message.reply_message.text;
     if (!match) return await message.sendMessage(message.jid, "Provide a text");
     let buff = await aiImage(match);
-    if (buff instanceof Text)
+    if (!Buffer.isBuffer(buff))
       return await message.sendMessage(message.jid, buff);
     return await message.sendMessage(
       message.jid,
