@@ -33,7 +33,7 @@ command(
     }
     return await message.sendMessage(
       DELETED_LOG_CHAT,
-      `_Message Deleted_\n_From : ${msg.from}_\n${name}+\n_SenderJid : ${msg.sender}_`,
+      `_Message Deleted_\n_From : ${msg.from}_\n${name}\n_SenderJid : ${msg.sender}_`,
       { quoted: deleted }
     );
   }
