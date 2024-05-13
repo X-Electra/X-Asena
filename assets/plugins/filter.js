@@ -70,7 +70,7 @@ command(
         "gm"
       );
       if (pattern.test(match)) {
-        await message.reply(filter.dataValues.text, {
+      return  await message.reply(filter.dataValues.text, {
           quoted: message,
         });
       }
