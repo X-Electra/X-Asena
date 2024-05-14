@@ -36,6 +36,7 @@ module.exports = {
   SESSION_URL: process.env.SESSION_URL || "",
   DELETED_LOG: toBool(process.env.DELETED_LOG) || false,
   DELETED_LOG_CHAT: process.env.DELETED_LOG_CHAT || false,
+  REMOVEBG : process.env.REMOVEBG || false,
   DATABASE_URL: DATABASE_URL,
   STATUS_SAVER: toBool(process.env.STATUS_SAVER) || true,
   DATABASE:
