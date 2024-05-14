@@ -25,7 +25,7 @@ command(
       {
         quoted: message.reply_message.key,
         mimetype: "image/png",
-        filename: "removebg.png",
+        fileName: "removebg.png",
       },
       "document"
     );
