@@ -16,7 +16,7 @@ command(
       );
     if (!message.reply_message && !message.reply_message.image)
       return await message.reply("Reply to an image");
-    let buff = m.quoted.download();
+    let buff = await m.quoted.download();
     let buffer = await removeBg(buff);
     if (!buffer) return await message.reply("An error occured");
     await message.sendMessage(
