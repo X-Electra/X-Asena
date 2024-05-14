@@ -22,8 +22,12 @@ command(
     await message.sendMessage(
       message.jid,
       buffer,
-      { quoted: message.reply_message },
-      "image"
+      {
+        quoted: message.reply_message.key,
+        mimetype: "image/png",
+        filename: "removebg.png",
+      },
+      "document"
     );
   }
 );
