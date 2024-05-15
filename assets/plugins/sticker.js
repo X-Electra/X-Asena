@@ -9,14 +9,13 @@ command(
     type: "converter",
   },
   async (message, match, m) => {
-    if (
-      !(
-        message.reply_message.video ||
-        message.reply_message.image ||
-        message.reply_message.text
-      )
-    )
-      return await message.reply("_Reply to photo/video/text_");
+    const isValid =
+      message.reply_message.video ||
+      message.reply_message.image ||
+      message.reply_message.text ||
+      message.reply_message.mimetype.includes("image");
+
+    if (isValid) return await message.reply("_Reply to photo/video/text_");
     if (message.reply_message.text) {
       let buff = await textToImg(message.reply_message.text);
       return await message.sendMessage(
