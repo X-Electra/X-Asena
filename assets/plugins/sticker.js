@@ -9,11 +9,7 @@ command(
     type: "converter",
   },
   async (message, match, m) => {
-    if (
-      !message.reply_message.video ||
-      !message.reply_message.image ||
-      !message.reply_message.text
-    )
+    if (!message.reply_message&& (!message.reply_message.video || !message.reply_message.sticker || !message.reply_message.text))
       return await message.reply("_Reply to photo/video/text_");
     var buff;
     if (message.reply_message.text) {
