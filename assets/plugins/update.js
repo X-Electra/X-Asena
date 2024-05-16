@@ -1,3 +1,4 @@
+const config = require("../../config");
 const { PROCESSNAME } = require("../../config");
 const { command } = require("../../lib/");
 const { exec } = require("child_process");
@@ -14,7 +15,7 @@ command(
   async (message, match) => {
     prefix = message.prefix;
     await git.fetch();
-    var branch = (await git.branch()).current;
+    var branch = config.BRANCH;
     var commits = await git.log([branch + "..origin/" + branch]);
     if (match === "now") {
       if (commits.total === 0) {
