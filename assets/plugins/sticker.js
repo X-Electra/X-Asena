@@ -10,21 +10,18 @@ command(
   },
   async (message, match, m) => {
     if (
-      message.reply_message.video ||
-      message.reply_message.image ||
-      message.reply_message.text
+      !message.reply_message.video ||
+      !message.reply_message.image ||
+      !message.reply_message.text
     )
       return await message.reply("_Reply to photo/video/text_");
+    var buff;
     if (message.reply_message.text) {
-      let buff = await textToImg(message.reply_message.text);
-      return await message.sendMessage(
-        message.jid,
-        buff,
-        { mimetype: "image/webp" },
-        "stickerMessage"
-      );
+      buff = await textToImg(message.reply_message.text);
+    } else {
+      buff = await m.quoted.download();
     }
-    let buff = await m.quoted.download();
+
     message.sendMessage(
       message.jid,
       buff,
