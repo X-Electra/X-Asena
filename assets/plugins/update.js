@@ -25,7 +25,7 @@ command(
         );
       }
       await message.sendMessage(message.jid, "*Updating...*");
-      await exec("git pull", async (err, stdout, stderr) => {
+      await exec("git pull origin "+config.BRANCH, async (err, stdout, stderr) => {
         if (err) {
           return await message.sendMessage(message.jid, "```" + stderr + "```");
         }
