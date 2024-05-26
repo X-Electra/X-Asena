@@ -7,7 +7,7 @@ module.exports = {
   ANTILINK: toBool(process.env.ANTI_LINK) || false,
   LOGS: toBool(process.env.LOGS) || true,
   ANTILINK_ACTION: process.env.ANTI_LINK || "kick",
-  SESSION_ID: process.env.SESSION_ID || "idvu3oj6_XASENA_w46_XASENA_nb8c",
+  SESSION_ID: process.env.SESSION_ID ||null,
   LANG: process.env.LANG || "EN",
   AUTH_TOKEN: "",
   HANDLERS:
