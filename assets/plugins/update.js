@@ -4,6 +4,7 @@ const { command } = require("../../lib/");
 const { exec } = require("child_process");
 const simplegit = require("simple-git");
 const git = simplegit();
+var branch = config.BRANCH;
 
 command(
   {
@@ -15,7 +16,7 @@ command(
   async (message, match) => {
     prefix = message.prefix;
     await git.fetch();
-    var branch = config.BRANCH;
+
     var commits = await git.log([branch + "..origin/" + branch]);
     if (match === "now") {
       if (commits.total === 0) {
@@ -25,13 +26,33 @@ command(
         );
       }
       await message.sendMessage(message.jid, "*Updating...*");
-      await exec("git pull origin "+config.BRANCH, async (err, stdout, stderr) => {
-        if (err) {
-          return await message.sendMessage(message.jid, "```" + stderr + "```");
+      await exec(
+        "git pull origin " + config.BRANCH,
+        async (err, stdout, stderr) => {
+          if (err) {
+            return await message.sendMessage(
+              message.jid,
+              "```" + stderr + "```"
+            );
+          }
+          await message.sendMessage(message.jid, "*Restarting...*");
+          let dependancy = await updatedDependencies();
+          if (dependancy) {
+            exec(
+              "npm install && pm2 restart " + PROCESSNAME,
+              async (err, stdout, stderr) => {
+                if (err) {
+                  return await message.sendMessage(
+                    message.jid,
+                    "```" + stderr + "```"
+                  );
+                }
+                await message.sendMessage(message.jid, "*Restarting...*");
+              }
+            );
+          }
         }
-        await message.sendMessage(message.jid, "*Restarting...*");
-        await exec("pm2 restart " + PROCESSNAME);
-      });
+      );
     } else {
       if (commits.total === 0) {
         return await message.sendMessage(
@@ -52,3 +73,14 @@ command(
     }
   }
 );
+
+async function updatedDependencies() {
+  try {
+    const diff = await git.diff([`${branch}..origin/${branch}`]);
+    const hasDependencyChanges = diff.includes('"dependencies":');
+    return hasDependencyChanges;
+  } catch (error) {
+    console.error("Error occurred while checking package.json:", error);
+    return false;
+  }
+}
