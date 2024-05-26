@@ -7,7 +7,7 @@ const {
   readQr,
 } = require("../../lib/");
 
-const { downloadMediaMessage } = require("@whiskeysockets/baileys");
+const { downloadMediaMessage } = require("baileys");
 const { getLyrics } = require("../../lib/functions");
 const config = require("../../config");
 command(

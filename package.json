@@ -11,9 +11,9 @@
     "@google/generative-ai": "^0.5.0",
     "@hapi/boom": "^10.0.1",
     "@neeraj-x0/nodetoolkit": "^1.0.3",
-    "@whiskeysockets/baileys": "^6.6.0",
     "acrcloud": "^1.4.0",
     "axios": "^1.4.0",
+    "baileys": "github:X-Electra/baileys",
     "bitly": "^7.1.2",
     "browser-id3-writer": "^4.4.0",
     "dotenv": "^16.4.5",
@@ -44,12 +44,13 @@
     "socket.io-client": "^4.7.5",
     "spotifydl-core": "^0.2.0",
     "sqlite3": "^5.1.7",
+    "stream-buffers": "^3.0.2",
     "x-asena": "^1.0.1",
     "ytsr": "^3.8.4"
   },
   "scripts": {
-    "start": "node index.js",
-    "log": "pm2 start index.js --name x-asena && pm2 logs x-asena"
+    "start": "pm2 start index.js --name x-asena && pm2 logs x-asena",
+    "code": "node pcode.js"
   },
   "repository": {
     "type": "git",

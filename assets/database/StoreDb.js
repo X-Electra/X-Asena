@@ -1,4 +1,4 @@
-const { isJidGroup } = require("@whiskeysockets/baileys");
+const { isJidGroup } = require("baileys");
 const config = require("../../config");
 const { DataTypes } = require("sequelize");
 
