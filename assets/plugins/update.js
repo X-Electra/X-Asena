@@ -38,6 +38,10 @@ command(
           await message.sendMessage(message.jid, "*Restarting...*");
           let dependancy = await updatedDependencies();
           if (dependancy) {
+            await message.reply(
+              "*Dependancies changed installing new dependancies *"
+            );
+            await message.reply("*Restarting...*");
             exec(
               "npm install && pm2 restart " + PROCESSNAME,
               async (err, stdout, stderr) => {
@@ -47,9 +51,18 @@ command(
                     "```" + stderr + "```"
                   );
                 }
-                await message.sendMessage(message.jid, "*Restarting...*");
               }
             );
+          } else {
+            await message.reply("*Restarting...*");
+            exec("pm2 restart " + PROCESSNAME, async (err, stdout, stderr) => {
+              if (err) {
+                return await message.sendMessage(
+                  message.jid,
+                  "```" + stderr + "```"
+                );
+              }
+            });
           }
         }
       );
