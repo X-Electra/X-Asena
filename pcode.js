@@ -7,6 +7,7 @@ const {
   delay,
   generateSessionID,
 } = require("baileys");
+const phonenumber = require("libphonenumber-js");
 const logger = require("pino")({ level: "silent" });
 const NodeCache = require("node-cache");
 const { createInterface } = require("readline");
@@ -44,7 +45,7 @@ const startSock = async () => {
   const { version, isLatest } = await fetchLatestBaileysVersion();
   const msgRetryCounterCache = new NodeCache();
   console.log(`using WA v${version.join(".")}, isLatest: ${isLatest}`);
- let restarted = false;
+  let restarted = false;
   async function connect() {
     const sock = makeWASocket({
       version,
@@ -57,8 +58,15 @@ const startSock = async () => {
       generateHighQualityLinkPreview: true,
       msgRetryCounterCache,
     });
-    if (!sock.authState.creds.me?.id&& !restarted) {
-      const phoneNumber = await question("Enter phone number: ");
+    if (!sock.authState.creds.me?.id && !restarted) {
+      let phoneNumber = await question("Enter phone number: ");
+      try {
+        phoneNumber = phonenumber.parsePhoneNumber(phoneNumber);
+      } catch (error) {
+        console.log("Invalid phone number");
+        process.exit(1);
+      }
+
       const pairingCode = await sock.requestPairingCode(phoneNumber);
       console.log(`Pairing code: ${pairingCode} `);
     }
@@ -87,7 +95,7 @@ const startSock = async () => {
           await sock.sendMessage(sock.user.id, {
             text: `Session ID Generated: ${sessionID}`,
           });
-          
+
           await delay(5000);
           console.log(
             "session generated using pairing code run 'npm start' to start the bot"
