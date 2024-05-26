@@ -27,7 +27,7 @@ command(
       }
       await message.sendMessage(message.jid, "*Updating...*");
       await exec(
-        "git pull origin " + config.BRANCH,
+        "git stash && git pull origin " + config.BRANCH,
         async (err, stdout, stderr) => {
           if (err) {
             return await message.sendMessage(
