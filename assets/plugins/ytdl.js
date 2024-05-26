@@ -5,6 +5,7 @@ const {
   AddMp3Meta,
   getBuffer,
   toAudio,
+  getJson,
 } = require("../../lib");
 const { yta, ytv, ytsdl } = require("../../lib/ytdl");
 
@@ -18,7 +19,11 @@ command(
     match = match || message.reply_message.text;
     if (!match) return await message.reply("Give me a youtube link");
     if (!isUrl(match)) return await message.reply("Give me a youtube link");
-    let { dlink, title } = await yta(match);
+    let { dlink, title } = (
+      await getJson(
+        `https://api.thexapi.xyz/api/v1/download/youtube/audio?url=${match}`
+      )
+    ).data;
     await message.reply(`_Downloading ${title}_`);
     let buff = await getBuffer(dlink);
     return await message.sendMessage(
