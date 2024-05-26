@@ -39,8 +39,9 @@ To deploy X-Asena on any shell, including Termux, follow these steps:
    - `npm install pm2 -g`
 4. To scan the QR code and start the bot, run `npm start`
 5. To connect using a pairing code, run `npm run code`. After pairing, run `npm start` again and scan the QR code
-6. To stop the bot, press `Ctrl+C`
-7. To restart the bot, run `npm start` again
+6. country code is require for connecting via pairing code. If you are from India, you can use `91` as country code. If you are from any other country, you can use your country code.
+7. To stop the bot, press `Ctrl+C`
+8. To start the bot, run `npm start` 
 
 ## Usage
 
