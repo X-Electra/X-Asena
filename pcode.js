@@ -7,7 +7,7 @@ const {
   delay,
   generateSessionID,
 } = require("baileys");
-const phonenumber = require("libphonenumber-js");
+
 const logger = require("pino")({ level: "silent" });
 const NodeCache = require("node-cache");
 const { createInterface } = require("readline");
@@ -41,7 +41,7 @@ const startSock = async () => {
   if (fs.existsSync("session")) {
     rmDir("session");
   }
-  const { state } = await useMultiFileAuthState("session");
+  const { state, saveCreds } = await useMultiFileAuthState("session");
   const { version, isLatest } = await fetchLatestBaileysVersion();
   const msgRetryCounterCache = new NodeCache();
   console.log(`using WA v${version.join(".")}, isLatest: ${isLatest}`);
@@ -50,7 +50,6 @@ const startSock = async () => {
     const sock = makeWASocket({
       version,
       logger,
-      printQRInTerminal: false,
       auth: {
         creds: state.creds,
         keys: makeCacheableSignalKeyStore(state.keys, logger),
@@ -60,16 +59,6 @@ const startSock = async () => {
     });
     if (!sock.authState.creds.me?.id && !restarted) {
       let phoneNumber = await question("Enter phone number: ");
-      try {
-        if(!phoneNumber.startsWith("+")){
-          phoneNumber = "+" + phoneNumber;
-        }
-        phoneNumber = phonenumber.parsePhoneNumber(phoneNumber).replace("+", "");
-      } catch (error) {
-        console.log("Invalid phone number");
-        process.exit(1);
-      }
-
       const pairingCode = await sock.requestPairingCode(phoneNumber);
       console.log(`Pairing code: ${pairingCode} `);
     }
@@ -91,9 +80,11 @@ const startSock = async () => {
             restarted = true;
           }
         }
-
+        sock.ev.on("creds.update", saveCreds);
+        delay(5000);
         if (connection === "open") {
-          let sessionID = await generateSessionID(sock);
+          let creds = require("./session/creds.json");
+          let sessionID = await generateSessionID(creds);
           console.log("Session ID Generated: ", sessionID);
           await sock.sendMessage(sock.user.id, {
             text: `Session ID Generated: ${sessionID}`,
