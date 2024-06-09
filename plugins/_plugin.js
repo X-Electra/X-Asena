@@ -1,9 +1,9 @@
-const { command } = require("../lib");
+const { alpha } = require("../lib");
 const axios = require("axios");
 const fs = require("fs");
 const { PluginDB, installPlugin } = require("../lib/database").Plugins;
 
-command(
+alpha(
   {
     pattern: "install",
     fromMe: true,
@@ -44,7 +44,7 @@ command(
           fs.unlinkSync(__dirname + "/" + plugin_name + ".js");
           return await message.sendMessage(
             message.jid,
-            "Invalid Plugin\n ```" + e + "```"
+            "Invalid Plugin\n ```" + e + "```",
           );
         }
 
@@ -52,17 +52,17 @@ command(
 
         await message.sendMessage(
           message.jid,
-          `_New plugin installed : ${plugin_name}_`
+          `_New plugin installed : ${plugin_name}_`,
         );
       }
     } catch (error) {
       console.error(error);
       return await message.sendMessage(message.jid, "Failed to fetch plugin");
     }
-  }
+  },
 );
 
-command(
+alpha(
   { pattern: "plugin", fromMe: true, desc: "plugin list", type: "user" },
   async (message, match) => {
     var mesaj = "";
@@ -70,7 +70,7 @@ command(
     if (plugins.length < 1) {
       return await message.sendMessage(
         message.jid,
-        "_No external plugins installed_"
+        "_No external plugins installed_",
       );
     } else {
       plugins.map((plugin) => {
@@ -83,10 +83,10 @@ command(
       });
       return await message.sendMessage(message.jid, mesaj);
     }
-  }
+  },
 );
 
-command(
+alpha(
   {
     pattern: "remove",
     fromMe: true,
@@ -107,5 +107,5 @@ command(
       fs.unlinkSync(__dirname + "/" + match + ".js");
       await message.sendMessage(message.jid, `Plugin ${match} deleted`);
     }
-  }
+  },
 );

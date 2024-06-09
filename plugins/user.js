@@ -1,11 +1,11 @@
-const { command, isAdmin, parsedJid } = require("../lib");
+const { alpha, isAdmin, parsedJid } = require("../lib");
 const { exec } = require("child_process");
 const { PausedChats, WarnDB } = require("../lib/database");
 const { WARN_COUNT } = require("../config");
 const { secondsToDHMS } = require("../lib/functions");
 const { saveWarn, resetWarn } = WarnDB;
 
-command(
+alpha(
   {
     pattern: "pause",
     fromMe: true,
@@ -24,7 +24,7 @@ command(
   },
 );
 
-command(
+alpha(
   {
     pattern: "shutdown",
     fromMe: true,
@@ -42,7 +42,7 @@ command(
   },
 );
 
-command(
+alpha(
   {
     pattern: "resume",
     fromMe: true,
@@ -70,7 +70,7 @@ command(
   },
 );
 
-command(
+alpha(
   {
     pattern: "setpp",
     fromMe: true,
@@ -86,7 +86,7 @@ command(
   },
 );
 
-command(
+alpha(
   {
     pattern: "setname",
     fromMe: true,
@@ -100,7 +100,7 @@ command(
   },
 );
 
-command(
+alpha(
   {
     pattern: "block",
     fromMe: true,
@@ -122,7 +122,7 @@ command(
   },
 );
 
-command(
+alpha(
   {
     pattern: "unblock",
     fromMe: true,
@@ -148,7 +148,7 @@ command(
   },
 );
 
-command(
+alpha(
   {
     pattern: "jid",
     fromMe: true,
@@ -163,7 +163,7 @@ command(
   },
 );
 
-command(
+alpha(
   {
     pattern: "dlt",
     fromMe: true,
@@ -177,7 +177,7 @@ command(
   },
 );
 
-command(
+alpha(
   {
     pattern: "warn",
     fromMe: true,
@@ -215,7 +215,7 @@ command(
   },
 );
 
-command(
+alpha(
   {
     pattern: "resetwarn",
     fromMe: true,
@@ -234,7 +234,7 @@ command(
   },
 );
 
-command(
+alpha(
   {
     pattern: "uptime",
     fromMe: true,

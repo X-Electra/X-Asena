@@ -1,14 +1,16 @@
 const plugins = require("../lib/plugins");
-const { command, isPrivate } = require("../lib");
+const { alpha, isPrivate, runtime } = require("../lib");
 const { OWNER_NAME, BOT_NAME, TZ } = require("../config");
 const os = require("os");
-command(
+const packageJson = require("../package.json");
+
+alpha(
   {
     pattern: "menu",
     fromMe: isPrivate,
     desc: "Show All Commands",
     dontAddCommandList: true,
-    type: "user",
+    type: "info",
   },
   async (message, match) => {
     if (match) {
@@ -30,9 +32,9 @@ Description: ${i.desc}\`\`\``);
       let menu = `╭━〔 ${BOT_NAME} 〕━◉
 ┃╭━━━━━━━━━━━━━━◉
 ┃┃ *Plugins :-* ${plugins.commands.length.toString()}
-┃┃ *User :-* @${OWNER_NAME}
+┃┃ *User :-* @${message.participant.split("@")[0]}
 ┃┃ *Owner :-* ${OWNER_NAME}
-┃┃ *Version:-* 1.1.0 
+┃┃ *Version:-* ${packageJson.version} 
 ┃┃ *Prefix:-* ${prefix}
 ┃┃ *Mode :-* ${isPrivate ? "private" : "public"}
 ┃┃ *Date :-* ${date.trim()}
@@ -67,17 +69,18 @@ Description: ${i.desc}\`\`\``);
 
       menu += `
 ╰━━━━━━━━━━━━━◉_`;
-      return await message.sendMessage(message.jid, menu);
+
+      return await message.reply(menu);
     }
   },
 );
 
-command(
+alpha(
   {
     pattern: "list",
     fromMe: isPrivate,
     desc: "Show All Commands",
-    type: "user",
+    type: "info",
     dontAddCommandList: true,
   },
   async (message, match, { prefix }) => {

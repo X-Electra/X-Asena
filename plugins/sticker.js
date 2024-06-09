@@ -1,7 +1,7 @@
 const config = require("../config");
-const { command, isPrivate, toAudio } = require("../lib/");
+const { alpha, isPrivate, toAudio } = require("../lib/");
 const { webp2mp4, textToImg } = require("../lib/functions");
-command(
+alpha(
   {
     pattern: "sticker",
     fromMe: isPrivate,
@@ -27,7 +27,7 @@ command(
   }
 );
 
-command(
+alpha(
   {
     pattern: "take",
     fromMe: isPrivate,
@@ -44,7 +44,7 @@ command(
   }
 );
 
-command(
+alpha(
   {
     pattern: "photo",
     fromMe: isPrivate,
@@ -59,7 +59,7 @@ command(
   }
 );
 
-command(
+alpha(
   {
     pattern: "mp3",
     fromMe: isPrivate,
@@ -80,7 +80,7 @@ command(
   }
 );
 
-command(
+alpha(
   {
     pattern: "mp4",
     fromMe: isPrivate,
@@ -109,7 +109,7 @@ command(
   }
 );
 
-command(
+alpha(
   {
     pattern: "img",
     fromMe: isPrivate,

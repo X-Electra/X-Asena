@@ -1,7 +1,7 @@
 const { fromBuffer } = require("file-type");
-const { command, isPrivate } = require("../lib/");
+const { alpha, isPrivate } = require("../lib/");
 const { ffmpeg, parseTimeToSeconds } = require("../lib/functions");
-command(
+alpha(
   {
     pattern: "trim",
     fromMe: isPrivate,
@@ -17,13 +17,13 @@ command(
     }
     if (!match)
       return await message.sendMessage(
-        "Give the start and end time in this format: mm:ss|mm:ss"
+        "Give the start and end time in this format: mm:ss|mm:ss",
       );
 
     const [start, end] = match.split("|");
     if (!start || !end)
       return await message.sendMessage(
-        "Give the start and end time in this format: mm:ss|mm:ss"
+        "Give the start and end time in this format: mm:ss|mm:ss",
       );
     const buffer = await m.quoted.download();
     const startSeconds = parseTimeToSeconds(start);
@@ -33,5 +33,5 @@ command(
     const args = ["-ss", `${startSeconds}`, "-t", `${duration}`, "-c", "copy"];
     const trimmedBuffer = await ffmpeg(buffer, args, ext, ext);
     message.sendFile(trimmedBuffer);
-  }
+  },
 );

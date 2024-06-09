@@ -1,8 +1,8 @@
-const { command } = require("../lib");
+const { alpha } = require("../lib");
 const { setMessage, getMessage, delMessage, getStatus, toggleStatus } =
   require("../lib/database").Greetings;
 
-command(
+alpha(
   {
     pattern: "welcome",
     fromMe: true,
@@ -53,7 +53,7 @@ command(
   }
 );
 
-command(
+alpha(
   {
     pattern: "goodbye",
     fromMe: true,

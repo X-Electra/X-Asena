@@ -1,7 +1,7 @@
-const { command, isPrivate } = require("../lib/");
+const { alpha, isPrivate } = require("../lib/");
 const { removeBg } = require("../lib/functions");
 const config = require("../config");
-command(
+alpha(
   {
     pattern: "rmbg",
     fromMe: isPrivate,

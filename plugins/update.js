@@ -1,12 +1,12 @@
 const config = require("../config");
 const { PROCESSNAME } = require("../config");
-const { command } = require("../lib/");
+const { alpha } = require("../lib/");
 const { exec } = require("child_process");
 const simplegit = require("simple-git");
 const git = simplegit();
 var branch = config.BRANCH;
 
-command(
+alpha(
   {
     pattern: "update",
     fromMe: true,
@@ -22,7 +22,7 @@ command(
       if (commits.total === 0) {
         return await message.sendMessage(
           message.jid,
-          "```No changes in the latest commit```"
+          "```No changes in the latest commit```",
         );
       }
       await message.sendMessage(message.jid, "*Updating...*");
@@ -32,14 +32,14 @@ command(
           if (err) {
             return await message.sendMessage(
               message.jid,
-              "```" + stderr + "```"
+              "```" + stderr + "```",
             );
           }
           await message.sendMessage(message.jid, "*Restarting...*");
           let dependancy = await updatedDependencies();
           if (dependancy) {
             await message.reply(
-              "*Dependancies changed installing new dependancies *"
+              "*Dependancies changed installing new dependancies *",
             );
             await message.reply("*Restarting...*");
             exec(
@@ -48,10 +48,10 @@ command(
                 if (err) {
                   return await message.sendMessage(
                     message.jid,
-                    "```" + stderr + "```"
+                    "```" + stderr + "```",
                   );
                 }
-              }
+              },
             );
           } else {
             await message.reply("*Restarting...*");
@@ -59,18 +59,18 @@ command(
               if (err) {
                 return await message.sendMessage(
                   message.jid,
-                  "```" + stderr + "```"
+                  "```" + stderr + "```",
                 );
               }
             });
           }
-        }
+        },
       );
     } else {
       if (commits.total === 0) {
         return await message.sendMessage(
           message.jid,
-          "```No changes in the latest commit```"
+          "```No changes in the latest commit```",
         );
       } else {
         let changes = "_New update available!_\n\n";
@@ -84,7 +84,7 @@ command(
         await message.sendMessage(message.jid, changes);
       }
     }
-  }
+  },
 );
 
 async function updatedDependencies() {

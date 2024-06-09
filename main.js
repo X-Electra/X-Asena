@@ -1,3 +1,3 @@
-const {command} = require("./lib")
+const { alpha } = require("./lib");
 
-module.exports = {Module:command}
+module.exports = { Module: alpha };

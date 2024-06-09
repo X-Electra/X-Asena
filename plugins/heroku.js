@@ -1,13 +1,13 @@
 const got = require("got");
 const Heroku = require("heroku-client");
-const { command, isPrivate } = require("../lib/");
+const { alpha, isPrivate } = require("../lib/");
 const Config = require("../config");
 const heroku = new Heroku({ token: Config.HEROKU_API_KEY });
 const baseURI = "/apps/" + Config.HEROKU_APP_NAME;
 const { secondsToDHMS } = require("../lib/functions");
 const { delay } = require("baileys");
 
-command(
+alpha(
   {
     pattern: "restart",
     fromMe: true,
@@ -40,7 +40,7 @@ command(
     }
   },
 );
-command(
+alpha(
   {
     pattern: "shutdown",
     fromMe: true,
@@ -76,7 +76,7 @@ command(
   },
 );
 
-command(
+alpha(
   {
     pattern: "dyno",
     fromMe: true,

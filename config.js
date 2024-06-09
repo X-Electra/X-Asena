@@ -28,7 +28,7 @@ module.exports = {
   HEROKU: toBool(process.env.HEROKU) || false,
   BOT_NAME: process.env.BOT_NAME || "alpha",
   AUTO_READ: toBool(process.env.AUTO_READ) || false,
-  AUTO_STATUS_READ: toBool(process.env.AUTO_STATUS_READ) || false,
+  AUTO_READ_STATUS: toBool(process.env.AUTO_READ_STATUS) || false,
   PROCESSNAME: process.env.PROCESSNAME || "alpha",
   WORK_TYPE: process.env.WORK_TYPE || "private",
   TZ: process.env.TZ || "Africa/lagos", // leave if you don't know what you're doing

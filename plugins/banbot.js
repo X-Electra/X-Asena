@@ -1,11 +1,11 @@
-const { command, isPrivate } = require("../lib/");
+const { alpha, isPrivate } = require("../lib/");
 const { parsedJid } = require("../lib/functions");
 const { banUser, unbanUser, isBanned } = require("../lib/database/ban");
-command(
+alpha(
   {
     on: "message",
     fromMe: true,
-    dontAddCommandList: true,
+    dontAddcommandList: true,
   },
   async (message, match) => {
     if (!message.isBaileys) return;
@@ -21,7 +21,7 @@ command(
   },
 );
 
-command(
+alpha(
   {
     pattern: "banbot",
     fromMe: true,
@@ -39,7 +39,7 @@ command(
   },
 );
 
-command(
+alpha(
   {
     pattern: "unbanbot",
     fromMe: true,

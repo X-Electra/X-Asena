@@ -1,5 +1,5 @@
 const {
-  command,
+  alpha,
   isPrivate,
   isUrl,
   AddMp3Meta,
@@ -9,7 +9,7 @@ const {
 } = require("../lib");
 const { yta, ytv, ytsdl } = require("../lib/ytdl");
 
-command(
+alpha(
   {
     pattern: "yta",
     fromMe: isPrivate,
@@ -38,7 +38,7 @@ command(
   },
 );
 
-command(
+alpha(
   {
     pattern: "ytv",
     fromMe: isPrivate,
@@ -62,7 +62,7 @@ command(
   },
 );
 
-command(
+alpha(
   {
     pattern: "song",
     fromMe: isPrivate,
@@ -86,7 +86,7 @@ command(
   },
 );
 
-command(
+alpha(
   {
     pattern: "video",
     fromMe: isPrivate,

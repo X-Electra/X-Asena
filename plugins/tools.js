@@ -1,9 +1,9 @@
-const { command, qrcode, Bitly, isPrivate, isUrl, readQr } = require("../lib/");
+const { alpha, qrcode, Bitly, isPrivate, isUrl, readQr } = require("../lib/");
 
 const { downloadMediaMessage } = require("baileys");
 const { getLyrics } = require("../lib/functions");
 const config = require("../config");
-command(
+alpha(
   {
     pattern: "vv",
     fromMe: isPrivate,
@@ -17,7 +17,7 @@ command(
 );
 
 // STATUS SAVER ( MAKE fromMe: false TO USE AS PUBLIC )
-command(
+alpha(
   {
     on: "text",
     fromMe: !config.STATUS_SAVER,
@@ -44,7 +44,7 @@ command(
   },
 );
 
-command(
+alpha(
   {
     pattern: "qr",
     fromMe: isPrivate,
@@ -76,7 +76,7 @@ command(
   },
 );
 
-command(
+alpha(
   {
     pattern: "bitly",
     fromMe: isPrivate,
@@ -92,7 +92,7 @@ command(
   },
 );
 
-command(
+alpha(
   {
     pattern: "lyric",
     fromMe: isPrivate,

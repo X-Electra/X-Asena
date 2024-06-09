@@ -1,6 +1,7 @@
-const { command, isPrivate } = require("../lib/");
+const { alpha, isPrivate } = require("../lib/");
 const { aiImage } = require("../lib/functions");
-command(
+
+alpha(
   {
     pattern: "genimage",
     fromMe: isPrivate,
@@ -20,7 +21,7 @@ command(
         mimetype: "image/jpeg",
         caption: "X-Asena Dall-E Interface",
       },
-      "image"
+      "image",
     );
-  }
+  },
 );

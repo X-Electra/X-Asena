@@ -1,7 +1,7 @@
-const { command, isPrivate, serialize } = require("../lib/");
+const { alpha, isPrivate, serialize } = require("../lib/");
 const { loadMessage } = require("../lib/database/Store");
 
-command(
+alpha(
   {
     pattern: "quoted",
     fromMe: isPrivate,

@@ -3,9 +3,9 @@ const {
   setFilter,
   deleteFilter,
 } = require("../lib/database/filters");
-const { command } = require("../lib");
+const { alpha } = require("../lib");
 
-command(
+alpha(
   {
     pattern: "filter",
     fromMe: true,
@@ -41,7 +41,7 @@ command(
   },
 );
 
-command(
+alpha(
   {
     pattern: "stop",
     fromMe: true,
@@ -61,8 +61,8 @@ command(
   },
 );
 
-command(
-  { on: "text", fromMe: false, dontAddCommandList: true },
+alpha(
+  { on: "text", fromMe: false, dontAddalphaList: true },
   async (message, match) => {
     var filtreler = await getFilter(message.jid);
     if (!filtreler) return;

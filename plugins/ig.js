@@ -1,12 +1,12 @@
 const {
-  command,
+  alpha,
   getUrl,
   igdl,
   isIgUrl,
   isPrivate,
   getJson,
 } = require("../lib/");
-command(
+alpha(
   {
     pattern: "insta",
     fromMe: isPrivate,

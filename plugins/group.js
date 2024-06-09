@@ -1,7 +1,7 @@
-const { command, isPrivate } = require("../lib/");
+const { alpha, isPrivate } = require("../lib/");
 const { isAdmin, parsedJid } = require("../lib");
 
-command(
+alpha(
   {
     pattern: "add",
     fromMe: true,
@@ -10,25 +10,20 @@ command(
   },
   async (message, match) => {
     if (!message.isGroup)
-      return await message.reply("_This command is for groups_");
-
+      return await message.reply("_This command is only for groups_");
     match = match || message.reply_message.jid;
     if (!match) return await message.reply("_Mention user to add");
-
     const isadmin = await isAdmin(message.jid, message.user, message.client);
-
     if (!isadmin) return await message.reply("_I'm not admin_");
     const jid = parsedJid(match);
-
     await message.client.groupParticipantsUpdate(message.jid, jid, "add");
-
     return await message.reply(`_@${jid[0].split("@")[0]} added_`, {
       mentions: [jid],
     });
   },
 );
 
-command(
+alpha(
   {
     pattern: "kick",
     fromMe: true,
@@ -38,23 +33,18 @@ command(
   async (message, match) => {
     if (!message.isGroup)
       return await message.reply("_This command is for groups_");
-
     match = match || message.reply_message.jid;
     if (!match) return await message.reply("_Mention user to kick_");
-
     const isadmin = await isAdmin(message.jid, message.user, message.client);
-
     if (!isadmin) return await message.reply("_I'm not admin_");
     const jid = parsedJid(match);
-
     await message.client.groupParticipantsUpdate(message.jid, jid, "remove");
-
     return await message.reply(`_@${jid[0].split("@")[0]} kicked_`, {
       mentions: [jid],
     });
   },
 );
-command(
+alpha(
   {
     pattern: "promote",
     fromMe: true,
@@ -80,7 +70,7 @@ command(
     });
   },
 );
-command(
+alpha(
   {
     pattern: "demote",
     fromMe: true,
@@ -110,11 +100,11 @@ command(
   },
 );
 
-command(
+alpha(
   {
     pattern: "mute",
     fromMe: true,
-    desc: "nute group",
+    desc: "mute group",
     type: "group",
   },
   async (message, match, m, client) => {
@@ -127,7 +117,7 @@ command(
   },
 );
 
-command(
+alpha(
   {
     pattern: "unmute",
     fromMe: true,
@@ -144,7 +134,7 @@ command(
   },
 );
 
-command(
+alpha(
   {
     pattern: "gjid",
     fromMe: true,
@@ -165,27 +155,7 @@ command(
   },
 );
 
-command(
-  {
-    pattern: "tagall",
-    fromMe: true,
-    desc: "mention all users in group",
-    type: "group",
-  },
-  async (message, match) => {
-    if (!message.isGroup) return;
-    const { participants } = await message.client.groupMetadata(message.jid);
-    let teks = "";
-    for (let mem of participants) {
-      teks += ` @${mem.id.split("@")[0]}\n`;
-    }
-    message.sendMessage(message.jid, teks.trim(), {
-      mentions: participants.map((a) => a.id),
-    });
-  },
-);
-
-command(
+alpha(
   {
     pattern: "tag",
     fromMe: true,
@@ -193,13 +163,22 @@ command(
     type: "group",
   },
   async (message, match) => {
-    console.log("match");
-    match = match || message.reply_message.text;
-    if (!match) return message.reply("_Enter or reply to a text to tag_");
     if (!message.isGroup) return;
     const { participants } = await message.client.groupMetadata(message.jid);
-    message.sendMessage(message.jid, match, {
-      mentions: participants.map((a) => a.id),
-    });
+    if (match === "all") {
+      let teks = "";
+      for (let mem of participants) {
+        teks += ` @${mem.id.split("@")[0]}\n`;
+      }
+      message.sendMessage(message.jid, teks.trim(), {
+        mentions: participants.map((a) => a.id),
+      });
+    } else {
+      match = match || message.reply_message.text;
+      if (!match) return message.reply("_Enter or reply to a text to tag_");
+      message.sendMessage(message.jid, match, {
+        mentions: participants.map((a) => a.id),
+      });
+    }
   },
 );

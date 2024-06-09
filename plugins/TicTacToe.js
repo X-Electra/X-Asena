@@ -1,18 +1,18 @@
-const { command, isAdmin, parseJid, isPrivate } = require("../lib/");
-command(
+const { alpha, isAdmin, parseJid, isPrivate } = require("../lib/");
+alpha(
   {
     pattern: "delttt",
     fromMe: isPrivate,
     desc: "delete TicTacToe running game.",
     type: "game",
-    dontAddCommandList:true
+    dontAddCommandList: true,
   },
   async (message, match, m) => {
     let isadmin = await isAdmin(message.jid, message.user, message.client);
 
     if (!isadmin)
       return message.reply(
-        "This command is only for Group Admin and my owner."
+        "This command is only for Group Admin and my owner.",
       );
     this.game = this.game ? this.game : false;
     if (
@@ -23,10 +23,10 @@ command(
     } else {
       return message.reply(`No TicTacToe game🎮 is running.`);
     }
-  }
+  },
 );
 
-command(
+alpha(
   {
     pattern: "ttt",
     fromMe: false,
@@ -41,13 +41,13 @@ command(
         Object.values(this.game).find(
           (room) =>
             room.id.startsWith("tictactoe") &&
-            [room.game.playerX, room.game.playerO].includes(m.sender)
+            [room.game.playerX, room.game.playerO].includes(m.sender),
         )
       )
         return message.reply("_You're still in the game_");
       let room = Object.values(this.game).find(
         (room) =>
-          room.state === "WAITING" && (match ? room.name === match : true)
+          room.state === "WAITING" && (match ? room.name === match : true),
       );
       if (room) {
         room.o = message.jid;
@@ -93,10 +93,10 @@ Current turn: @${room.game.currentTurn.split("@")[0]}
         this.game[room.id] = room;
       }
     }
-  }
+  },
 );
 
-command(
+alpha(
   {
     on: "text",
     fromMe: false,
@@ -112,7 +112,7 @@ command(
         room.state &&
         room.id.startsWith("tictactoe") &&
         [room.game.playerX, room.game.playerO].includes(m.sender) &&
-        room.state == "PLAYING"
+        room.state == "PLAYING",
     );
     if (room) {
       let ok;
@@ -130,7 +130,7 @@ command(
         1 >
           (ok = room.game.turn(
             m.sender === room.game.playerO,
-            parseInt(match) - 1
+            parseInt(match) - 1,
           ))
       ) {
         message.reply(
@@ -139,7 +139,7 @@ command(
             "-2": "Invalid",
             "-1": "_Invalid Position_",
             0: "_Invalid Position_",
-          }[ok]
+          }[ok],
         );
         return !0;
       }
@@ -175,10 +175,10 @@ ${
   isWin
     ? `@${winner.split("@")[0]} Won !`
     : isTie
-    ? `Tie`
-    : `Current Turn ${["❌", "⭕"][1 * room.game._currentTurn]} @${
-        room.game.currentTurn.split("@")[0]
-      }`
+      ? `Tie`
+      : `Current Turn ${["❌", "⭕"][1 * room.game._currentTurn]} @${
+          room.game.currentTurn.split("@")[0]
+        }`
 }
 ❌: @${room.game.playerX.split("@")[0]}
 ⭕: @${room.game.playerO.split("@")[0]}`;
@@ -194,5 +194,5 @@ ${
         delete this.game[room.id];
       }
     }
-  }
+  },
 );

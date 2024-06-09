@@ -1,7 +1,7 @@
-const { command, isPrivate } = require("../lib/");
+const { alpha, isPrivate } = require("../lib/");
 const { listall } = require("../lib/fancy");
 
-command(
+alpha(
   {
     pattern: "fancy",
     fromMe: isPrivate,

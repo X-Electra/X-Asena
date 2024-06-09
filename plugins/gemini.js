@@ -1,8 +1,8 @@
 const fs = require("fs");
-const { command } = require("../lib");
+const { alpha } = require("../lib");
 const gemini = require("../lib/Gemini");
 
-command(
+alpha(
   {
     pattern: "ai",
     fromMe: true,
