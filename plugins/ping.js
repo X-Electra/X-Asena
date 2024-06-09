@@ -1,5 +1,5 @@
 const { fromBuffer, mimeTypes } = require("file-type");
-const { command, isPrivate } = require("../../lib/");
+const { command, isPrivate } = require("../lib/");
 command(
   {
     pattern: "ping",
@@ -13,8 +13,7 @@ command(
     const end = new Date().getTime();
     return await message.sendMessage(
       message.jid,
-      "*Pong!*\n ```" + (end - start) + "``` *ms*"
+      "*Pong!*\n ```" + (end - start) + "``` *ms*",
     );
-  }
+  },
 );
-

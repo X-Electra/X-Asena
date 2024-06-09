@@ -1,8 +1,8 @@
-const { command, isAdmin, parsedJid } = require("../../lib");
+const { command, isAdmin, parsedJid } = require("../lib");
 const { exec } = require("child_process");
-const { PausedChats, WarnDB } = require("../database");
-const { WARN_COUNT } = require("../../config");
-const { secondsToDHMS } = require("../../lib/functions");
+const { PausedChats, WarnDB } = require("../lib/database");
+const { WARN_COUNT } = require("../config");
+const { secondsToDHMS } = require("../lib/functions");
 const { saveWarn, resetWarn } = WarnDB;
 
 command(
@@ -21,7 +21,7 @@ command(
       console.error(error);
       message.reply("Error pausing the chat.");
     }
-  }
+  },
 );
 
 command(
@@ -39,7 +39,7 @@ command(
       }
       return;
     });
-  }
+  },
 );
 
 command(
@@ -67,7 +67,7 @@ command(
       console.error(error);
       message.reply("Error resuming the chat.");
     }
-  }
+  },
 );
 
 command(
@@ -83,7 +83,7 @@ command(
     let buff = await m.quoted.download();
     await message.setPP(message.user, buff);
     return await message.reply("_Profile Picture Updated_");
-  }
+  },
 );
 
 command(
@@ -97,7 +97,7 @@ command(
     if (!match) return await message.reply("_Enter name_");
     await message.updateName(match);
     return await message.reply(`_Username Updated : ${match}_`);
-  }
+  },
 );
 
 command(
@@ -119,7 +119,7 @@ command(
       await message.block(message.jid);
       return await message.reply("_User blocked_");
     }
-  }
+  },
 );
 
 command(
@@ -139,13 +139,13 @@ command(
         `_@${jid.split("@")[0]} unblocked_`,
         {
           mentions: [jid],
-        }
+        },
       );
     } else {
       await message.unblock(message.jid);
       return await message.reply("_User unblocked_");
     }
-  }
+  },
 );
 
 command(
@@ -158,9 +158,9 @@ command(
   async (message, match) => {
     return await message.sendMessage(
       message.jid,
-      message.mention[0] || message.reply_message.jid || message.jid
+      message.mention[0] || message.reply_message.jid || message.jid,
     );
-  }
+  },
 );
 
 command(
@@ -174,7 +174,7 @@ command(
     if (message.isGroup) {
       client.sendMessage(message.jid, { delete: message.reply_message.key });
     }
-  }
+  },
 );
 
 command(
@@ -197,22 +197,22 @@ command(
       `_User @${
         userId.split("@")[0]
       } warned._ \n_Warn Count: ${userWarnCount}._ \n_Reason: ${reason}_`,
-      { mentions: [userId] }
+      { mentions: [userId] },
     );
     if (userWarnCount > WARN_COUNT) {
       const jid = parsedJid(userId);
       await message.sendMessage(
         message.jid,
-        "Warn limit exceeded kicking user"
+        "Warn limit exceeded kicking user",
       );
       return await message.client.groupParticipantsUpdate(
         message.jid,
         jid,
-        "remove"
+        "remove",
       );
     }
     return;
-  }
+  },
 );
 
 command(
@@ -229,9 +229,9 @@ command(
       `_Warnings for @${userId.split("@")[0]} reset_`,
       {
         mentions: [userId],
-      }
+      },
     );
-  }
+  },
 );
 
 command(
@@ -243,5 +243,5 @@ command(
   },
   async (message, match) => {
     message.reply(`*Uptime:* ${secondsToDHMS(process.uptime())}`);
-  }
+  },
 );

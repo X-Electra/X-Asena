@@ -1,6 +1,6 @@
 const fs = require("fs");
-const { command } = require("../../lib");
-const gemini = require("../../lib/Gemini");
+const { command } = require("../lib");
+const gemini = require("../lib/Gemini");
 
 command(
   {

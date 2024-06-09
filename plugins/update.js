@@ -1,6 +1,6 @@
-const config = require("../../config");
-const { PROCESSNAME } = require("../../config");
-const { command } = require("../../lib/");
+const config = require("../config");
+const { PROCESSNAME } = require("../config");
+const { command } = require("../lib/");
 const { exec } = require("child_process");
 const simplegit = require("simple-git");
 const git = simplegit();

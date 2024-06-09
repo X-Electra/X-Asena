@@ -1,6 +1,6 @@
 {
-  "name": "x-asena",
-  "version": "2.0.0",
+  "name": "alpha",
+  "version": "1.1.0",
   "description": "Whatsapp Bot",
   "main": "index.js",
   "directories": {
@@ -13,7 +13,7 @@
     "@neeraj-x0/nodetoolkit": "^1.0.3",
     "acrcloud": "^1.4.0",
     "axios": "^1.4.0",
-    "baileys": "github:X-Electra/baileys",
+    "baileys": "git+https://github.com/WhiskeySockets/Baileys.git",
     "bitly": "^7.1.2",
     "browser-id3-writer": "^4.4.0",
     "dotenv": "^16.4.5",
@@ -42,7 +42,6 @@
     "say": "^0.16.0",
     "sequelize": "^6.23.0",
     "simple-git": "^3.24.0",
-    "socket.io-client": "^4.7.5",
     "spotifydl-core": "^0.2.0",
     "sqlite3": "^5.1.7",
     "stream-buffers": "^3.0.2",
@@ -50,8 +49,8 @@
     "ytsr": "^3.8.4"
   },
   "scripts": {
-    "start": "pm2 start index.js --name x-asena && pm2 logs x-asena",
-    "code": "node lib/pcode.js"
+    "start": "pm2 start index.js --name alpha && pm2 logs alpha",
+    "stop": "pm2 stop alpha"
   },
   "repository": {
     "type": "git",

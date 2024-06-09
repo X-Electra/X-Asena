@@ -1,10 +1,10 @@
 const got = require("got");
 const Heroku = require("heroku-client");
-const { command, isPrivate } = require("../../lib/");
-const Config = require("../../config");
+const { command, isPrivate } = require("../lib/");
+const Config = require("../config");
 const heroku = new Heroku({ token: Config.HEROKU_API_KEY });
 const baseURI = "/apps/" + Config.HEROKU_APP_NAME;
-const { secondsToDHMS } = require("../../lib/functions");
+const { secondsToDHMS } = require("../lib/functions");
 const { delay } = require("baileys");
 
 command(
@@ -29,16 +29,16 @@ command(
       });
     } else {
       require("child_process").exec(
-        "pm2 restart "+Config.PROCESSNAME,
+        "pm2 restart " + Config.PROCESSNAME,
         (error, stdout, stderr) => {
           if (error) {
             return message.sendMessage(message.jid, `Error: ${error}`);
           }
           return;
-        }
+        },
       );
     }
-  }
+  },
 );
 command(
   {
@@ -73,7 +73,7 @@ command(
       await message.reply(`_Shutting down._`);
       await delay(1000).then(() => process.exit(0));
     }
-  }
+  },
 );
 
 command(
@@ -118,5 +118,5 @@ Remaning    : ${secondsToDHMS(remaining)}`;
     } catch (error) {
       await message.reply(error);
     }
-  }
+  },
 );

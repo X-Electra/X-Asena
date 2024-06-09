@@ -1,5 +1,5 @@
-const { command, isPrivate } = require("../../lib/");
-const { listall } = require("../../lib/fancy");
+const { command, isPrivate } = require("../lib/");
+const { listall } = require("../lib/fancy");
 
 command(
   {
@@ -15,7 +15,7 @@ command(
     if (replyMessageText) {
       if (!isNaN(match))
         return await message.reply(styleText(replyMessageText, match));
-      
+
       let fancyTexts = listAllFancyTexts(replyMessageText);
       return await message.reply(fancyTexts);
     }
@@ -34,11 +34,12 @@ command(
 
     let fancyTexts = listAllFancyTexts(match);
     return await message.reply(fancyTexts);
-  }
+  },
 );
 
 function listAllFancyTexts(text) {
-  let message = "Fancy text generator\n\nReply to a message\nExample: .fancy 32\n\n";
+  let message =
+    "Fancy text generator\n\nReply to a message\nExample: .fancy 32\n\n";
   listall(text).forEach((txt, index) => {
     message += `${index + 1} ${txt}\n`;
   });

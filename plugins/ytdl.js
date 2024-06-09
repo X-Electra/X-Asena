@@ -6,8 +6,8 @@ const {
   getBuffer,
   toAudio,
   getJson,
-} = require("../../lib");
-const { yta, ytv, ytsdl } = require("../../lib/ytdl");
+} = require("../lib");
+const { yta, ytv, ytsdl } = require("../lib/ytdl");
 
 command(
   {
@@ -21,7 +21,7 @@ command(
     if (!isUrl(match)) return await message.reply("Give me a youtube link");
     let { dlink, title } = (
       await getJson(
-        `https://api.thexapi.xyz/api/v1/download/youtube/audio?url=${match}`
+        `https://api.thexapi.xyz/api/v1/download/youtube/audio?url=${match}`,
       )
     ).data;
     await message.reply(`_Downloading ${title}_`);
@@ -33,10 +33,9 @@ command(
         mimetype: "audio/mpeg",
         filename: title + ".mp3",
       },
-      "audio"
+      "audio",
     );
-    
-  }
+  },
 );
 
 command(
@@ -58,9 +57,9 @@ command(
         mimetype: "video/mp4",
         filename: title + ".mp4",
       },
-      "video"
+      "video",
     );
-  }
+  },
 );
 
 command(
@@ -82,9 +81,9 @@ command(
         mimetype: "audio/mpeg",
         filename: title + ".mp3",
       },
-      "audio"
+      "audio",
     );
-  }
+  },
 );
 
 command(
@@ -105,7 +104,7 @@ command(
         mimetype: "video/mp4",
         filename: title + ".mp4",
       },
-      "video"
+      "video",
     );
-  }
+  },
 );

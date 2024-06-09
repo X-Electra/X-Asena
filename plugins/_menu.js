@@ -1,8 +1,7 @@
-const plugins = require("../../lib/plugins");
-const { command, isPrivate, clockString, pm2Uptime } = require("../../lib");
-const { OWNER_NAME, BOT_NAME } = require("../../config");
-const { hostname } = require("os");
-
+const plugins = require("../lib/plugins");
+const { command, isPrivate } = require("../lib");
+const { OWNER_NAME, BOT_NAME, TZ } = require("../config");
+const os = require("os");
 command(
   {
     pattern: "menu",
@@ -12,7 +11,6 @@ command(
     type: "user",
   },
   async (message, match) => {
-   
     if (match) {
       for (let i of plugins.commands) {
         if (
@@ -27,17 +25,21 @@ Description: ${i.desc}\`\`\``);
     } else {
       let { prefix } = message;
       let [date, time] = new Date()
-        .toLocaleString("en-IN", { timeZone: "Asia/Kolkata" })
+        .toLocaleString("en-IN", { timeZone: TZ })
         .split(",");
-      let menu = `╭━━━━━ᆫ ${BOT_NAME} ᄀ━━━
-┃ ⎆  *OWNER*:  ${OWNER_NAME}
-┃ ⎆  *PREFIX*: ${prefix}
-┃ ⎆  *HOST NAME*: ${hostname().split("-")[0]}
-┃ ⎆  *DATE*: ${date}
-┃ ⎆  *TIME*: ${time}
-┃ ⎆  *COMMANDS*: ${plugins.commands.length} 
-┃ ⎆  *UPTIME*: ${clockString(process.uptime())} 
-╰━━━━━━━━━━━━━━━\n`;
+      let menu = `╭━〔 ${BOT_NAME} 〕━◉
+┃╭━━━━━━━━━━━━━━◉
+┃┃ *Plugins :-* ${plugins.commands.length.toString()}
+┃┃ *User :-* @${OWNER_NAME}
+┃┃ *Owner :-* ${OWNER_NAME}
+┃┃ *Version:-* 1.1.0 
+┃┃ *Prefix:-* ${prefix}
+┃┃ *Mode :-* ${isPrivate ? "private" : "public"}
+┃┃ *Date :-* ${date.trim()}
+┃┃ *Time :-* ${time.trim()}
+┃┃ *Ram :-* ${Math.round((os.totalmem() - os.freemem()) / 1024 / 1024)}MB
+┃╰━━━━━━━━━━━━━◉`;
+
       let cmnd = [];
       let cmd;
       let category = [];
@@ -48,29 +50,27 @@ Description: ${i.desc}\`\`\``);
 
         if (!command.dontAddCommandList && cmd !== undefined) {
           let type = command.type ? command.type.toLowerCase() : "misc";
-
           cmnd.push({ cmd, type });
-
           if (!category.includes(type)) category.push(type);
         }
       });
-      cmnd.sort();
+
       category.sort().forEach((cmmd) => {
-        menu += `\n\t⦿---- *${cmmd.toUpperCase()}* ----⦿\n`;
+        menu += `
+┠┌─⭓『 *${cmmd.toUpperCase()}* 』`;
         let comad = cmnd.filter(({ type }) => type == cmmd);
         comad.forEach(({ cmd }) => {
-          menu += `\n⛥  _${cmd.trim()}_ `;
+          menu += `\n┃│◦ _${cmd.trim()}_ `;
         });
-        menu += `\n`;
+        menu += `\n┃└──────────⭓`;
       });
 
-      menu += `\n`;
-      menu += `_🔖Send ${prefix}menu <command name> to get detailed information of a specific command._\n*📍Eg:* _${prefix}menu plugin_`;
-      return await message.sendMessage(message.jid,menu);
+      menu += `
+╰━━━━━━━━━━━━━◉_`;
+      return await message.sendMessage(message.jid, menu);
     }
-  }
+  },
 );
-
 
 command(
   {
@@ -102,5 +102,5 @@ command(
     });
     menu += ``;
     return await message.reply(menu);
-  }
+  },
 );

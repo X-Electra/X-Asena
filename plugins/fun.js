@@ -1,4 +1,4 @@
-const { command, isPrivate, XKCDComic, getJson } = require("../../lib");
+const { command, isPrivate, XKCDComic, getJson } = require("../lib");
 const axios = require("axios");
 
 let triviaGames = {};

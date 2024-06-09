@@ -1,6 +1,6 @@
 const { fromBuffer } = require("file-type");
-const { command, isPrivate } = require("../../lib/");
-const { ffmpeg, parseTimeToSeconds } = require("../../lib/functions");
+const { command, isPrivate } = require("../lib/");
+const { ffmpeg, parseTimeToSeconds } = require("../lib/functions");
 command(
   {
     pattern: "trim",

@@ -1,5 +1,5 @@
-const { command, isPrivate } = require("../../lib/");
-const { aiImage } = require("../../lib/functions");
+const { command, isPrivate } = require("../lib/");
+const { aiImage } = require("../lib/functions");
 command(
   {
     pattern: "genimage",

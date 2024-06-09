@@ -1,4 +1,4 @@
-const { command, isPrivate } = require("../../lib");
+const { command, isPrivate } = require("../lib");
 
 command(
   {
@@ -86,5 +86,5 @@ command(
       },
     };
     return await message.sendMessage(message.jid, data, {}, "interactive");
-  }
+  },
 );

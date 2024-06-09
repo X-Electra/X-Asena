@@ -1,15 +1,8 @@
-const {
-  command,
-  qrcode,
-  Bitly,
-  isPrivate,
-  isUrl,
-  readQr,
-} = require("../../lib/");
+const { command, qrcode, Bitly, isPrivate, isUrl, readQr } = require("../lib/");
 
 const { downloadMediaMessage } = require("baileys");
-const { getLyrics } = require("../../lib/functions");
-const config = require("../../config");
+const { getLyrics } = require("../lib/functions");
+const config = require("../config");
 command(
   {
     pattern: "vv",
@@ -20,7 +13,7 @@ command(
   async (message, match, m) => {
     let buff = await m.quoted.download();
     return await message.sendFile(buff);
-  }
+  },
 );
 
 // STATUS SAVER ( MAKE fromMe: false TO USE AS PUBLIC )
@@ -42,13 +35,13 @@ command(
         return await message.client.relayMessage(
           message.jid,
           m.quoted.message,
-          relayOptions
+          relayOptions,
         );
       }
     } catch (error) {
       console.error("[Error]:", error);
     }
-  }
+  },
 );
 
 command(
@@ -77,10 +70,10 @@ command(
     } else {
       return await message.sendMessage(
         message.jid,
-        "*Example : qr test*\n*Reply to a qr image.*"
+        "*Example : qr test*\n*Reply to a qr image.*",
       );
     }
-  }
+  },
 );
 
 command(
@@ -96,7 +89,7 @@ command(
     if (!isUrl(match)) return await message.reply("_Not a url_");
     let short = await Bitly(match);
     return await message.reply(short.link);
-  }
+  },
 );
 
 command(
@@ -117,16 +110,16 @@ command(
           return await message.reply(
             `*Artist:* ${data.artist_name}\n*Song:* ${
               data.song
-            }\n*Lyrics:*\n${data.lyrics.trim()}`
+            }\n*Lyrics:*\n${data.lyrics.trim()}`,
           );
         } else {
           return await message.reply(
-            "No lyrics found for this song by this artist."
+            "No lyrics found for this song by this artist.",
           );
         }
       } catch (error) {
         return await message.reply("An error occurred while fetching lyrics.");
       }
     }
-  }
+  },
 );

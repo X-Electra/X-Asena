@@ -1,5 +1,5 @@
-const { command, isPrivate, serialize } = require("../../lib/");
-const { loadMessage } = require("../database/StoreDb");
+const { command, isPrivate, serialize } = require("../lib/");
+const { loadMessage } = require("../lib/database/Store");
 
 command(
   {
@@ -14,13 +14,13 @@ command(
     let msg = await loadMessage(key.id);
     if (!msg)
       return await message.reply(
-        "_Message not found maybe bot might not be running at that time_"
+        "_Message not found maybe bot might not be running at that time_",
       );
     msg = await serialize(
       JSON.parse(JSON.stringify(msg.message)),
-      message.client
+      message.client,
     );
     if (!msg.quoted) return await message.reply("No quoted message found");
     await message.forward(message.jid, msg.quoted.message);
-  }
+  },
 );

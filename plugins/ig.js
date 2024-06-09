@@ -5,7 +5,7 @@ const {
   isIgUrl,
   isPrivate,
   getJson,
-} = require("../../lib/");
+} = require("../lib/");
 command(
   {
     pattern: "insta",

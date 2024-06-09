@@ -1,5 +1,5 @@
-const { command, isPrivate } = require("../../lib/");
-const { isAdmin, parsedJid } = require("../../lib");
+const { command, isPrivate } = require("../lib/");
+const { isAdmin, parsedJid } = require("../lib");
 
 command(
   {
@@ -25,7 +25,7 @@ command(
     return await message.reply(`_@${jid[0].split("@")[0]} added_`, {
       mentions: [jid],
     });
-  }
+  },
 );
 
 command(
@@ -52,7 +52,7 @@ command(
     return await message.reply(`_@${jid[0].split("@")[0]} kicked_`, {
       mentions: [jid],
     });
-  }
+  },
 );
 command(
   {
@@ -78,7 +78,7 @@ command(
     return await message.reply(`_@${jid[0].split("@")[0]} promoted as admin_`, {
       mentions: [jid],
     });
-  }
+  },
 );
 command(
   {
@@ -105,9 +105,9 @@ command(
       `_@${jid[0].split("@")[0]} demoted from admin_`,
       {
         mentions: [jid],
-      }
+      },
     );
-  }
+  },
 );
 
 command(
@@ -124,7 +124,7 @@ command(
       return await message.reply("_I'm not admin_");
     await message.reply("_Muting_");
     return await client.groupSettingUpdate(message.jid, "announcement");
-  }
+  },
 );
 
 command(
@@ -141,7 +141,7 @@ command(
       return await message.reply("_I'm not admin_");
     await message.reply("_Unmuting_");
     return await client.groupSettingUpdate(message.jid, "not_announcement");
-  }
+  },
 );
 
 command(
@@ -162,7 +162,7 @@ command(
     });
     str += `╰──────────────`;
     message.reply(str);
-  }
+  },
 );
 
 command(
@@ -179,10 +179,10 @@ command(
     for (let mem of participants) {
       teks += ` @${mem.id.split("@")[0]}\n`;
     }
-    message.sendMessage(message.jid,teks.trim(), {
+    message.sendMessage(message.jid, teks.trim(), {
       mentions: participants.map((a) => a.id),
     });
-  }
+  },
 );
 
 command(
@@ -193,13 +193,13 @@ command(
     type: "group",
   },
   async (message, match) => {
-    console.log("match")
+    console.log("match");
     match = match || message.reply_message.text;
     if (!match) return message.reply("_Enter or reply to a text to tag_");
     if (!message.isGroup) return;
     const { participants } = await message.client.groupMetadata(message.jid);
-    message.sendMessage(message.jid,match, {
+    message.sendMessage(message.jid, match, {
       mentions: participants.map((a) => a.id),
     });
-  }
+  },
 );

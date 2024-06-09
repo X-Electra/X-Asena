@@ -1,6 +1,6 @@
-const { command, isPrivate } = require("../../lib/");
-const { parsedJid } = require("../../lib/functions");
-const { banUser, unbanUser, isBanned } = require("../database/ban");
+const { command, isPrivate } = require("../lib/");
+const { parsedJid } = require("../lib/functions");
+const { banUser, unbanUser, isBanned } = require("../lib/database/ban");
 command(
   {
     on: "message",
@@ -16,9 +16,9 @@ command(
     return await message.client.groupParticipantsUpdate(
       message.jid,
       jid,
-      "remove"
+      "remove",
     );
-  }
+  },
 );
 
 command(
@@ -36,7 +36,7 @@ command(
     }
     await banUser(chatid);
     return await message.sendMessage(message.jid, "Bot banned");
-  }
+  },
 );
 
 command(
@@ -54,5 +54,5 @@ command(
     }
     await unbanUser(chatid);
     return await message.sendMessage(message.jid, "Bot unbanned");
-  }
+  },
 );

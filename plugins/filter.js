@@ -1,5 +1,9 @@
-const { getFilter, setFilter, deleteFilter } = require("../database/filters");
-const { command} = require("../../lib");
+const {
+  getFilter,
+  setFilter,
+  deleteFilter,
+} = require("../lib/database/filters");
+const { command } = require("../lib");
 
 command(
   {
@@ -21,20 +25,20 @@ command(
       } else {
         var mesaj = "Your active filters for this chat:" + "\n\n";
         filtreler.map(
-          (filter) => (mesaj += `✒ ${filter.dataValues.pattern}\n`)
+          (filter) => (mesaj += `✒ ${filter.dataValues.pattern}\n`),
         );
         mesaj += "use : .filter keyword:message\nto set a filter";
         await message.reply(mesaj);
       }
     } else if (!text || !msg) {
       return await message.reply(
-        "```use : .filter keyword:message\nto set a filter```"
+        "```use : .filter keyword:message\nto set a filter```",
       );
     } else {
       await setFilter(message.jid, text, msg, true);
       return await message.reply(`_Sucessfully set filter for ${text}_`);
     }
-  }
+  },
 );
 
 command(
@@ -54,7 +58,7 @@ command(
     if (!del) {
       await message.reply("No existing filter matches the provided input.");
     }
-  }
+  },
 );
 
 command(
@@ -67,13 +71,13 @@ command(
         filter.dataValues.regex
           ? filter.dataValues.pattern
           : "\\b(" + filter.dataValues.pattern + ")\\b",
-        "gm"
+        "gm",
       );
       if (pattern.test(match)) {
-      return  await message.reply(filter.dataValues.text, {
+        return await message.reply(filter.dataValues.text, {
           quoted: message,
         });
       }
     });
-  }
+  },
 );

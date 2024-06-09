@@ -1,4 +1,4 @@
-const { command, parsedJid,isPrivate } = require("../../lib/");
+const { command, parsedJid,isPrivate } = require("../lib/");
 
 command(
   {

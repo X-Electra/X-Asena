@@ -1,4 +1,4 @@
-const { command, isAdmin, parseJid, isPrivate } = require("../../lib/");
+const { command, isAdmin, parseJid, isPrivate } = require("../lib/");
 command(
   {
     pattern: "delttt",
@@ -35,7 +35,7 @@ command(
   },
   async (message, match, m) => {
     {
-      let TicTacToe = require("../../lib/tictactoe");
+      let TicTacToe = require("../lib/tictactoe");
       this.game = this.game ? this.game : {};
       if (
         Object.values(this.game).find(
