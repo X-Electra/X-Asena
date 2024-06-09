@@ -107,3 +107,18 @@ alpha(
     return await message.reply(menu);
   },
 );
+
+alpha(
+  {
+    pattern: "ping",
+    fromMe: isPrivate,
+    desc: "To check ping",
+    type: "info",
+  },
+  async (message, match) => {
+    const start = new Date().getTime();
+    const msg = await message.sendMessage(message.jid, "*Pong!*");
+    const end = new Date().getTime();
+    await msg.edit2("```" + (end - start) + "``` *ms*");
+  },
+);

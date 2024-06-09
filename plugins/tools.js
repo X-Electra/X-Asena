@@ -123,3 +123,15 @@ alpha(
     }
   },
 );
+
+alpha(
+  {
+    pattern: "uptime",
+    fromMe: true,
+    desc: "Check uptime of bot",
+    type: "user",
+  },
+  async (message, match) => {
+    message.reply(`*Uptime:* ${secondsToDHMS(process.uptime())}`);
+  },
+);
