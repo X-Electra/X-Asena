@@ -4,6 +4,7 @@ const config = require("./config");
 const connect = require("./lib/connection");
 const { getandRequirePlugins } = require("./assets/database/plugins");
 
+// eslint-disable-next-line no-undef
 global.__basedir = __dirname;
 
 const readAndRequireFiles = async (directory) => {
@@ -24,12 +25,14 @@ async function initialize() {
  
   console.log("X-Asena");
   try {
+    // eslint-disable-next-line no-undef
     await readAndRequireFiles(path.join(__dirname, "/assets/database/"));
     console.log("Syncing Database");
 
     await config.DATABASE.sync();
 
     console.log("⬇  Installing Plugins...");
+    // eslint-disable-next-line no-undef
     await readAndRequireFiles(path.join(__dirname, "/assets/plugins/"));
     await getandRequirePlugins();
     console.log("✅ Plugins Installed!");
@@ -37,6 +40,7 @@ async function initialize() {
     return  await connect();
   } catch (error) {
     console.error("Initialization error:", error);
+    // eslint-disable-next-line no-undef
     return process.exit(1); // Exit with error status
   }
 }
