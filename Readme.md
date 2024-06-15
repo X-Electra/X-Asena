@@ -103,20 +103,6 @@ Join the official WhatsApp group for X-Asena to get support, ask questions, and 
 
 [![JOIN WHATSAPP GROUP](https://raw.githubusercontent.com/Neeraj-x0/Neeraj-x0/main/photos/suddidina-join-whatsapp.png)](https://chat.whatsapp.com/DJYrdBENyX33MRppEFPxV6)
 
-## Credits
-
-X-Asena is built and maintained by the following contributors:
-
-- [Adhiraj Singh](https://github.com/adiwajshing)
-- [Yusuf Usta](https://github.com/yusufusta)
-- [Neeraj-x0](https://github.com/Neeraj-x0)
-- [Adityan](https://github.com/A-d-i-t-h-y-a-n)
-- [SamPandey001](https://github.com/SamPandey001)
-- [TSH3PHANG](https://github.com/TSH3PHANG)
-- [Diegoson](https://github.com/Diegoson)
-- [Viper-x0](https://github.com/Viper-X0)
-- [Lord-Official](https://github.com/Lord-official)
-- [Ajmal-Achu](https://github.com/Ajmal-Achu)
 
 ## License
 
