@@ -5,6 +5,7 @@ const toBool = (x) => x === "true";
 const DATABASE_URL = process.env.DATABASE_URL || "./assets/database.db";
 module.exports = {
   ANTILINK: toBool(process.env.ANTI_LINK) || false,
+  PDM: toBool(process.env.PDM) || true,
   LOGS: toBool(process.env.LOGS) || true,
   ANTILINK_ACTION: process.env.ANTI_LINK || "kick",
   SESSION_ID: process.env.SESSION_ID || null,
