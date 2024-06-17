@@ -1,4 +1,4 @@
-const { alpha, isPrivate, weather } = require("../lib");
+const { alpha, isPrivate, weather, getJson } = require("../lib");
 const gis = require('g-i-s');
 
 alpha(
@@ -64,11 +64,36 @@ alpha(
     {
       pattern: "weather",
       fromMe: isPrivate,
-      desc: "Download audio from youtube",
+      desc: "gives the weather forcast of a specified country",
       type: "search"
     },
     async (m, match) => {
       match = match || message.reply_message.text;
-      return await weather(m); 
+      return await weather(m, match); 
     }
 );
+
+alpha(
+    {
+      pattern: "time",
+      fromMe: isPrivate,
+      desc: "find time by timeZone or name or shortcode",
+      type: "search"
+    },
+    async (message, match) => {
+		if (!match)
+			return await message.reply(
+				'```Give me country name or code\nEx .time US\n.time United Arab Emirates\n.time America/new_york```'
+			)
+		const { status, result } = await getJson(
+			`https://levanter.onrender.com/time?code=${encodeURIComponent(match)}`
+		)
+		if (!status) return await message.reply(`*Not found*`)
+		let msg = ''
+		result.forEach(
+			(zone) =>
+				(msg += `*Name     :* ${zone.name}\n*TimeZone :* ${zone.timeZone}\n*Time     :* ${zone.time}\n\n`)
+		)
+		return await message.reply('```' + msg.trim() + '```')
+	}
+)
