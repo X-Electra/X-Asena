@@ -1,9 +1,4 @@
-const {
-    alpha,
-    isPrivate,
-    searchYT,
-    PREFIX
-  } = require("../lib");
+const { alpha, isPrivate, searchYT, PREFIX } = require("../lib");
 
 alpha(
     {

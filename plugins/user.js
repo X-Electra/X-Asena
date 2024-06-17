@@ -2,7 +2,6 @@ const { alpha, isAdmin, parsedJid } = require("../lib");
 const { exec } = require("child_process");
 const { PausedChats, WarnDB } = require("../lib/database");
 const { WARN_COUNT } = require("../config");
-const { secondsToDHMS } = require("../lib/functions");
 const { saveWarn, resetWarn } = WarnDB;
 
 alpha(
@@ -184,6 +183,7 @@ alpha(
     desc: "Warn a user",
   },
   async (message, match) => {
+    if (!message.isGroup) return;
     const userId = message.mention[0] || message.reply_message.jid;
     if (!userId) return message.reply("_Mention or reply to someone_");
     let reason = message?.reply_message.text || match;
@@ -222,6 +222,7 @@ alpha(
     desc: "Reset warnings for a user",
   },
   async (message) => {
+    if (!message.isGroup) return;
     const userId = message.mention[0] || message.reply_message.jid;
     if (!userId) return message.reply("_Mention or reply to someone_");
     await resetWarn(userId);
