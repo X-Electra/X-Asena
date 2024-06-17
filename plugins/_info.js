@@ -32,7 +32,7 @@ Description: ${i.desc}\`\`\``);
       let menu = `╭━〔 ${BOT_NAME} 〕━◉
 ┃╭━━━━━━━━━━━━━━◉
 ┃┃ *Plugins :-* ${plugins.commands.length.toString()}
-┃┃ *User :-* @${message.participant.split("@")[0]}
+┃┃ *User :-* ${message.pushName}
 ┃┃ *Owner :-* ${OWNER_NAME}
 ┃┃ *Version:-* ${packageJson.version} 
 ┃┃ *Prefix:-* ${prefix}

@@ -1,8 +1,8 @@
 const { alpha, qrcode, Bitly, isPrivate, isUrl, readQr } = require("../lib/");
-
 const { downloadMediaMessage } = require("baileys");
 const { getLyrics } = require("../lib/functions");
 const config = require("../config");
+
 alpha(
   {
     pattern: "vv",
@@ -11,33 +11,16 @@ alpha(
     type: "tool",
   },
   async (message, match, m) => {
-    let buff = await m.quoted.download();
-    return await message.sendFile(buff);
-  },
-);
-
-// STATUS SAVER ( MAKE fromMe: false TO USE AS PUBLIC )
-alpha(
-  {
-    on: "text",
-    fromMe: !config.STATUS_SAVER,
-    desc: "Save or Give Status Updates",
-    dontAddCommandList: true,
-    type: "Tool",
-  },
-  async (message, match, m) => {
     try {
-      if (message.isGroup) return;
-      const triggerKeywords = ["save", "send", "sent", "snt", "give", "snd"];
-      const cmdz = match.toLowerCase().split(" ")[0];
-      if (triggerKeywords.some((tr) => cmdz.includes(tr))) {
-        const relayOptions = { messageId: m.quoted.key.id };
-        return await message.client.relayMessage(
-          message.jid,
-          m.quoted.message,
-          relayOptions,
-        );
-      }
+      const buffer = await downloadMediaMessage(
+        m.quoted,
+        "buffer",
+        {},
+        {
+          reuploadRequest: message.client.updateMediaMessage,
+        },
+      );
+      return await message.sendFile(buffer);
     } catch (error) {
       console.error("[Error]:", error);
     }
@@ -49,7 +32,7 @@ alpha(
     pattern: "qr",
     fromMe: isPrivate,
     desc: "Read/Write Qr.",
-    type: "Tool",
+    type: "tool",
   },
   async (message, match, m) => {
     match = match || message.reply_message.text;

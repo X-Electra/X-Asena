@@ -168,7 +168,7 @@ alpha(
     if (match === "all") {
       let teks = "";
       for (let mem of participants) {
-        teks += ` @${mem.id.split("@")[0]}\n`;
+        teks += `@${mem.id.split("@")[0]}\n`;
       }
       message.sendMessage(message.jid, teks.trim(), {
         mentions: participants.map((a) => a.id),
