@@ -1,4 +1,4 @@
-const { alpha, isPrivate, weather, getJson } = require("../lib");
+const { alpha, isPrivate, weather, getJson, IMDB } = require("../lib");
 const gis = require('g-i-s');
 
 alpha(
@@ -97,3 +97,18 @@ alpha(
 		return await message.reply('```' + msg.trim() + '```')
 	}
 )
+
+alpha(
+    {
+        pattern: "imdb",
+        fromMe: isPrivate,
+        desc: "imdb movie info",
+        type: "search",
+    },
+    async (message, match, m) => {
+        const apiUrl = `https://www.omdbapi.com/?apikey=3c8ee796&t=${await match}`;
+        return IMDB(apiUrl, message, m);
+    }
+);
+
+
