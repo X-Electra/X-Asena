@@ -23,7 +23,7 @@ alpha(
 
 alpha(
   {
-    pattern: "banbot",
+    pattern: "ban",
     fromMe: true,
     desc: "ban bot from a chat",
     type: "",
@@ -41,7 +41,7 @@ alpha(
 
 alpha(
   {
-    pattern: "unbanbot",
+    pattern: "unban",
     fromMe: true,
     desc: "Unban bot from a chat",
     type: "user",

@@ -1,4 +1,5 @@
-const { alpha, isAdmin, parsedJid } = require("../lib");
+const { alpha, isAdmin, parsedJid, isPrivate } = require("../lib");
+const { WA_DEFAULT_EPHEMERAL } = require("baileys");
 const { exec } = require("child_process");
 const { PausedChats, WarnDB } = require("../lib/database");
 const { WARN_COUNT } = require("../config");
@@ -235,4 +236,148 @@ alpha(
   },
 );
 
+alpha({
+	pattern: 'pinchat',
+	fromMe: true,
+	desc: 'pin a chat',
+	type: 'whatsapp'
+}, async (message, match) => {
+	await message.client.chatModify({
+		pin: true
+	}, message.jid);
+	await message.reply('_Pined_')
+})
 
+alpha({
+	pattern: 'unpin',
+	fromMe: true,
+	desc: 'unpin a msg',
+	type: 'whatsapp'
+}, async (message, match) => {
+	await message.client.chatModify({
+		pin: false
+	}, message.jid);
+	await message.reply('_Unpined_')
+})
+
+alpha({
+	pattern: 'setbio',
+	fromMe: true,
+	desc: 'To change your profile status',
+	type: 'whatsapp'
+}, async (message, match) => {
+	match = match || message.reply_message.text
+	if (!match) return await message.reply('*Need Status!*\n*Example: setbio Hey there! I am using WhatsApp*.')
+	await message.client.updateProfileStatus(match)
+	await message.reply('_Profile status updated_')
+})
+
+alpha({
+	pattern: 'setname',
+	fromMe: true,
+	desc: 'To change your profile name',
+	type: 'whatsapp'
+}, async (message, match) => {
+	match = match || message.reply_message.text
+	if (!match) return await message.reply('*Need Name!*\n*Example: setname your name*.')
+	await message.client.updateProfileName(match)
+	await message.reply('_Profile name updated_')
+})
+
+alpha({
+	pattern: 'disappear',
+	fromMe: true,
+	desc: 'turn on default disappear messages',
+	type: 'whatsapp'
+}, async (message, match) => {
+  if(match === 'off'){
+    await message.client.sendMessage(
+      message.jid, 
+      { disappearingMessagesInChat: false } )
+      await message.reply('_disappearmessage deactivated_') 
+} else {
+  await message.client.sendMessage(
+		message.jid, {
+			disappearingMessagesInChat: WA_DEFAULT_EPHEMERAL
+		}
+	)
+	await message.reply('_disappearmessage activated_')}
+})
+
+alpha({
+	pattern: 'lastseen',
+	fromMe: true,
+	desc: 'to change lastseen privacy',
+	type: 'whatsapp'
+}, async (message, match, cmd) => {
+	if (!match) return await message.reply(`_*Example:-* ${cmd} all_\n_to change last seen privacy settings_`);
+	const available_privacy = ['all', 'contacts', 'contact_blacklist', 'none'];
+	if (!available_privacy.includes(match)) return await message.reply(`_action must be *${available_privacy.join('/')}* values_`);
+	await message.client.updateLastSeenPrivacy(match)
+	await message.reply(`_Privacy settings *last seen* Updated to *${match}*_`);
+})
+
+alpha({
+	pattern: 'online',
+	fromMe: true,
+	desc: 'to change online privacy',
+	type: 'whatsapp'
+}, async (message, match, cmd) => {
+	if (!match) return await message.reply(`_*Example:-* ${cmd} all_\n_to change *online*  privacy settings_`);
+	const available_privacy = ['all', 'match_last_seen'];
+	if (!available_privacy.includes(match)) return await message.reply(`_action must be *${available_privacy.join('/')}* values_`);
+	await message.client.updateOnlinePrivacy(match)
+	await message.reply(`_Privacy Updated to *${match}*_`);
+})
+
+alpha({
+	pattern: 'mypp',
+	fromMe: true,
+	desc: 'privacy setting profile picture',
+	type: 'whatsapp'
+}, async (message, match, cmd) => {
+	if (!match) return await message.reply(`_*Example:-* ${cmd} all_\n_to change *profile picture*  privacy settings_`);
+	const available_privacy = ['all', 'contacts', 'contact_blacklist', 'none'];
+	if (!available_privacy.includes(match)) return await message.reply(`_action must be *${available_privacy.join('/')}* values_`);
+	await message.client.updateProfilePicturePrivacy(match)
+	await message.reply(`_Privacy Updated to *${match}*_`);
+})
+
+alpha({
+	pattern: 'mystatus',
+	fromMe: true,
+	desc: 'privacy for my status',
+	type: 'whatsapp'
+}, async (message, match, cmd) => {
+	if (!match) return await message.reply(`_*Example:-* ${cmd} all_\n_to change *status*  privacy settings_`);
+	const available_privacy = ['all', 'contacts', 'contact_blacklist', 'none'];
+	if (!available_privacy.includes(match)) return await message.reply(`_action must be *${available_privacy.join('/')}* values_`);
+	await message.client.updateStatusPrivacy(match)
+	await message.reply(`_Privacy Updated to *${match}*_`);
+})
+
+alpha({
+	pattern: 'read',
+	fromMe: true,
+	desc: 'privacy for read message',
+	type: 'whatsapp'
+}, async (message, match, cmd) => {
+	if (!match) return await message.reply(`_*Example:-* ${cmd} all_\n_to change *read and receipts message*  privacy settings_`);
+	const available_privacy = ['all', 'none'];
+	if (!available_privacy.includes(match)) return await message.reply(`_action must be *${available_privacy.join('/')}* values_`);
+	await message.client.updateReadReceiptsPrivacy(match)
+	await message.reply(`_Privacy Updated to *${match}*_`);
+})
+
+alpha({
+	pattern: 'groupadd',
+	fromMe: true,
+	desc: 'privacy for group add',
+	type: 'whatsapp'
+}, async (message, match, cmd) => {
+	if (!match) return await message.reply(`_*Example:-* ${cmd} all_\n_to change *group add*  privacy settings_`);
+	const available_privacy = ['all', 'contacts', 'contact_blacklist', 'none'];
+	if (!available_privacy.includes(match)) return await message.reply(`_action must be *${available_privacy.join('/')}* values_`);
+	await message.client.updateGroupsAddPrivacy(match)
+	await message.reply(`_Privacy Updated to *${match}*_`);
+});
