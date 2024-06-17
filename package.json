@@ -60,6 +60,7 @@
     "ytsr": "^3.8.4"
   },
   "scripts": {
+    "top": "node index.js --max-old-space-size=4096",
     "start": "pm2 start index.js --name alpha && pm2 logs alpha",
     "stop": "pm2 stop alpha"
   },
