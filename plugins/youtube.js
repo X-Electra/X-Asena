@@ -21,7 +21,7 @@ alpha(
           buttons.push({
             type: "list",
             params: {
-              title: result.title,
+              title: 'cliclk to see results',
               sections: [
                 {
                   title: result.title,
@@ -30,7 +30,7 @@ alpha(
                       header: "title",
                       title: result.title,
                       description: "Watch Video",
-                      id: `.song ${result.url}`,
+                      id: `${PREFIX}song ${result.url}`,
                     },
                   ],
                 },
