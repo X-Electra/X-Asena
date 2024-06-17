@@ -295,9 +295,10 @@ alpha(
   },
   async (message, match) => {
   if (!message.isGroup) return;
-  if (!match) return await message.reply('_*antifake* 94,92_\n_*antifake* on/off_\n_*antifake* list_');
+  if (!match) return await message.reply('_*antifake* 94,92_\n_*antifake* on/off_\n_*antifake* get_');
   const {antifake} = await groupDB(['antifake'], {jid: message.jid, content: {}}, 'get');
   if(match.toLowerCase()=='get'){
+    console.log(antifake.data)
   if(!antifake || antifake.status == 'false' || !antifake.data) return await message.reply('_Not Found_');
   return await message.reply(`_*activated restricted numbers*: ${antifake.data}_`);
   } else if(match.toLowerCase() == 'on') {
