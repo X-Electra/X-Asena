@@ -8,7 +8,7 @@ alpha(
     pattern: "install",
     fromMe: true,
     desc: "Installs External plugins",
-    type: "user",
+    type: "misc",
   },
   async (message, match) => {
     if (!match)
@@ -63,7 +63,7 @@ alpha(
 );
 
 alpha(
-  { pattern: "plugin", fromMe: true, desc: "plugin list", type: "user" },
+  { pattern: "plugin", fromMe: true, desc: "plugin list", type: "misc" },
   async (message, match) => {
     var mesaj = "";
     var plugins = await PluginDB.findAll();

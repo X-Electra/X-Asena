@@ -14,7 +14,6 @@
     "@neeraj-x0/nodetoolkit": "^1.0.3",
     "@vitalets/google-translate-api": "^9.2.0",
     "acrcloud": "^1.4.0",
-    "alpha-md": "latest",
     "aptoide-scraper": "^1.0.1",
     "awesome-phonenumber": "^2.64.0",
     "axios": "^1.4.0",
@@ -61,21 +60,21 @@
   },
   "scripts": {
     "top": "node index.js --max-old-space-size=4096",
-    "start": "pm2 start index.js --name alpha && pm2 logs alpha",
+    "start": "pm2 start index.js --max-old-space-size=4096 && name alpha && pm2 logs alpha",
     "stop": "pm2 stop alpha"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/X-Electra/X-Asena.git"
+    "url": "git+https://github.com/C-iph3r/alpha-md.git"
   },
   "keywords": [
     "bot",
     "whatsapp"
   ],
-  "author": "Neeraj-x0",
+  "author": "c-iph3r",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/X-Electra/X-Asena/issues"
+    "url": "https://github.com/C-iph3r/alpha-md/issues"
   },
-  "homepage": "https://github.com/X-Electra/X-Asena#readme"
+  "homepage": "https://github.com/C-iph3r/alpha-md#readme"
 }

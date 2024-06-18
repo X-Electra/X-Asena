@@ -6,7 +6,7 @@ alpha(
   {
     pattern: "ai",
     fromMe: true,
-    desc: "Generate text with gemini",
+    desc: "Generate text d with gemini",
   },
   async (message, match, m) => {
     match = match || message.reply_message.text;

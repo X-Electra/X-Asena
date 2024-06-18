@@ -1,131 +1,113 @@
-# X-Asena Bot
+ <p align="center">  
+  <a href="https://github.com/C-iph3r">
+    <h1 align="center">ALPHA-MD</h1>
+  </a>
+</p>
+<p align="center"> 
+<img src="https://komarev.com/ghpvc/?username=C-iph3r&color=brightgreen" />
+<p/>
+<p align="center">
+<a href="https://github.com/C-iph3r"><img title="Author" src="https://img.shields.io/badge/Alpha-md-black?style=for-the-badge&logo=whatsApp"></a>
+<p/>
+<p align="center">
+<a href="https://github.com/C-iph3r?tab=followers"><img title="Followers" src="https://img.shields.io/github/followers/C-iph3r?label=Followers&style=social"></a>
+<a href="https://github.com/C-iph3r/alpha-md/stargazers/"><img title="Stars" src="https://img.shields.io/github/stars/C-iph3r/alpha-md?&style=social"></a>
+<a href="https://github.com/C-iph3r/alpha-md/fork"><img title="Fork" src="https://img.shields.io/github/forks/C-iph3r/alpha-md?style=social"></a>
+<a href="https://github.com/C-iph3r/alpha-md/watchers"><img title="Watching" src="https://img.shields.io/github/watchers/C-iph3r/alpha-md?label=Watching&style=social"></a>
+</p>
 
-X-Asena is a powerful and versatile WhatsApp bot built using Node.js and the Baileys library. This bot offers a wide range of features and capabilities, making it an excellent choice for both personal and commercial use cases.
 
-[![DigitalOcean Referral Badge](https://web-platforms.sfo2.cdn.digitaloceanspaces.com/WWW/Badge%203.svg)](https://www.digitalocean.com/?refcode=9db4c65bb8ee&utm_campaign=Referral_Invite&utm_medium=Referral_Program&utm_source=badge)
 
-🚀 Deploy your X-Asena Bot on DigitalOcean and get $200 in free credits! Click the badge above to sign up and take advantage of this amazing offer. DigitalOcean's reliable and scalable cloud infrastructure ensures your bot runs smoothly, no matter how many users you have. Don't miss out on this opportunity to supercharge your WhatsApp experience!
+### FORK THIS REPO
 
-## Table of Contents
+- Must Fork This Repo Before Deployment !
+   <br> 
+<a href="https://github.com/C-iph3r/alpha-md/fork"><img title="FORK" src="https://img.shields.io/badge/FORK-h?color=black&style=for-the-badge&logo=stackshare"></a>
 
-- [Installation](#installation)
-  - [Prerequisites](#prerequisites)
-  - [Deploy on Any Shell (Including Termux)](#deploy-on-any-shell-including-termux)
-- [Usage](#usage)
-  - [Creating a Plugin](#creating-a-plugin)
-  - [Sending Messages](#sending-messages)
-    - [Replying](#replying)
-    - [Media](#media)
-    - [Sticker](#sticker)
-  - [External Plugins](#external-plugins)
-- [Community and Support](#community-and-support)
-- [Credits](#credits)
-- [License](#license)
 
-## Installation
+### GET SESSION ID
+- Click here to get your SESSION_ID
+   <br>
+<a href='https://session.alpha-md.rf.gd/' target="_blank"><img alt='GET SESSION' src='https://img.shields.io/badge/SCAN-QR-100000?style=for-the-badge&logo=scan&logoColor=white&labelColor=black&color=black'/></a>
 
-### Prerequisites
+***
+### INFORMATION (BOT WON'T WORK WITHOUT THIS)
+- Get api key from  [Alpha api](https://worthwhile-mandy-c-iph3r.koyeb.app/signup)
+### SUPPORT GROUP
+In case of support or any issues you can come here
 
-Before installing X-Asena, ensure that you have the following dependencies installed on your system:
+[![WhatsApp](https://img.shields.io/badge/alpha-md-25D366?style=for-the-badge&logo=whatsapp&logoColor=white)](https://chat.whatsapp.com/BGWpp9qySw81CGrqRM3ceg) 
 
-- FFmpeg
-- Node.js
+***
 
-### Deploy on Any Shell (Including Termux)
+#### DEPLOY TO HEROKU 
 
-To deploy X-Asena on any shell, including Termux, follow these steps:
+1. If You don't have a account in Heroku. Create a account.
+    <br>
+<a href='https://heroku.com' target="_blank"><img alt='Heroku' src='https://img.shields.io/badge/-Create-black?style=for-the-badge&logo=heroku'/></a>
 
-1. Fork the X-Asena repository
-2. Edit the `config.js` file with your desired configuration details
-3. Install the required dependencies by running the following commands:
-   - `npm install`
-   - `npm install qrcode-terminal`
-   - `npm install pm2 -g`
-4. To scan the QR code and start the bot, run `npm start`
-5. To connect using a pairing code, run `npm run code`. After pairing, run `npm start` again and scan the QR code
-6. country code is require for connecting via pairing code. If you are from India, you can use `91` as country code. If you are from any other country, you can use your country code.
-7. To stop the bot, press `Ctrl+C`
-8. To start the bot, run `npm start` 
+2. Now Deploy by inputing username and clicking sumbit button
+    <br>
+<a href='https://worthwhile-mandy-c-iph3r.koyeb.app/deploy/heroku' target="_blank"><img alt='DEPLOY' src='https://img.shields.io/badge/-DEPLOY-black?style=for-the-badge&logo=heroku'/></a>
 
-## Usage
+#### DEPLOY ON RAILWAY
 
-### Creating a Plugin
+1. If You don't have a account in Railway. Create a account.
+    <br>
+<a href='https://railway.app' target="_blank"><img alt='Replit' src='https://img.shields.io/badge/-Create-black?style=for-the-badge&logo=railway'/></a>
 
-X-Asena supports custom plugins, which can be created using the following template:
+2. Now Deploy
+    <br>
+<a href='https://railway.app' target="_blank"><img alt='DEPLOY' src='https://img.shields.io/badge/-DEPLOY-black?style=for-the-badge&logo=railway'/></a>
 
-```javascript
-const { command, isPrivate } = require("../../lib/");
 
-command({
-  pattern: "ping", // Command pattern
-  fromMe: isPrivate, // Need to respond for everyone's message? true: only from sudo numbers, false: from everyone, isPrivate: same as false but will be considered as true if worktype is private
-  desc: "To check ping", // Description of the command
-  type: "user", // Command type
-}, async (message, match) => {
-  /* PLUGIN CONTENT HERE */
-});
+
+#### DEPLOY TO KOYEB 
+
+1. If You don't have a account in koyeb. Create a account.
+    <br>
+<a href='https://app.koyeb.com/auth/signup' target="_blank"><img alt='koyeb' src='https://img.shields.io/badge/-Create-black?style=for-the-badge&logo=koyeb'/></a>
+
+2. Get [Koyeb api key](https://app.koyeb.com/account/api)
+
+3. Now Deploy
+    <br>
+<a href='https://app.koyeb.com/apps/deploy?type=git&repository=github.com/C-iph3r/alpha-md&branch=main&name=alpha-md&builder=dockerfile&env[REACT]=command&env[SESSION_ID]=&env[DATABASE_URL]=&env[BOT_INFO]=alpha-md;C-iph3r;https://i.imgur.com/nXqqjPL.jpg&env[PREFIX]=!&env[KOYEB_API]=&env[AUDIO_DATA]=alpha-md;C-iph3r;https://i.imgur.com/nXqqjPL.jpg&env[WARNCOUNT]=3&env[STATUS_VIEW]=false&env[STICKER_DATA]=C-iph3r;alpha-md&env[WORKTYPE]=private&env[ALPHA_KEY]=alpha-free&env[SUDO]=' target="_blank"><img alt='DEPLOY' src='https://img.shields.io/badge/-DEPLOY-black?style=for-the-badge&logo=koyeb'/></a>
+
+
+#### DEPLOY ON BACK4APP
+
+1. If You don't have a account in Back4app. Create a account.
+    <br>
+<a href='https://www.back4app.com/signup?' target="_blank"><img alt='back4app' src='https://img.shields.io/badge/Back4App-000000?style=for-the-badge&logo=back4app&logoColor=white&labelColor=000000&color=000000'/></a>
+
+2. Now Deploy
+    <br>
+<a href='https://www.back4app.com/' target="_blank"><img alt='DEPLOY' src='https://img.shields.io/badge/Back4App-000000?style=for-the-badge&logo=back4app&logoColor=white&labelColor=000000&color=000000'/></a>
+3. Then head to uptime robot to create a monitor or any other cron job service provider to keep service alive
+
+### DEPLOY ON TERMUX
+1. 
+```sh
+$ pkg upgrade -y && pkg update -y
+$ pkg install git -y
+$ pkg install nodejs -y
+$ pkg install ffmpeg -y
+$ pkg install imagemagick -y
+$ git clone your forked repo.git
+$ cd alpha-md
+$ npm i 
+$ npm start
 ```
+---------
 
-### Sending Messages
-
-#### Replying
-
-To reply to a message, use the following code:
-
-```javascript
-message.reply("Hi");
-```
-
-#### Media
-
-To send media (image, audio, or video), use the following code:
-
-```javascript
-let content = "https://wallpaperaccess.com/full/5531321.jpg"; // Can also use a buffer
-message.sendMessage(jid, content, {} /* options */, "image" /* change to 'audio' or 'video' when sending audio or video */);
-```
-
-#### Sticker
-
-To send a sticker, use the following code:
-
-```javascript
-message.sendMessage(jid, "url or buffer of image or video (max 10 seconds)", { packname: config.PACKNAME, author: config.AUTHOR }, "sticker");
-```
-
-### External Plugins
-
-X-Asena supports external plugins. You can find more information about external plugins in the [Plugins wiki](https://github.com/X-Electra/X-Asena/wiki/Plugins).
-
-## Community and Support
-
-Join the official WhatsApp group for X-Asena to get support, ask questions, and interact with other users:
-
-[![JOIN WHATSAPP GROUP](https://raw.githubusercontent.com/Neeraj-x0/Neeraj-x0/main/photos/suddidina-join-whatsapp.png)](https://chat.whatsapp.com/DJYrdBENyX33MRppEFPxV6)
-
-## Credits
-
-X-Asena is built and maintained by the following contributors:
-
-- [Adhiraj Singh](https://github.com/adiwajshing)
-- [Yusuf Usta](https://github.com/yusufusta)
-- [Neeraj-x0](https://github.com/Neeraj-x0)
-- [Adityan](https://github.com/A-d-i-t-h-y-a-n)
-- [SamPandey001](https://github.com/SamPandey001)
-- [TSH3PHANG](https://github.com/TSH3PHANG)
-- [Diegoson](https://github.com/Diegoson)
-- [Viper-x0](https://github.com/Viper-X0)
-- [Lord-Official](https://github.com/Lord-official)
-- [Ajmal-Achu](https://github.com/Ajmal-Achu)
-
+<h2 align="center">  Reminder
+</h2>
+   
 ## License
-
-X-Asena is licensed under the [MIT License](https://opensource.org/licenses/MIT):
-
-```
 MIT License
 
-Copyright (c) 2023 X-Electra
+Copyright (c) 2024 C-iph3r
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -134,8 +116,12 @@ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
 copies of the Software, and to permit persons to whom the Software is
 furnished to do so, subject to the following conditions:
 
-The above copyright notice and this permission notice shall be included in all
+1. The above copyright notice and this permission notice shall be included in all
 copies or substantial portions of the Software.
+
+2. Any attempts to deobfuscate, reverse-engineer, modify, or otherwise tamper with
+the Software for the purpose of revealing its original code or defeating its
+intended obfuscation techniques are strictly prohibited.
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -144,4 +130,14 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-```
+
+Additional Terms:
+
+- This alpha is not made by WhatsApp Inc. Misusing it might result in the banning of your WhatsApp account. I am not responsible for any such bans.
+- Use alpha at your own risk, and remember this warning.
+
+NOTICE:
+- Alpha is not for sale.
+- If a plugin's code is obfuscated, you do not have permission to deobfuscate or edit it in any form.
+- Don't forget to give credits if you use or reupload my plugins/files.
+- Have a good day ahead.

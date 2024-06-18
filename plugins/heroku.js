@@ -6,6 +6,7 @@ const heroku = new Heroku({ token: Config.HEROKU_API_KEY });
 const baseURI = "/apps/" + Config.HEROKU_APP_NAME;
 const { secondsToDHMS } = require("../lib/functions");
 const { delay } = require("baileys");
+const { config } = require("dotenv");
 
 alpha(
   {
@@ -13,7 +14,6 @@ alpha(
     fromMe: true,
     type: "heroku",
     desc: "Restart Dyno",
-    type: "heroku",
   },
   async (message) => {
     await message.reply(`_Restarting_`);
@@ -27,6 +27,8 @@ alpha(
       await heroku.delete(baseURI + "/dynos").catch(async (error) => {
         await message.reply(`HEROKU : ${error.body.message}`);
       });
+    } else if (config.KOYEB){
+      await restartKoyeb(message);
     } else {
       require("child_process").exec(
         "pm2 restart " + Config.PROCESSNAME,
@@ -46,7 +48,6 @@ alpha(
     fromMe: true,
     type: "heroku",
     desc: "Dyno off",
-    type: "heroku",
   },
   async (message) => {
     if (Config.HEROKU) {
@@ -120,3 +121,23 @@ Remaning    : ${secondsToDHMS(remaining)}`;
     }
   },
 );
+
+
+const restartKoyeb = async (message) => {
+  const koyebToken = Config.KOYEB_API_KEY;
+  const koyebAppName = Config.KOYEB_APP_NAME;
+  if (!koyebAppName || !koyebToken) {
+    return await message.reply("Add `KOYEB_APP_NAME` and `KOYEB_API_KEY` env variables");
+  }
+  const url = `https://api.koyeb.com/v1/apps/${koyebAppName}/restart`;
+  const headers = {
+    Authorization: `Bearer ${koyebToken}`,
+    "Content-Type": "application/json",
+  };
+  try {
+    const response = await got.post(url, { headers, json: {} });
+    await message.reply(`_Restarting Koyeb app ${koyebAppName}_`);
+  } catch (error) {
+    await message.reply(`KOYEB : ${error.response.body.message}`);
+  }
+};

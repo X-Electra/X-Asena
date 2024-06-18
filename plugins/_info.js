@@ -9,7 +9,6 @@ alpha(
     pattern: "menu",
     fromMe: isPrivate,
     desc: "Show All Commands",
-    dontAddCommandList: true,
     type: "info",
   },
   async (message, match) => {
@@ -81,7 +80,6 @@ alpha(
     fromMe: isPrivate,
     desc: "Show All Commands",
     type: "info",
-    dontAddCommandList: true,
   },
   async (message, match, { prefix }) => {
     let menu = "\t\t```Command List```\n";
