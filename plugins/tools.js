@@ -1,6 +1,5 @@
-const { alpha, qrcode, Bitly, isPrivate, isUrl, readQr, parsedJid} = require("../lib/");
+const { alpha, qrcode, Bitly, isPrivate, isUrl, readQr, parsedJid, secondsToDHMS} = require("../lib/");
 const { downloadMediaMessage } = require("baileys");
-const config = require("../config");
 
 alpha(
   {
@@ -9,7 +8,7 @@ alpha(
     desc: "Forwards The View once messsage",
     type: "tool",
   },
-  async (message, match, m) => {
+  async (message, m) => {
     try {
       const buffer = await downloadMediaMessage(
         m.quoted,
@@ -81,7 +80,7 @@ alpha(
     desc: "Check uptime of bot",
     type: "user",
   },
-  async (message, match) => {
+  async (message) => {
     message.reply(`*Uptime:* ${secondsToDHMS(process.uptime())}`);
   },
 );

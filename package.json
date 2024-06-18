@@ -60,7 +60,7 @@
   },
   "scripts": {
     "top": "node index.js --max-old-space-size=4096",
-    "start": "pm2 start index.js --max-old-space-size=4096 && name alpha && pm2 logs alpha",
+    "start": "NODE_OPTIONS='--max-old-space-size=4096' pm2 start index.js --name alpha && pm2 logs alpha",
     "stop": "pm2 stop alpha"
   },
   "repository": {

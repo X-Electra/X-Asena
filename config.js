@@ -6,12 +6,18 @@ const DATABASE_URL = process.env.DATABASE_URL || "./database.db";
 if (existsSync('.env')) {
   dotenv.config({ path: './.env' });
 }
-process.env.NODE_OPTIONS = "--max_old_space_size=2560";
+process.env.NODE_OPTIONS = "--max_old_space_size=4096";
 const toBool = (x) => x === "true";
 
 module.exports = {
   LOGS: toBool(process.env.LOGS) || true,
-  SESSION_ID: process.env.SESSION_ID || null,
+  REPO: "C-iph3r/alpha-md",
+  REJECT_CALL: toBool(process.env.REJECT_CALL || "false"),
+  CALL_BLOCK: toBool(process.env.CALL_BLOCK || "false"),
+  DISABLE_PM: toBool(process.env.DISABLE_PM || "false"),
+  DISABLE_GRP: toBool(process.env.DISABLE_GRP || "false"),
+  ERROR_MSG: toBool(process.env.ERROR_MSG || "true"),
+  SESSION_ID: process.env.SESSION_ID || 'null',
   LANG: process.env.LANG || "EN",
   AUTH_TOKEN: "",
   HANDLERS: process.env.HANDLERS === "false" || process.env.HANDLERS === "null"
@@ -31,7 +37,7 @@ module.exports = {
   HEROKU: toBool(process.env.HEROKU) || false,
   BOT_NAME: process.env.BOT_NAME || "alpha",
   AUTO_READ: toBool(process.env.AUTO_READ) || false,
-  DIS_START_MSG: toBool(process.env.DIS_START_MSG) || true,
+  DIS_START_MSG: toBool(process.env.DIS_START_MSG) || false,
   ALWAYS_ONLINE: toBool(process.env.ALWAYS_ONLINE) || false,
   PROCESSNAME: process.env.PROCESSNAME || "alpha",
   WORK_TYPE: process.env.WORK_TYPE || "private",

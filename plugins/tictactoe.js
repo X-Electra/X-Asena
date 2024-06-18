@@ -1,4 +1,4 @@
-const { alpha, isAdmin, parseJid, isPrivate } = require("../lib/");
+const { alpha, isAdmin, parseJid, isPrivate } = require("../lib");
 alpha(
   {
     pattern: "delttt",
