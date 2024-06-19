@@ -105,39 +105,27 @@ $ npm start
 </h2>
    
 ## License
-MIT License
+Custom Software License
 
 Copyright (c) 2024 C-iph3r
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software with restrictions, including but not limited to the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
-1. The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+   1. The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
-2. Any attempts to deobfuscate, reverse-engineer, modify, or otherwise tamper with
-the Software for the purpose of revealing its original code or defeating its
-intended obfuscation techniques are strictly prohibited.
+   2. Any attempts to deobfuscate, reverse-engineer, modify, or otherwise tamper with the Software for the purpose of revealing its original code or defeating its intended obfuscation techniques are strictly prohibited.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+   3. Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+      -  Redistributions of source code must retain the above copyright notice, this list of conditions, and the following disclaimer.
+      -  Redistributions in binary form must reproduce the above copyright notice, this list of conditions, and the following disclaimer in the documentation and/or other materials provided with the distribution.
 
-Additional Terms:
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES, OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT, OR OTHERWISE, ARISING FROM, OUT OF, OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-- This alpha is not made by WhatsApp Inc. Misusing it might result in the banning of your WhatsApp account. I am not responsible for any such bans.
-- Use alpha at your own risk, and remember this warning.
+## Additional Terms:
 
-NOTICE:
-- Alpha is not for sale.
-- If a plugin's code is obfuscated, you do not have permission to deobfuscate or edit it in any form.
-- Don't forget to give credits if you use or reupload my plugins/files.
-- Have a good day ahead.
+  -  alpha is not made by WhatsApp Inc. Misusing it might result in the banning of your WhatsApp account. I am not responsible for any such bans.
+  -  Use alpha at your own risk, and remember this warning.
+  -  alpha is not for sale.
+  -  If a plugin's code is obfuscated, you do not have permission to deobfuscate or edit it in any form.
+  -  Don't forget to give credits if you use or reupload my plugins/files.
+  -  Have a good day ahead.
