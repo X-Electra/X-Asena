@@ -47,9 +47,7 @@ alpha(
             "Invalid Plugin\n ```" + e + "```",
           );
         }
-
         await installPlugin(url, plugin_name);
-
         await message.sendMessage(
           message.jid,
           `_New plugin installed : ${plugin_name}_`,

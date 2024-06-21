@@ -20,7 +20,7 @@ alpha(
     dontAddcommandList: true,
   },
   async (message) => {
-    console.log("ashyflkahf", message);
+    //  console.log("ashyflkahf", message);
     const userId = parsedJid(message.participant);
     const isadmin = await isAdmin(message.jid, userId, message.client);
     if (isadmin) return;

@@ -15,6 +15,7 @@ alpha(
         "Please set DELETED_LOG_CHAT in ENV to use log delete message",
       );
     let msg = await loadMessage(message.messageId);
+    console.log(msg);
     if (!msg) return;
     msg = await serialize(
       JSON.parse(JSON.stringify(msg.message)),
