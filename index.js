@@ -2,7 +2,7 @@ const fs = require("fs").promises;
 const path = require("path");
 const config = require("./config");
 const bot = require("./lib/bot");
-const { getandRequirePlugins } = require("./lib/database/plugins");
+const { reqextplugins } = require("./lib/database/plugins");
 
 global.__basedir = __dirname;
 
@@ -28,7 +28,7 @@ async function startBot() {
     await config.DATABASE.sync();
     console.log("⬇️ Installing Plugins...");
     await reqplugins(path.join(__dirname, "/plugins/"));
-    await getandRequirePlugins();
+    await reqextplugins();
     console.log("✅ Plugins Installed!");
     return await bot();
   } catch (error) {
