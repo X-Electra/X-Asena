@@ -36,7 +36,6 @@
     "jszip": "^3.10.1",
     "libphonenumber-js": "^1.11.2",
     "node-cron": "3.0.3",
-    "node-native-ocr": "^0.3.9",
     "node-webpmux": "^3.1.7",
     "open-sans-fontface": "^1.4.0",
     "openai": "^4.17.4",
