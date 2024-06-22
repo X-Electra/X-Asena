@@ -82,7 +82,6 @@ const scheduleModule = {
   },
 };
 
-// Command handlers
 alpha(
   {
     pattern: "amute",

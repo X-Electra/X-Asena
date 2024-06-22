@@ -12,23 +12,25 @@ alpha(
     type: "info",
   },
   async (message, match) => {
-    if (match) {
-      for (let i of plugins.commands) {
-        if (
-          i.pattern instanceof RegExp &&
-          i.pattern.test(message.prefix + match)
-        ) {
-          const cmdName = i.pattern.toString().split(/\W+/)[1];
-          message.reply(`\`\`\`Command: ${message.prefix}${cmdName.trim()}
+    try {
+      if (match) {
+        for (let i of plugins.commands) {
+          if (
+            i.pattern instanceof RegExp &&
+            i.pattern.test(message.prefix + match)
+          ) {
+            const cmdName = i.pattern.toString().split(/\W+/)[1];
+            await message.reply(`\`\`\`Command: ${message.prefix}${cmdName.trim()}
 Description: ${i.desc}\`\`\``);
+            return;
+          }
         }
-      }
-    } else {
-      let { prefix } = message;
-      let [date, time] = new Date()
-        .toLocaleString("en-IN", { timeZone: TZ })
-        .split(",");
-      let menu = `╭━〔 ${BOT_NAME} 〕━◉
+      } else {
+        let { prefix } = message;
+        let [date, time] = new Date()
+          .toLocaleString("en-IN", { timeZone: TZ })
+          .split(",");
+        let menu = `╭━〔 ${BOT_NAME} 〕━◉
 ┃╭━━━━━━━━━━━━━━◉
 ┃┃ *Plugins :-* ${plugins.commands.length.toString()}
 ┃┃ *User :-* ${message.pushName}
@@ -41,35 +43,38 @@ Description: ${i.desc}\`\`\``);
 ┃┃ *Ram :-* ${Math.round((os.totalmem() - os.freemem()) / 1024 / 1024)}MB
 ┃╰━━━━━━━━━━━━━◉`;
 
-      let cmnd = [];
-      let cmd;
-      let category = [];
-      plugins.commands.map((command, num) => {
-        if (command.pattern instanceof RegExp) {
-          cmd = command.pattern.toString().split(/\W+/)[1];
-        }
+        let cmnd = [];
+        let cmd;
+        let category = [];
+        plugins.commands.forEach((command) => {
+          if (command.pattern instanceof RegExp) {
+            cmd = command.pattern.toString().split(/\W+/)[1];
+          }
 
-        if (!command.dontAddCommandList && cmd !== undefined) {
-          let type = command.type ? command.type.toLowerCase() : "misc";
-          cmnd.push({ cmd, type });
-          if (!category.includes(type)) category.push(type);
-        }
-      });
-
-      category.sort().forEach((cmmd) => {
-        menu += `
-┠┌─⭓『 *${cmmd.toUpperCase()}* 』`;
-        let comad = cmnd.filter(({ type }) => type == cmmd);
-        comad.forEach(({ cmd }) => {
-          menu += `\n┃│◦ _${cmd.trim()}_ `;
+          if (!command.dontAddCommandList && cmd !== undefined) {
+            let type = command.type ? command.type.toLowerCase() : "misc";
+            cmnd.push({ cmd, type });
+            if (!category.includes(type)) category.push(type);
+          }
         });
-        menu += `\n┃└──────────⭓`;
-      });
 
-      menu += `
+        category.sort().forEach((cmmd) => {
+          menu += `
+┠┌─⭓『 *${cmmd.toUpperCase()}* 』`;
+          let comad = cmnd.filter(({ type }) => type == cmmd);
+          comad.forEach(({ cmd }) => {
+            menu += `\n┃│◦ _${cmd.trim()}_ `;
+          });
+          menu += `\n┃└──────────⭓`;
+        });
+
+        menu += `
 ╰━━━━━━━━━━━━━◉_`;
 
-      return await message.reply(menu);
+        await message.reply(menu);
+      }
+    } catch (error) {
+      console.error("Error in menu command:", error);
     }
   },
 );
@@ -81,28 +86,31 @@ alpha(
     desc: "Show All Commands",
     type: "info",
   },
-  async (message, match, { prefix }) => {
-    let menu = "\t\t```Command List```\n";
+  async (message, match) => {
+    try {
+      let menu = "\t\t```Command List```\n";
 
-    let cmnd = [];
-    let cmd, desc;
-    plugins.commands.map((command) => {
-      if (command.pattern) {
-        cmd = command.pattern.toString().split(/\W+/)[1];
-      }
-      desc = command.desc || false;
+      let cmnd = [];
+      let cmd, desc;
+      plugins.commands.forEach((command) => {
+        if (command.pattern) {
+          cmd = command.pattern.toString().split(/\W+/)[1];
+        }
+        desc = command.desc || false;
 
-      if (!command.dontAddCommandList && cmd !== undefined) {
-        cmnd.push({ cmd, desc });
-      }
-    });
-    cmnd.sort();
-    cmnd.forEach(({ cmd, desc }, num) => {
-      menu += `\`\`\`${(num += 1)} ${cmd.trim()}\`\`\`\n`;
-      if (desc) menu += `Use: \`\`\`${desc}\`\`\`\n\n`;
-    });
-    menu += ``;
-    return await message.reply(menu);
+        if (!command.dontAddCommandList && cmd !== undefined) {
+          cmnd.push({ cmd, desc });
+        }
+      });
+      cmnd.sort();
+      cmnd.forEach(({ cmd, desc }, num) => {
+        menu += `\`\`\`${num + 1} ${cmd.trim()}\`\`\`\n`;
+        if (desc) menu += `Use: \`\`\`${desc}\`\`\`\n\n`;
+      });
+      await message.reply(menu);
+    } catch (error) {
+      console.error("Error in list command:", error);
+    }
   },
 );
 
@@ -114,9 +122,13 @@ alpha(
     type: "info",
   },
   async (message, match) => {
-    const start = new Date().getTime();
-    const msg = await message.sendMessage(message.jid, "*Pong!*");
-    const end = new Date().getTime();
-    await msg.edit2("```" + (end - start) + "``` *ms*");
+    try {
+      const start = Date.now();
+      const msg = await message.sendMessage(message.jid, "*Pong!*");
+      const end = Date.now();
+      await msg.edit2("```" + (end - start) + "``` *ms*");
+    } catch (error) {
+      console.error("Error in ping command:", error);
+    }
   },
 );
