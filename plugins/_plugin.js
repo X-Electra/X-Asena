@@ -94,9 +94,7 @@ alpha(
   async (message, match) => {
     if (!match)
       return await message.sendMessage(message.jid, "_Need a plugin name_");
-
     var plugin = await PluginDB.findAll({ where: { name: match } });
-
     if (plugin.length < 1) {
       return await message.sendMessage(message.jid, "_Plugin not found_");
     } else {

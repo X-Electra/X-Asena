@@ -287,57 +287,6 @@ alpha(
 
 alpha(
   {
-    pattern: "antibot",
-    fromMe: true,
-    desc: "remove users who use bot",
-    type: "group",
-  },
-  async (message, match) => {
-    if (!message.isGroup) return;
-    if (!match)
-      return await message.reply(
-        "_*antibot* on/off_\n_*antibot* action warn/kick/null_",
-      );
-    const { antibot } = await groupDB(
-      ["antibot"],
-      { jid: message.jid, content: {} },
-      "get",
-    );
-    if (match.toLowerCase() == "on") {
-      const action = antibot && antibot.action ? antibot.action : "null";
-      await groupDB(
-        ["antibot"],
-        { jid: message.jid, content: { status: "true", action } },
-        "set",
-      );
-      return await message.reply(
-        `_antibot Activated with action null_\n_*antibot action* warn/kick/null for chaning actions_`,
-      );
-    } else if (match.toLowerCase() == "off") {
-      const action = antibot && antibot.action ? antibot.action : "null";
-      await groupDB(
-        ["antibot"],
-        { jid: message.jid, content: { status: "false", action } },
-        "set",
-      );
-      return await message.reply(`_antibot deactivated_`);
-    } else if (match.toLowerCase().match("action")) {
-      const status = antibot && antibot.status ? antibot.status : "false";
-      match = match.replace(/action/gi, "").trim();
-      if (!actions.includes(match))
-        return await message.reply("_action must be warn,kick or null_");
-      await groupDB(
-        ["antibot"],
-        { jid: message.jid, content: { status, action: match } },
-        "set",
-      );
-      return await message.reply(`_AntiBot Action Updated_`);
-    }
-  },
-);
-
-alpha(
-  {
     pattern: "antifake",
     fromMe: true,
     desc: "remove fake numbers",
@@ -511,6 +460,57 @@ alpha(
 
 alpha(
   {
+    pattern: "antibot",
+    fromMe: true,
+    desc: "remove users who use bot",
+    type: "group",
+  },
+  async (message, match) => {
+    if (!message.isGroup) return;
+    if (!match)
+      return await message.reply(
+        "_*antibot* on/off_\n_*antibot* action warn/kick/null_",
+      );
+    const { antibot } = await groupDB(
+      ["antibot"],
+      { jid: message.jid, content: {} },
+      "get",
+    );
+    if (match.toLowerCase() == "on") {
+      const action = antibot && antibot.action ? antibot.action : "null";
+      await groupDB(
+        ["antibot"],
+        { jid: message.jid, content: { status: "true", action } },
+        "set",
+      );
+      return await message.reply(
+        `_antibot Activated with action null_\n_*antibot action* warn/kick/null for chaning actions_`,
+      );
+    } else if (match.toLowerCase() == "off") {
+      const action = antibot && antibot.action ? antibot.action : "null";
+      await groupDB(
+        ["antibot"],
+        { jid: message.jid, content: { status: "false", action } },
+        "set",
+      );
+      return await message.reply(`_antibot deactivated_`);
+    } else if (match.toLowerCase().match("action")) {
+      const status = antibot && antibot.status ? antibot.status : "false";
+      match = match.replace(/action/gi, "").trim();
+      if (!actions.includes(match))
+        return await message.reply("_action must be warn,kick or null_");
+      await groupDB(
+        ["antibot"],
+        { jid: message.jid, content: { status, action: match } },
+        "set",
+      );
+      return await message.reply(`_AntiBot Action Updated_`);
+    }
+  },
+);
+
+alpha(
+  {
     pattern: "filter",
     fromMe: true,
     desc: "Adds a filter. When someone triggers the filter, it sends the corresponding response. To view your filter list, use `.filter`.",
@@ -568,14 +568,15 @@ alpha(
   async (message, match) => {
     var filtreler = await getFilter(message.jid);
     if (!filtreler) return;
+    const txxt = match.toLowerCase();
     filtreler.map(async (filter) => {
-      pattern = new RegExp(
+      const pattern = new RegExp(
         filter.dataValues.regex
-          ? filter.dataValues.pattern
-          : "\\b(" + filter.dataValues.pattern + ")\\b",
+          ? filter.dataValues.pattern.toLowerCase()
+          : "\\b(" + filter.dataValues.pattern.toLowerCase() + ")\\b",
         "gm",
       );
-      if (pattern.test(match)) {
+      if (pattern.test(txxt)) {
         return await message.reply(filter.dataValues.text, {
           quoted: message,
         });
@@ -583,3 +584,69 @@ alpha(
     });
   },
 );
+
+alpha(
+  {
+    pattern: "info",
+    fromMe: isPrivate,
+    desc: "get invite info of group",
+    type: "group",
+  },
+  async (message, match, m, client) => {
+    try {
+      match = match || message.reply_message.text;
+      if (!match)
+        return await message.reply("_Tag a group invite link to check info_");
+      if (!match.includes("chat.whatsapp.com")) {
+        return await message.reply("_Tag a group invite link to check info_");
+      }
+      let cold = match;
+      let hmm = cold.split("/")[3];
+      const metadata = await message.client.groupGetInviteInfo(hmm);
+      const { id, subject, owner, creation, size, desc, participants } =
+        metadata;
+      const created = msToDateTime(creation);
+      const ownerId = owner ? "@" + owner.split("@")[0] : "Not Found!";
+      let adminCount = 0;
+      let nonAdminCount = 0;
+      participants.forEach((participant) => {
+        if (
+          participant.admin === "admin" ||
+          participant.admin === "superadmin"
+        ) {
+          adminCount++;
+        } else {
+          nonAdminCount++;
+        }
+      });
+      const participantList = participants
+        .map((participant) => {
+          const { id, admin } = participant;
+          return `ID: ${id}, Admin: ${admin}`;
+        })
+        .join("\n");
+      const description = desc ? desc : "No Description";
+      const creatorAdmin = participants.find(
+        (participant) => participant.admin === "superadmin",
+      );
+      const creatorAdminPhone = creatorAdmin
+        ? "@" + creatorAdmin.id.split("@")[0]
+        : "Not Found!";
+      let msg = `> Group ID:🌟 ${id}\n> Subject: 📚 ${subject}\n> Creator: 👤 ${ownerId}\n> Created on: 🕒 ${created}\n> Super Admin: 🚀 ${creatorAdminPhone}\n> Total Number of members: 👥 ${participants.length}\n> Number of Admins: 🔧 ${adminCount}\n> Number of Members: 👫 ${nonAdminCount}\n> Description: 📝 ${description}`;
+      const jid = parsedJid(msg);
+      return await message.reply(msg, {
+        mentions: [jid],
+      });
+    } catch (error) {
+      console.error("[Error]:", error);
+      return await message.reply("_Error occurred while fetching group info_");
+    }
+  },
+);
+
+function msToDateTime(ms) {
+  const date = new Date(ms * 1000);
+  const dateString = date.toDateString();
+  const timeString = date.toTimeString().split(" ")[0];
+  return dateString + " " + timeString;
+}

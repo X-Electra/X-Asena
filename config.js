@@ -17,7 +17,7 @@ module.exports = {
   REJECT_CALL: toBool(process.env.REJECT_CALL) || true,
   CALL_BLOCK: toBool(process.env.CALL_BLOCK) || false,
   DISABLE_PM: toBool(process.env.DISABLE_PM) || false,
-  DISABLE_GRP: toBool(process.env.DISABLE_GRP) || true,
+  DISABLE_GRP: toBool(process.env.DISABLE_GRP) || false,
   ERROR_MSG: toBool(process.env.ERROR_MSG || "true"),
   SESSION_ID: process.env.SESSION_ID || "null",
   LANG: process.env.LANG || "EN",
