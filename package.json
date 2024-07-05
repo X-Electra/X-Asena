@@ -14,6 +14,7 @@
     "baileys": "github:X-Electra/baileys",
     "bitly": "^4.1.1",
     "browser-id3-writer": "^4.4.0",
+    "cheerio": "^1.0.0-rc.12",
     "dotenv": "^16.4.5",
     "file-type": "^16.5.3",
     "fluent-ffmpeg": "^2.1.2",
