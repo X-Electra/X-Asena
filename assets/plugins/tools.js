@@ -1,11 +1,4 @@
-const {
-  command,
-  qrcode,
-  Bitly,
-  isPrivate,
-  isUrl,
-  readQr,
-} = require("../../lib/");
+const { command, qrcode, Bitly, isPrivate, isUrl, readQr } = require("../../lib/");
 
 const { downloadMediaMessage } = require("baileys");
 const { getLyrics } = require("../../lib/functions");
@@ -18,8 +11,19 @@ command(
     type: "tool",
   },
   async (message, match, m) => {
-    let buff = await m.quoted.download();
-    return await message.sendFile(buff);
+try {
+    const buffer = await downloadMediaMessage(
+      m.quoted,
+      "buffer",
+      {},
+      {
+        reuploadRequest: message.client.updateMediaMessage,
+      }
+    );
+    await message.sendFile(buffer);
+  } catch (error) {
+    console.log(error)
+  }
   }
 );
 
