@@ -19,6 +19,7 @@ X-Asena is a powerful and versatile WhatsApp bot built using Node.js and the Bai
     - [Sticker](#sticker)
   - [External Plugins](#external-plugins)
 - [Community and Support](#community-and-support)
+- [Contributing](#contributing)  <!-- Added this new section -->
 - [Credits](#credits)
 - [License](#license)
 
@@ -43,7 +44,7 @@ To deploy X-Asena on any shell, including Termux, follow these steps:
    - `npm install pm2 -g`
 4. To scan the QR code and start the bot, run `npm start`
 5. To connect using a pairing code, run `npm run code`. After pairing, run `npm start` again and scan the QR code
-6. country code is require for connecting via pairing code. If you are from India, you can use `91` as country code. If you are from any other country, you can use your country code.
+6. Country code is required for connecting via a pairing code. If you are from India, you can use `91` as the country code. If you are from any other country, use your respective country code.
 7. To stop the bot, press `Ctrl+C`
 8. To start the bot, run `npm start` 
 
@@ -58,7 +59,7 @@ const { command, isPrivate } = require("../../lib/");
 
 command({
   pattern: "ping", // Command pattern
-  fromMe: isPrivate, // Need to respond for everyone's message? true: only from sudo numbers, false: from everyone, isPrivate: same as false but will be considered as true if worktype is private
+  fromMe: isPrivate, // true: only from sudo numbers, false: from everyone, isPrivate: private mode
   desc: "To check ping", // Description of the command
   type: "user", // Command type
 }, async (message, match) => {
@@ -103,6 +104,19 @@ Join the official WhatsApp group for X-Asena to get support, ask questions, and 
 
 [![JOIN WHATSAPP GROUP](https://raw.githubusercontent.com/Neeraj-x0/Neeraj-x0/main/photos/suddidina-join-whatsapp.png)](https://chat.whatsapp.com/DJYrdBENyX33MRppEFPxV6)
 
+## Contributing
+
+We welcome contributions from everyone, especially during **Hacktoberfest 2024**! If you're looking to contribute and gain experience in open source, this is a great time to do so. Here’s how to get involved:
+
+- Check out issues labeled with `hacktoberfest` or `good first issue` to find a starting point.
+- Fork the repository, make your changes, and submit a pull request.
+- Follow our [Contributing Guidelines](https://github.com/X-Electra/X-Asena/blob/main/CONTRIBUTING.md) to ensure your contributions are in line with the project.
+
+Your contributions help improve X-Asena and make it better for everyone!
+
+## Credits
+
+X-Asena was created and is maintained by **X-Electra**.
 
 ## License
 
