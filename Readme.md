@@ -110,7 +110,7 @@ We welcome contributions from everyone, especially during **Hacktoberfest 2024**
 
 - Check out issues labeled with `hacktoberfest` or `good first issue` to find a starting point.
 - Fork the repository, make your changes, and submit a pull request.
-- Follow our [Contributing Guidelines](https://github.com/X-Electra/X-Asena/blob/main/CONTRIBUTING.md) to ensure your contributions are in line with the project.
+- Follow our [Contributing Guidelines](https://github.com/Neeraj-x0/X-Asena/blob/main/CONTRIBUTING.md) to ensure your contributions are in line with the project.
 
 Your contributions help improve X-Asena and make it better for everyone!
 
