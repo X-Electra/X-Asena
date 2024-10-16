@@ -10,7 +10,7 @@
     "@adiwajshing/keyed-db": "^0.2.4",
     "@google/generative-ai": "^0.5.0",
     "@neeraj-x0/ytsearch": "^1.0.0",
-    "axios": "^1.4.0",
+    "axios": "^1.7.7",
     "baileys": "github:X-Electra/baileys",
     "bitly": "^4.1.1",
     "browser-id3-writer": "^4.4.0",
