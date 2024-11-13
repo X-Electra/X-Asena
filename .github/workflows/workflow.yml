@@ -1,10 +1,19 @@
 name: X-Asena
-on: [push]
+on:
+    push:
+      branches:
+        - main
+        - develop
+    pull_request:
+      branches:
+        - main
+        - develop
 
 jobs:
   run:
     runs-on: ${{ matrix.os }}
     strategy:
+      fail-fast: false
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
     env:
@@ -17,6 +26,7 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
 
       - name: Install dependencies
         run: |
@@ -28,7 +38,8 @@ jobs:
           npm install --save-dev jest-junit
           jest --coverage --coverageReporters=text-lcov | tee coverage.lcov
 
-      - name: Upload coverage to Codecov
+      - name: Upload coverage to Codecov'
+        if: matrix.os == 'ubuntu-latest'
         uses: codecov/codecov-action@v4
         with:
           files: coverage.lcov
@@ -37,4 +48,3 @@ jobs:
           flags: unittests
           name: codecov-umbrella
           token: ${{ secrets.CODECOV_TOKEN }}
-          verbose: true
