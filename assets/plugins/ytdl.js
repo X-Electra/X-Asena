@@ -8,7 +8,7 @@ const {
   getJson,
   validateQuality,
 } = require("../../lib");
-const { yta, ytv, ytsdl } = require("../../lib/ytdl");
+const { yta, ytv } = require("../../lib/ytdl");
 
 command(
   {
@@ -87,25 +87,30 @@ command(
   {
     pattern: "song",
     fromMe: isPrivate,
-    desc: "Download audio from youtube",
-  },
-  async (message, match) => {
-    match = match || message.reply_message.text;
-    if (!match) return await message.reply("Give me a query");
-    let { dlink, title } = await ytsdl(match);
-    await message.reply(`_Downloading ${title}_`);
-    let buff = await getBuffer(dlink);
-    return await message.sendMessage(
-      message.jid,
-      buff,
-      {
-        mimetype: "audio/mpeg",
-        filename: title + ".mp3",
-      },
-      "audio"
-    );
-  }
-);
+    desc: "Download audio from Tubidy",
+  },  async (message, match) => {
+         match = match || message.reply_message.text;
+         if (!match) return await message.reply("Give me a query");
+        let find = `https://diegoson-naxordeve.hf.space/tubidy/search?q=${match}`;
+        let search = await fetch(find);
+        let dlink = await search.json();
+        if (!dlink || !dlink.length) return;
+        let toBuffer = dlink[0];  
+        if (!toBuffer.link) return;
+        await message.reply(`_Downloading ${toBuffer.title}_`);
+        let toBuffu = `https://diegoson-naxordeve.hf.space/tubidy/dl?url=${toBuffer.link}`;
+        let get = await fetch(toBuffu);
+        let toAudio = await get.json();
+        if (!toAudio.media || !toAudio.media.length) return;
+        let buff = toAudio.media.find(m => m.type === 'download')?.link;
+        if (!buff) return;
+        return await message.sendMessage(message.jid, { 
+            audio: { url: buff}, 
+            mimetype: 'audio/mpeg',
+            });
+    });
+
+        
 
 command(
   {
