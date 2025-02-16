@@ -8,7 +8,7 @@ const {
   getJson,
   validateQuality,
 } = require("../../lib");
-const { yta, ytv, ytsdl } = require("../../lib/ytdl");
+const { yta, ytv } = require("../../lib/ytdl");
 
 command(
   {
@@ -83,29 +83,38 @@ command(
   }
 );
 
-command(
-  {
+command({
     pattern: "song",
     fromMe: isPrivate,
-    desc: "Download audio from youtube",
-  },
-  async (message, match) => {
-    match = match || message.reply_message.text;
-    if (!match) return await message.reply("Give me a query");
-    let { dlink, title } = await ytsdl(match);
-    await message.reply(`_Downloading ${title}_`);
-    let buff = await getBuffer(dlink);
-    return await message.sendMessage(
-      message.jid,
-      buff,
-      {
-        mimetype: "audio/mpeg",
-        filename: title + ".mp3",
-      },
-      "audio"
-    );
-  }
-);
+    desc: "Download audio from Tubidy",
+}, async (message, match) => {
+    try {
+        match = match || message.reply_message?.text;
+        if (!match) return await message.reply("Give me a query");
+        const findUrl = `https://diegoson-naxordeve.hf.space/tubidy/search?q=${match}`;
+        const search = await fetch(findUrl);
+        const dlink = await search.json();
+        if (!dlink || !dlink.length) return await message.reply("Not_found");
+        const toBuffer = dlink[0];
+        if (!toBuffer.link) return;
+        await message.reply(`_Downloading ${toBuffer.title}_`);
+        const dlink = `https://diegoson-naxordeve.hf.space/tubidy/dl?url=${toBuffer.link}`;
+        const teres = await fetch(dlink);
+        const toAudio = await tores.json();
+        if (!toAudio.media || !toAudio.media.length) return;
+        const buff = toAudio.media.find(m => m.type === 'download')?.link;
+        if (!buff) return await message.reply("not found");
+        return await message.sendMessage(message.jid, { 
+            audio: { url: buff }, 
+            mimetype: 'audio/mpeg'
+        });
+    } catch (error) {
+        console.error(error);
+        return await message.reply("oops");
+    }
+});
+
+        
 
 command(
   {
