@@ -83,32 +83,36 @@ command(
   }
 );
 
-command(
-  {
+command({
     pattern: "song",
     fromMe: isPrivate,
     desc: "Download audio from Tubidy",
-  },  async (message, match) => {
-         match = match || message.reply_message.text;
-         if (!match) return await message.reply("Give me a query");
-        let find = `https://diegoson-naxordeve.hf.space/tubidy/search?q=${match}`;
-        let search = await fetch(find);
-        let dlink = await search.json();
-        if (!dlink || !dlink.length) return;
-        let toBuffer = dlink[0];  
+}, async (message, match) => {
+    try {
+        match = match || message.reply_message?.text;
+        if (!match) return await message.reply("Give me a query");
+        const findUrl = `https://diegoson-naxordeve.hf.space/tubidy/search?q=${match}`;
+        const search = await fetch(findUrl);
+        const dlink = await search.json();
+        if (!dlink || !dlink.length) return await message.reply("Not_found");
+        const toBuffer = dlink[0];
         if (!toBuffer.link) return;
         await message.reply(`_Downloading ${toBuffer.title}_`);
-        let toBuffu = `https://diegoson-naxordeve.hf.space/tubidy/dl?url=${toBuffer.link}`;
-        let get = await fetch(toBuffu);
-        let toAudio = await get.json();
+        const dlink = `https://diegoson-naxordeve.hf.space/tubidy/dl?url=${toBuffer.link}`;
+        const teres = await fetch(dlink);
+        const toAudio = await tores.json();
         if (!toAudio.media || !toAudio.media.length) return;
-        let buff = toAudio.media.find(m => m.type === 'download')?.link;
-        if (!buff) return;
+        const buff = toAudio.media.find(m => m.type === 'download')?.link;
+        if (!buff) return await message.reply("not found");
         return await message.sendMessage(message.jid, { 
-            audio: { url: buff}, 
-            mimetype: 'audio/mpeg',
-            });
-    });
+            audio: { url: buff }, 
+            mimetype: 'audio/mpeg'
+        });
+    } catch (error) {
+        console.error(error);
+        return await message.reply("oops");
+    }
+});
 
         
 
