@@ -1,6 +1,6 @@
 /**
- * YouTube hybrid plugin (Native Search + Public Stream API)
- * Bypasses Koyeb IP blocks without missing modules
+ * YouTube Ultimate Hybrid Plugin (Native Search + Multi-Server API + Cookie Support)
+ * Bypasses Koyeb IP blocks safely
  * #yt #ytmp3 #ytmp4 #play
  */
 
@@ -25,11 +25,13 @@ import { enqueueJob } from "../enterprise/queue.js";
 
 let ytClient = null;
 
-// Only used for searching text to get a valid URL safely
 async function getYt() {
   if (ytClient) return ytClient;
   const { Innertube } = await import("youtubei.js");
-  ytClient = await Innertube.create();
+  // Safely passes your browser cookie if you added it to Koyeb
+  ytClient = await Innertube.create({
+    cookie: process.env.YOUTUBE_COOKIE || undefined,
+  });
   return ytClient;
 }
 
@@ -44,7 +46,6 @@ async function resolveQueryToUrl(query) {
   let targetUrl = query;
   let meta = { title: "YouTube Video", duration: 0 };
 
-  // If the user typed a search term instead of a URL, search YouTube first
   if (!/youtu\.be|youtube\.com/i.test(query)) {
     const yt = await getYt();
     const search = await yt.search(query, { type: "video" });
@@ -59,23 +60,48 @@ async function resolveQueryToUrl(query) {
   return { targetUrl, meta };
 }
 
-async function fetchMediaData(query) {
+async function fetchMediaData(query, type = "audio") {
   const { targetUrl, meta } = await resolveQueryToUrl(query);
+  let downloadUrl = null;
 
-  // Send the clean URL to the public API to bypass Koyeb IP block
-  const response = await fetch(`https://api.siputzx.my.id/api/d/youtube?url=${encodeURIComponent(targetUrl)}`);
-  const json = await response.json();
-  
-  if (!json.status || !json.data) {
-    throw new Error("Download server is currently busy. Try again in a moment.");
+  // 1st Attempt: Siputzx Server
+  try {
+    const res = await fetch(`https://api.siputzx.my.id/api/d/youtube?url=${encodeURIComponent(targetUrl)}`);
+    const json = await res.json();
+    if (json.status && json.data) {
+      downloadUrl = type === "audio" ? (json.data.audio || json.data.dl) : (json.data.video || json.data.dl);
+    }
+  } catch (err) {}
+
+  // 2nd Attempt: Vreden Server (Fallback)
+  if (!downloadUrl) {
+    try {
+      const ep = type === "audio" ? "ytmp3" : "ytmp4";
+      const res = await fetch(`https://api.vreden.my.id/api/${ep}?url=${encodeURIComponent(targetUrl)}`);
+      const json = await res.json();
+      if (json.result && json.result.download) downloadUrl = json.result.download;
+    } catch (err) {}
+  }
+
+  // 3rd Attempt: David Cyril Server (Fallback 2)
+  if (!downloadUrl) {
+    try {
+      const ep = type === "audio" ? "mp3" : "mp4";
+      const res = await fetch(`https://apis.davidcyriltech.my.id/youtube/${ep}?url=${encodeURIComponent(targetUrl)}`);
+      const json = await res.json();
+      if (json.result && json.result.download_url) downloadUrl = json.result.download_url;
+    } catch (err) {}
+  }
+
+  if (!downloadUrl) {
+    throw new Error("All download servers are currently busy or offline. Please try again later.");
   }
 
   return {
     url: targetUrl,
-    title: json.data.title || meta.title,
-    duration: meta.duration || 0, // Fallback to search duration
-    audio: json.data.audio || json.data.dl,
-    video: json.data.video || json.data.dl
+    title: meta.title,
+    duration: meta.duration,
+    dlUrl: downloadUrl
   };
 }
 
@@ -144,7 +170,7 @@ command(
 
     await withTyping(conn, message.from, async () => {
       try {
-        const data = await fetchMediaData(query);
+        const data = await fetchMediaData(query, "audio");
         await reply(
           conn,
           message,
@@ -176,7 +202,7 @@ command(
     }
     await withTyping(conn, message.from, async () => {
       try {
-        const data = await fetchMediaData(query);
+        const data = await fetchMediaData(query, "audio");
         await reply(
           conn,
           message,
@@ -206,11 +232,8 @@ command(
       await enqueueJob("ytmp3", async () => {
         let filePath;
         try {
-          const data = await fetchMediaData(query);
-          const downloadUrl = data.audio;
-          if (!downloadUrl) throw new Error("Audio download link not found.");
-          
-          filePath = await downloadUrlToFile(downloadUrl, ".mp3");
+          const data = await fetchMediaData(query, "audio");
+          filePath = await downloadUrlToFile(data.dlUrl, ".mp3");
           await sendAudioFile(conn, message, filePath, data);
         } catch (err) {
           await replyFail(conn, message, err?.message || "ytmp3 failed.");
@@ -239,11 +262,8 @@ command(
       await enqueueJob("ytmp4", async () => {
         let filePath;
         try {
-          const data = await fetchMediaData(query);
-          const downloadUrl = data.video;
-          if (!downloadUrl) throw new Error("Video download link not found.");
-
-          filePath = await downloadUrlToFile(downloadUrl, ".mp4");
+          const data = await fetchMediaData(query, "video");
+          filePath = await downloadUrlToFile(data.dlUrl, ".mp4");
           await sendVideoFile(conn, message, filePath, data);
         } catch (err) {
           await replyFail(conn, message, err?.message || "ytmp4 failed.");
@@ -272,12 +292,9 @@ command(
       await enqueueJob("play", async () => {
         let filePath;
         try {
-          const data = await fetchMediaData(query);
-          const downloadUrl = data.audio;
-          if (!downloadUrl) throw new Error("Audio download link not found.");
-
+          const data = await fetchMediaData(query, "audio");
           await reply(conn, message, `▶️ *${data.title}* · ${formatDuration(data.duration)}`);
-          filePath = await downloadUrlToFile(downloadUrl, ".mp3");
+          filePath = await downloadUrlToFile(data.dlUrl, ".mp3");
           await sendAudioFile(conn, message, filePath, data);
         } catch (err) {
           await replyFail(conn, message, err?.message || "play failed.");
