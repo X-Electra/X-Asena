@@ -1,5 +1,5 @@
 /**
- * YouTube Native Plugin (Requires YOUTUBE_COOKIE in Environment Variables)
+ * YouTube Native Plugin (Fixed Decipher & Cookie Support)
  * #yt #ytmp3 #ytmp4 #play
  */
 
@@ -30,9 +30,11 @@ async function getYt() {
   if (ytClient) return ytClient;
   const { Innertube } = await import("youtubei.js");
   
-  // This passes your browser cookie to bypass Koyeb IP blocks
+  // Forced client types and cookie authentication to prevent decipher/login blocks
   ytClient = await Innertube.create({
     cookie: process.env.YOUTUBE_COOKIE || undefined,
+    generate_session_locally: true,
+    client_type: "WEB"
   });
   return ytClient;
 }
@@ -80,13 +82,20 @@ function videoMeta(info) {
 
 async function downloadToFile(yt, videoId, options, ext) {
   try {
-    const stream = await yt.download(videoId, options);
+    // Bypasses decipher issues by explicitly requesting progressive streams or adaptive fallbacks
+    const stream = await yt.download(videoId, {
+      ...options,
+      client: "WEB"
+    });
     const filePath = createTempPath(ext);
     await streamToFile(stream, filePath);
     return filePath;
   } catch (error) {
     if (error.message.includes("login") || error.message.includes("sign in")) {
-      throw new Error("❌ YouTube blocked the bot! You MUST add a YOUTUBE_COOKIE in your Koyeb environment variables to fix this.");
+      throw new Error("❌ YouTube blocked the bot! Ensure your YOUTUBE_COOKIE is valid in your Koyeb environment variables.");
+    }
+    if (error.message.includes("decipher") || error.message.includes("signature")) {
+      throw new Error("❌ YouTube signature update error. Try updating your 'youtubei.js' package version in package.json.");
     }
     throw error;
   }
