@@ -1,5 +1,6 @@
 /**
- * YouTube download plugin using public stream proxy
+ * YouTube hybrid plugin (Native Search + Public Stream API)
+ * Bypasses Koyeb IP blocks without missing modules
  * #yt #ytmp3 #ytmp4 #play
  */
 
@@ -22,6 +23,16 @@ import { MEDIA, BOT_INFO } from "../config/constants.js";
 import { readFile, stat } from "fs/promises";
 import { enqueueJob } from "../enterprise/queue.js";
 
+let ytClient = null;
+
+// Only used for searching text to get a valid URL safely
+async function getYt() {
+  if (ytClient) return ytClient;
+  const { Innertube } = await import("youtubei.js");
+  ytClient = await Innertube.create();
+  return ytClient;
+}
+
 function pickQuery(message, pattern) {
   const args = getCommandArgs(message.body, pattern);
   if (args) return args.trim();
@@ -29,14 +40,43 @@ function pickQuery(message, pattern) {
   return "";
 }
 
-async function fetchMediaData(query) {
-  // Uses a public proxy endpoint to bypass server IP blocks
-  const response = await fetch(`https://api.siputzx.my.id/api/d/youtube?url=${encodeURIComponent(query)}`);
-  const json = await response.json();
-  if (!json.status || !json.data) {
-    throw new Error("Failed to fetch video details. Try using a direct YouTube link.");
+async function resolveQueryToUrl(query) {
+  let targetUrl = query;
+  let meta = { title: "YouTube Video", duration: 0 };
+
+  // If the user typed a search term instead of a URL, search YouTube first
+  if (!/youtu\.be|youtube\.com/i.test(query)) {
+    const yt = await getYt();
+    const search = await yt.search(query, { type: "video" });
+    const first = search.videos?.[0];
+    
+    if (!first?.id) throw new Error("Could not find any video for that search.");
+    
+    targetUrl = `https://youtu.be/${first.id}`;
+    meta.title = first.title?.text || first.title || "Unknown";
+    meta.duration = first.duration?.seconds || 0;
   }
-  return json.data;
+  return { targetUrl, meta };
+}
+
+async function fetchMediaData(query) {
+  const { targetUrl, meta } = await resolveQueryToUrl(query);
+
+  // Send the clean URL to the public API to bypass Koyeb IP block
+  const response = await fetch(`https://api.siputzx.my.id/api/d/youtube?url=${encodeURIComponent(targetUrl)}`);
+  const json = await response.json();
+  
+  if (!json.status || !json.data) {
+    throw new Error("Download server is currently busy. Try again in a moment.");
+  }
+
+  return {
+    url: targetUrl,
+    title: json.data.title || meta.title,
+    duration: meta.duration || 0, // Fallback to search duration
+    audio: json.data.audio || json.data.dl,
+    video: json.data.video || json.data.dl
+  };
 }
 
 async function downloadUrlToFile(fileUrl, ext) {
@@ -108,9 +148,9 @@ command(
         await reply(
           conn,
           message,
-          `🎬 *${data.title || "Unknown"}*\n` +
-            `⏱ ${formatDuration(data.duration || 0)}\n` +
-            `🔗 ${data.url || query}\n\n` +
+          `🎬 *${data.title}*\n` +
+            `⏱ ${formatDuration(data.duration)}\n` +
+            `🔗 ${data.url}\n\n` +
             `Use \`${BOT_INFO.PREFIX}ytmp3\` / \`${BOT_INFO.PREFIX}ytmp4\` to download.`
         );
       } catch (err) {
@@ -140,7 +180,7 @@ command(
         await reply(
           conn,
           message,
-          `🎬 *${data.title || "Unknown"}*\n⏱ ${formatDuration(data.duration || 0)}\n🔗 ${data.url || query}`
+          `🎬 *${data.title}*\n⏱ ${formatDuration(data.duration)}\n🔗 ${data.url}`
         );
       } catch (err) {
         await replyFail(conn, message, err?.message || "YouTube lookup failed.");
@@ -167,7 +207,7 @@ command(
         let filePath;
         try {
           const data = await fetchMediaData(query);
-          const downloadUrl = data.audio || data.dl;
+          const downloadUrl = data.audio;
           if (!downloadUrl) throw new Error("Audio download link not found.");
           
           filePath = await downloadUrlToFile(downloadUrl, ".mp3");
@@ -200,7 +240,7 @@ command(
         let filePath;
         try {
           const data = await fetchMediaData(query);
-          const downloadUrl = data.video || data.dl;
+          const downloadUrl = data.video;
           if (!downloadUrl) throw new Error("Video download link not found.");
 
           filePath = await downloadUrlToFile(downloadUrl, ".mp4");
@@ -233,10 +273,10 @@ command(
         let filePath;
         try {
           const data = await fetchMediaData(query);
-          const downloadUrl = data.audio || data.dl;
+          const downloadUrl = data.audio;
           if (!downloadUrl) throw new Error("Audio download link not found.");
 
-          await reply(conn, message, `▶️ *${data.title || "Audio"}* · ${formatDuration(data.duration || 0)}`);
+          await reply(conn, message, `▶️ *${data.title}* · ${formatDuration(data.duration)}`);
           filePath = await downloadUrlToFile(downloadUrl, ".mp3");
           await sendAudioFile(conn, message, filePath, data);
         } catch (err) {
