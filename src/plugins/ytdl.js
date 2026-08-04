@@ -1,5 +1,5 @@
 /**
- * YouTube download plugin with multi-fallback handling
+ * YouTube download plugin using native utils
  * #yt #ytmp3 #ytmp4 #play
  */
 
@@ -22,8 +22,15 @@ import {
 import { MEDIA, BOT_INFO } from "../config/constants.js";
 import { readFile, stat } from "fs/promises";
 import { enqueueJob } from "../enterprise/queue.js";
-import ytSearch from "yt-search";
-import fetch from "node-fetch";
+
+let ytClient = null;
+
+async function getYt() {
+  if (ytClient) return ytClient;
+  const { Innertube } = await import("youtubei.js");
+  ytClient = await Innertube.create();
+  return ytClient;
+}
 
 function pickQuery(message, pattern) {
   const args = getCommandArgs(message.body, pattern);
@@ -32,49 +39,44 @@ function pickQuery(message, pattern) {
   return "";
 }
 
-async function searchVideo(query) {
-  const vidId = extractYoutubeId(query);
-  if (vidId) {
-    const res = await ytSearch({ videoId: vidId });
-    if (res && res.title) {
-      return { title: res.title, duration: res.seconds, url: res.url, id: res.videoId };
-    }
+async function resolveVideo(query) {
+  const yt = await getYt();
+  const id = extractYoutubeId(query);
+  if (id) {
+    const info = await yt.getBasicInfo(id);
+    return { id, info, yt };
   }
-  const searchResults = await ytSearch(query);
-  const video = searchResults?.videos?.[0];
-  if (!video) throw new Error("No results found on YouTube.");
-  return { title: video.title, duration: video.seconds, url: video.url, id: video.videoId };
+
+  const search = await yt.search(query, { type: "video" });
+  const first =
+    search.videos?.[0] ||
+    search.results?.find((r) => r?.id) ||
+    null;
+  const resolvedId = first?.id;
+
+  if (!resolvedId) {
+    throw new Error("No results found.");
+  }
+
+  const info = await yt.getBasicInfo(resolvedId);
+  return { id: resolvedId, info, yt };
 }
 
-async function fetchStreamUrls(url) {
-  // Uses redundant public conversion fallback API endpoints to bypass cloud data-center blocks
-  const apis = [
-    `https://api.siputzx.my.id/api/d/youtube?url=${encodeURIComponent(url)}`,
-    `https://apis.davidcyriltech.my.id/youtube/dl?url=${encodeURIComponent(url)}`
-  ];
-
-  for (const api of apis) {
-    try {
-      const res = await fetch(api);
-      const json = await res.json();
-      const data = json.data || json.result || json;
-      const audioUrl = data.audio || data.dl || data.mp3;
-      const videoUrl = data.video || data.dl || data.mp4;
-      if (audioUrl || videoUrl) {
-        return { audio: audioUrl, video: videoUrl, title: data.title };
-      }
-    } catch {
-      continue;
-    }
-  }
-  throw new Error("All download stream providers are currently busy or blocked. Try again later.");
+function videoMeta(info) {
+  const b = info?.basic_info || {};
+  return {
+    title: b.title || "Unknown",
+    duration: b.duration || 0,
+    author: b.author || b.channel?.name || "Unknown",
+    url: b.url_canonical || `https://youtu.be/${b.id || ""}`,
+    id: b.id,
+  };
 }
 
-async function downloadUrlToFile(fileUrl, ext) {
-  const res = await fetch(fileUrl);
-  if (!res.ok) throw new Error("Failed to download media stream data.");
+async function downloadToFile(yt, videoId, options, ext) {
+  const stream = await yt.download(videoId, options);
   const filePath = createTempPath(ext);
-  await streamToFile(res.body, filePath);
+  await streamToFile(stream, filePath);
   return filePath;
 }
 
@@ -102,11 +104,57 @@ async function sendVideoFile(conn, message, filePath, meta) {
     message.from,
     {
       video: buf,
-      caption: `🎬 *${meta.title}*\n⏱ ${formatDuration(meta.duration || 0)}\n${meta.url}`,
+      caption: `🎬 *${meta.title}*\n⏱ ${formatDuration(meta.duration)}\n${meta.url}`,
       fileName: `${(meta.title || "video").slice(0, 60)}.mp4`,
       mimetype: "video/mp4",
     },
     { quoted: { key: message.key, message: message.message } }
+  );
+}
+
+async function fetchAudioMp3(yt, videoId, duration) {
+  if (duration && duration > MEDIA.MAX_AUDIO_DURATION) {
+    throw new Error(
+      `Audio too long (max ${MEDIA.MAX_AUDIO_DURATION / 60} min).`
+    );
+  }
+
+  const rawPath = await downloadToFile(
+    yt,
+    videoId,
+    { type: "audio", quality: "best", format: "any" },
+    ".audio"
+  );
+  const mp3Path = createTempPath(".mp3");
+  try {
+    await ffmpegConvert(rawPath, mp3Path, (cmd) =>
+      cmd.noVideo().audioCodec("libmp3lame").audioBitrate("128k").format("mp3")
+    );
+    await safeUnlink(rawPath);
+    return mp3Path;
+  } catch (err) {
+    await safeUnlink(rawPath);
+    await safeUnlink(mp3Path);
+    throw new Error("FFmpeg failed converting audio. Ensure FFmpeg is installed.");
+  }
+}
+
+async function fetchVideoMp4(yt, videoId, duration) {
+  if (duration && duration > MEDIA.MAX_VIDEO_DURATION) {
+    throw new Error(
+      `Video too long (max ${MEDIA.MAX_VIDEO_DURATION / 60} min).`
+    );
+  }
+
+  return downloadToFile(
+    yt,
+    videoId,
+    {
+      type: "video+audio",
+      quality: "720p",
+      format: "mp4",
+    },
+    ".mp4"
   );
 }
 
@@ -135,12 +183,14 @@ command(
 
     await withTyping(conn, message.from, async () => {
       try {
-        const meta = await searchVideo(query);
+        const { info } = await resolveVideo(query);
+        const meta = videoMeta(info);
         await reply(
           conn,
           message,
           `🎬 *${meta.title}*\n` +
-            `⏱ ${formatDuration(meta.duration || 0)}\n` +
+            `👤 ${meta.author}\n` +
+            `⏱ ${formatDuration(meta.duration)}\n` +
             `🔗 ${meta.url}\n\n` +
             `Use \`${BOT_INFO.PREFIX}ytmp3\` / \`${BOT_INFO.PREFIX}ytmp4\` to download.`
         );
@@ -167,11 +217,12 @@ command(
     }
     await withTyping(conn, message.from, async () => {
       try {
-        const meta = await searchVideo(query);
+        const { info } = await resolveVideo(query);
+        const meta = videoMeta(info);
         await reply(
           conn,
           message,
-          `🎬 *${meta.title}*\n⏱ ${formatDuration(meta.duration || 0)}\n🔗 ${meta.url}`
+          `🎬 *${meta.title}*\n👤 ${meta.author}\n⏱ ${formatDuration(meta.duration)}\n🔗 ${meta.url}`
         );
       } catch (err) {
         await replyFail(conn, message, err?.message || "YouTube lookup failed.");
@@ -197,12 +248,9 @@ command(
       await enqueueJob("ytmp3", async () => {
         let filePath;
         try {
-          const meta = await searchVideo(query);
-          const streams = await fetchStreamUrls(meta.url);
-          const targetUrl = streams.audio || streams.video;
-          if (!targetUrl) throw new Error("Audio stream unavailable.");
-          
-          filePath = await downloadUrlToFile(targetUrl, ".mp3");
+          const { id, info, yt } = await resolveVideo(query);
+          const meta = videoMeta(info);
+          filePath = await fetchAudioMp3(yt, id, meta.duration);
           await sendAudioFile(conn, message, filePath, meta);
         } catch (err) {
           await replyFail(conn, message, err?.message || "ytmp3 failed.");
@@ -231,12 +279,9 @@ command(
       await enqueueJob("ytmp4", async () => {
         let filePath;
         try {
-          const meta = await searchVideo(query);
-          const streams = await fetchStreamUrls(meta.url);
-          const targetUrl = streams.video || streams.audio;
-          if (!targetUrl) throw new Error("Video stream unavailable.");
-
-          filePath = await downloadUrlToFile(targetUrl, ".mp4");
+          const { id, info, yt } = await resolveVideo(query);
+          const meta = videoMeta(info);
+          filePath = await fetchVideoMp4(yt, id, meta.duration);
           await sendVideoFile(conn, message, filePath, meta);
         } catch (err) {
           await replyFail(conn, message, err?.message || "ytmp4 failed.");
@@ -265,13 +310,10 @@ command(
       await enqueueJob("play", async () => {
         let filePath;
         try {
-          const meta = await searchVideo(query);
-          await reply(conn, message, `▶️ *${meta.title}* · ${formatDuration(meta.duration || 0)}`);
-          const streams = await fetchStreamUrls(meta.url);
-          const targetUrl = streams.audio || streams.video;
-          if (!targetUrl) throw new Error("Audio stream unavailable.");
-
-          filePath = await downloadUrlToFile(targetUrl, ".mp3");
+          const { id, info, yt } = await resolveVideo(query);
+          const meta = videoMeta(info);
+          await reply(conn, message, `▶️ *${meta.title}* · ${formatDuration(meta.duration)}`);
+          filePath = await fetchAudioMp3(yt, id, meta.duration);
           await sendAudioFile(conn, message, filePath, meta);
         } catch (err) {
           await replyFail(conn, message, err?.message || "play failed.");
