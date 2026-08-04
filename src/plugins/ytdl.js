@@ -29,7 +29,10 @@ let ytClient = null;
 async function getYt() {
   if (ytClient) return ytClient;
   const { Innertube } = await import("youtubei.js");
-  ytClient = await Innertube.create();
+  // Passes cookie if provided in environment variables to prevent login required errors
+  ytClient = await Innertube.create({
+    cookie: process.env.YOUTUBE_COOKIE || undefined,
+  });
   return ytClient;
 }
 
@@ -335,4 +338,3 @@ command(
     }, { timeoutMs: 180_000 });
   }
 );
-
