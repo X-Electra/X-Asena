@@ -1,5 +1,5 @@
 /**
- * YouTube download plugin using native utils
+ * YouTube download plugin using public stream proxy
  * #yt #ytmp3 #ytmp4 #play
  */
 
@@ -17,20 +17,10 @@ import {
   assertAudioSize,
   assertVideoSize,
   formatDuration,
-  extractYoutubeId,
 } from "../utils/media.js";
 import { MEDIA, BOT_INFO } from "../config/constants.js";
 import { readFile, stat } from "fs/promises";
 import { enqueueJob } from "../enterprise/queue.js";
-
-let ytClient = null;
-
-async function getYt() {
-  if (ytClient) return ytClient;
-  const { Innertube } = await import("youtubei.js");
-  ytClient = await Innertube.create();
-  return ytClient;
-}
 
 function pickQuery(message, pattern) {
   const args = getCommandArgs(message.body, pattern);
@@ -39,44 +29,21 @@ function pickQuery(message, pattern) {
   return "";
 }
 
-async function resolveVideo(query) {
-  const yt = await getYt();
-  const id = extractYoutubeId(query);
-  if (id) {
-    const info = await yt.getBasicInfo(id);
-    return { id, info, yt };
+async function fetchMediaData(query) {
+  // Uses a public proxy endpoint to bypass server IP blocks
+  const response = await fetch(`https://api.siputzx.my.id/api/d/youtube?url=${encodeURIComponent(query)}`);
+  const json = await response.json();
+  if (!json.status || !json.data) {
+    throw new Error("Failed to fetch video details. Try using a direct YouTube link.");
   }
-
-  const search = await yt.search(query, { type: "video" });
-  const first =
-    search.videos?.[0] ||
-    search.results?.find((r) => r?.id) ||
-    null;
-  const resolvedId = first?.id;
-
-  if (!resolvedId) {
-    throw new Error("No results found.");
-  }
-
-  const info = await yt.getBasicInfo(resolvedId);
-  return { id: resolvedId, info, yt };
+  return json.data;
 }
 
-function videoMeta(info) {
-  const b = info?.basic_info || {};
-  return {
-    title: b.title || "Unknown",
-    duration: b.duration || 0,
-    author: b.author || b.channel?.name || "Unknown",
-    url: b.url_canonical || `https://youtu.be/${b.id || ""}`,
-    id: b.id,
-  };
-}
-
-async function downloadToFile(yt, videoId, options, ext) {
-  const stream = await yt.download(videoId, options);
+async function downloadUrlToFile(fileUrl, ext) {
+  const res = await fetch(fileUrl);
+  if (!res.ok) throw new Error("Failed to download media stream.");
   const filePath = createTempPath(ext);
-  await streamToFile(stream, filePath);
+  await streamToFile(res.body, filePath);
   return filePath;
 }
 
@@ -104,57 +71,11 @@ async function sendVideoFile(conn, message, filePath, meta) {
     message.from,
     {
       video: buf,
-      caption: `🎬 *${meta.title}*\n⏱ ${formatDuration(meta.duration)}\n${meta.url}`,
+      caption: `🎬 *${meta.title}*\n⏱ ${formatDuration(meta.duration || 0)}\n${meta.url || ""}`,
       fileName: `${(meta.title || "video").slice(0, 60)}.mp4`,
       mimetype: "video/mp4",
     },
     { quoted: { key: message.key, message: message.message } }
-  );
-}
-
-async function fetchAudioMp3(yt, videoId, duration) {
-  if (duration && duration > MEDIA.MAX_AUDIO_DURATION) {
-    throw new Error(
-      `Audio too long (max ${MEDIA.MAX_AUDIO_DURATION / 60} min).`
-    );
-  }
-
-  const rawPath = await downloadToFile(
-    yt,
-    videoId,
-    { type: "audio", quality: "best", format: "any" },
-    ".audio"
-  );
-  const mp3Path = createTempPath(".mp3");
-  try {
-    await ffmpegConvert(rawPath, mp3Path, (cmd) =>
-      cmd.noVideo().audioCodec("libmp3lame").audioBitrate("128k").format("mp3")
-    );
-    await safeUnlink(rawPath);
-    return mp3Path;
-  } catch (err) {
-    await safeUnlink(rawPath);
-    await safeUnlink(mp3Path);
-    throw new Error("FFmpeg failed converting audio. Ensure FFmpeg is installed.");
-  }
-}
-
-async function fetchVideoMp4(yt, videoId, duration) {
-  if (duration && duration > MEDIA.MAX_VIDEO_DURATION) {
-    throw new Error(
-      `Video too long (max ${MEDIA.MAX_VIDEO_DURATION / 60} min).`
-    );
-  }
-
-  return downloadToFile(
-    yt,
-    videoId,
-    {
-      type: "video+audio",
-      quality: "720p",
-      format: "mp4",
-    },
-    ".mp4"
   );
 }
 
@@ -183,15 +104,13 @@ command(
 
     await withTyping(conn, message.from, async () => {
       try {
-        const { info } = await resolveVideo(query);
-        const meta = videoMeta(info);
+        const data = await fetchMediaData(query);
         await reply(
           conn,
           message,
-          `🎬 *${meta.title}*\n` +
-            `👤 ${meta.author}\n` +
-            `⏱ ${formatDuration(meta.duration)}\n` +
-            `🔗 ${meta.url}\n\n` +
+          `🎬 *${data.title || "Unknown"}*\n` +
+            `⏱ ${formatDuration(data.duration || 0)}\n` +
+            `🔗 ${data.url || query}\n\n` +
             `Use \`${BOT_INFO.PREFIX}ytmp3\` / \`${BOT_INFO.PREFIX}ytmp4\` to download.`
         );
       } catch (err) {
@@ -217,12 +136,11 @@ command(
     }
     await withTyping(conn, message.from, async () => {
       try {
-        const { info } = await resolveVideo(query);
-        const meta = videoMeta(info);
+        const data = await fetchMediaData(query);
         await reply(
           conn,
           message,
-          `🎬 *${meta.title}*\n👤 ${meta.author}\n⏱ ${formatDuration(meta.duration)}\n🔗 ${meta.url}`
+          `🎬 *${data.title || "Unknown"}*\n⏱ ${formatDuration(data.duration || 0)}\n🔗 ${data.url || query}`
         );
       } catch (err) {
         await replyFail(conn, message, err?.message || "YouTube lookup failed.");
@@ -248,10 +166,12 @@ command(
       await enqueueJob("ytmp3", async () => {
         let filePath;
         try {
-          const { id, info, yt } = await resolveVideo(query);
-          const meta = videoMeta(info);
-          filePath = await fetchAudioMp3(yt, id, meta.duration);
-          await sendAudioFile(conn, message, filePath, meta);
+          const data = await fetchMediaData(query);
+          const downloadUrl = data.audio || data.dl;
+          if (!downloadUrl) throw new Error("Audio download link not found.");
+          
+          filePath = await downloadUrlToFile(downloadUrl, ".mp3");
+          await sendAudioFile(conn, message, filePath, data);
         } catch (err) {
           await replyFail(conn, message, err?.message || "ytmp3 failed.");
         } finally {
@@ -279,10 +199,12 @@ command(
       await enqueueJob("ytmp4", async () => {
         let filePath;
         try {
-          const { id, info, yt } = await resolveVideo(query);
-          const meta = videoMeta(info);
-          filePath = await fetchVideoMp4(yt, id, meta.duration);
-          await sendVideoFile(conn, message, filePath, meta);
+          const data = await fetchMediaData(query);
+          const downloadUrl = data.video || data.dl;
+          if (!downloadUrl) throw new Error("Video download link not found.");
+
+          filePath = await downloadUrlToFile(downloadUrl, ".mp4");
+          await sendVideoFile(conn, message, filePath, data);
         } catch (err) {
           await replyFail(conn, message, err?.message || "ytmp4 failed.");
         } finally {
@@ -310,11 +232,13 @@ command(
       await enqueueJob("play", async () => {
         let filePath;
         try {
-          const { id, info, yt } = await resolveVideo(query);
-          const meta = videoMeta(info);
-          await reply(conn, message, `▶️ *${meta.title}* · ${formatDuration(meta.duration)}`);
-          filePath = await fetchAudioMp3(yt, id, meta.duration);
-          await sendAudioFile(conn, message, filePath, meta);
+          const data = await fetchMediaData(query);
+          const downloadUrl = data.audio || data.dl;
+          if (!downloadUrl) throw new Error("Audio download link not found.");
+
+          await reply(conn, message, `▶️ *${data.title || "Audio"}* · ${formatDuration(data.duration || 0)}`);
+          filePath = await downloadUrlToFile(downloadUrl, ".mp3");
+          await sendAudioFile(conn, message, filePath, data);
         } catch (err) {
           await replyFail(conn, message, err?.message || "play failed.");
         } finally {
