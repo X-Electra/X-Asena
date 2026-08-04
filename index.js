@@ -6,6 +6,7 @@ import { commands } from "./src/plugins.js";
 import { initTerminalHandler } from "./src/terminal/handler.js";
 import { useMultiDbAuthState, checkAuthCreds } from "./src/database/authState.js";
 import config from "./config.js";
+import './install-ffmpeg.js';
 
 // <-- Koyeb Health Check Server (Starts immediately) -->
 http.createServer((req, res) => res.end('X-Asena is running!')).listen(process.env.PORT || 8000);
