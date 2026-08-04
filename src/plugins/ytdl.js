@@ -1,5 +1,5 @@
 /**
- * YouTube Native Plugin (Fixed Decipher & Cookie Support)
+ * YouTube Native Plugin (Fixed Decipher & Socket-Safe Transmission)
  * #yt #ytmp3 #ytmp4 #play
  */
 
@@ -82,7 +82,6 @@ function videoMeta(info) {
 
 async function downloadToFile(yt, videoId, options, ext) {
   try {
-    // Bypasses decipher issues by explicitly requesting progressive streams or adaptive fallbacks
     const stream = await yt.download(videoId, {
       ...options,
       client: "WEB"
@@ -105,32 +104,51 @@ async function sendAudioFile(conn, message, filePath, meta) {
   const st = await stat(filePath);
   assertAudioSize(st.size);
   const buf = await readFile(filePath);
-  await conn.sendMessage(
-    message.from,
-    {
-      audio: buf,
-      mimetype: "audio/mpeg",
-      fileName: `${(meta.title || "audio").slice(0, 60)}.mp3`,
-      ptt: false,
-    },
-    { quoted: { key: message.key, message: message.message } }
-  );
+  
+  // Safe retry loop to prevent connection 408 socket drops during upload
+  for (let attempt = 1; attempt <= 3; attempt++) {
+    try {
+      await conn.sendMessage(
+        message.from,
+        {
+          audio: buf,
+          mimetype: "audio/mpeg",
+          fileName: `${(meta.title || "audio").slice(0, 60)}.mp3`,
+          ptt: false,
+        },
+        { quoted: { key: message.key, message: message.message } }
+      );
+      return;
+    } catch (err) {
+      if (attempt === 3) throw err;
+      await new Promise((res) => setTimeout(res, 2000));
+    }
+  }
 }
 
 async function sendVideoFile(conn, message, filePath, meta) {
   const st = await stat(filePath);
   assertVideoSize(st.size);
   const buf = await readFile(filePath);
-  await conn.sendMessage(
-    message.from,
-    {
-      video: buf,
-      caption: `🎬 *${meta.title}*\n⏱ ${formatDuration(meta.duration)}\n${meta.url}`,
-      fileName: `${(meta.title || "video").slice(0, 60)}.mp4`,
-      mimetype: "video/mp4",
-    },
-    { quoted: { key: message.key, message: message.message } }
-  );
+  
+  for (let attempt = 1; attempt <= 3; attempt++) {
+    try {
+      await conn.sendMessage(
+        message.from,
+        {
+          video: buf,
+          caption: `🎬 *${meta.title}*\n⏱ ${formatDuration(meta.duration)}\n${meta.url}`,
+          fileName: `${(meta.title || "video").slice(0, 60)}.mp4`,
+          mimetype: "video/mp4",
+        },
+        { quoted: { key: message.key, message: message.message } }
+      );
+      return;
+    } catch (err) {
+      if (attempt === 3) throw err;
+      await new Promise((res) => setTimeout(res, 2000));
+    }
+  }
 }
 
 async function fetchAudioMp3(yt, videoId, duration) {
