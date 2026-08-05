@@ -1,5 +1,5 @@
 /**
- * YouTube download via youtubei.js (no yt-dlp)
+ * YouTube Native Plugin (Fixed Decipher & Socket-Safe Transmission)
  * #yt #ytmp3 #ytmp4 #play
  */
 
@@ -29,7 +29,13 @@ let ytClient = null;
 async function getYt() {
   if (ytClient) return ytClient;
   const { Innertube } = await import("youtubei.js");
-  ytClient = await Innertube.create();
+  
+  // Forced client types and cookie authentication to prevent decipher/login blocks
+  ytClient = await Innertube.create({
+    cookie: process.env.YOUTUBE_COOKIE || undefined,
+    generate_session_locally: true,
+    client_type: "WEB"
+  });
   return ytClient;
 }
 
@@ -75,52 +81,81 @@ function videoMeta(info) {
 }
 
 async function downloadToFile(yt, videoId, options, ext) {
-  const stream = await yt.download(videoId, options);
-  const filePath = createTempPath(ext);
-  await streamToFile(stream, filePath);
-  return filePath;
+  try {
+    const stream = await yt.download(videoId, {
+      ...options,
+      client: "WEB"
+    });
+    const filePath = createTempPath(ext);
+    await streamToFile(stream, filePath);
+    return filePath;
+  } catch (error) {
+    if (error.message.includes("login") || error.message.includes("sign in")) {
+      throw new Error("❌ YouTube blocked the bot! Ensure your YOUTUBE_COOKIE is valid in your Koyeb environment variables.");
+    }
+    if (error.message.includes("decipher") || error.message.includes("signature")) {
+      throw new Error("❌ YouTube signature update error. Try updating your 'youtubei.js' package version in package.json.");
+    }
+    throw error;
+  }
 }
 
 async function sendAudioFile(conn, message, filePath, meta) {
   const st = await stat(filePath);
   assertAudioSize(st.size);
   const buf = await readFile(filePath);
-  await conn.sendMessage(
-    message.from,
-    {
-      audio: buf,
-      mimetype: "audio/mpeg",
-      fileName: `${(meta.title || "audio").slice(0, 60)}.mp3`,
-      ptt: false,
-    },
-    { quoted: { key: message.key, message: message.message } }
-  );
+  
+  // Safe retry loop to prevent connection 408 socket drops during upload
+  for (let attempt = 1; attempt <= 3; attempt++) {
+    try {
+      await conn.sendMessage(
+        message.from,
+        {
+          audio: buf,
+          mimetype: "audio/mpeg",
+          fileName: `${(meta.title || "audio").slice(0, 60)}.mp3`,
+          ptt: false,
+        },
+        { quoted: { key: message.key, message: message.message } }
+      );
+      return;
+    } catch (err) {
+      if (attempt === 3) throw err;
+      await new Promise((res) => setTimeout(res, 2000));
+    }
+  }
 }
 
 async function sendVideoFile(conn, message, filePath, meta) {
   const st = await stat(filePath);
   assertVideoSize(st.size);
   const buf = await readFile(filePath);
-  await conn.sendMessage(
-    message.from,
-    {
-      video: buf,
-      caption: `🎬 *${meta.title}*\n⏱ ${formatDuration(meta.duration)}\n${meta.url}`,
-      fileName: `${(meta.title || "video").slice(0, 60)}.mp4`,
-      mimetype: "video/mp4",
-    },
-    { quoted: { key: message.key, message: message.message } }
-  );
+  
+  for (let attempt = 1; attempt <= 3; attempt++) {
+    try {
+      await conn.sendMessage(
+        message.from,
+        {
+          video: buf,
+          caption: `🎬 *${meta.title}*\n⏱ ${formatDuration(meta.duration)}\n${meta.url}`,
+          fileName: `${(meta.title || "video").slice(0, 60)}.mp4`,
+          mimetype: "video/mp4",
+        },
+        { quoted: { key: message.key, message: message.message } }
+      );
+      return;
+    } catch (err) {
+      if (attempt === 3) throw err;
+      await new Promise((res) => setTimeout(res, 2000));
+    }
+  }
 }
 
 async function fetchAudioMp3(yt, videoId, duration) {
   if (duration && duration > MEDIA.MAX_AUDIO_DURATION) {
-    throw new Error(
-      `Audio too long (max ${MEDIA.MAX_AUDIO_DURATION / 60} min).`
-    );
+    throw new Error(`Audio too long (max ${MEDIA.MAX_AUDIO_DURATION / 60} min).`);
   }
 
-  // Prefer audio-only; remux to mp3 with ffmpeg for WA compatibility
   const rawPath = await downloadToFile(
     yt,
     videoId,
@@ -129,32 +164,21 @@ async function fetchAudioMp3(yt, videoId, duration) {
   );
   const mp3Path = createTempPath(".mp3");
   try {
-    try {
-      await ffmpegConvert(rawPath, mp3Path, (cmd) =>
-        cmd.noVideo().audioCodec("libmp3lame").audioBitrate("128k").format("mp3")
-      );
-      await safeUnlink(rawPath);
-      return mp3Path;
-    } catch {
-      // If already playable-ish, try sending raw as mp3 rename — still convert fail
-      await safeUnlink(mp3Path);
-      // Retry with video+audio then strip? fallback: return raw and hope
-      throw new Error(
-        "FFmpeg failed converting audio. Is FFmpeg installed on PATH?"
-      );
-    }
+    await ffmpegConvert(rawPath, mp3Path, (cmd) =>
+      cmd.noVideo().audioCodec("libmp3lame").audioBitrate("128k").format("mp3")
+    );
+    await safeUnlink(rawPath);
+    return mp3Path;
   } catch (err) {
     await safeUnlink(rawPath);
     await safeUnlink(mp3Path);
-    throw err;
+    throw new Error("FFmpeg failed converting audio.");
   }
 }
 
 async function fetchVideoMp4(yt, videoId, duration) {
   if (duration && duration > MEDIA.MAX_VIDEO_DURATION) {
-    throw new Error(
-      `Video too long (max ${MEDIA.MAX_VIDEO_DURATION / 60} min).`
-    );
+    throw new Error(`Video too long (max ${MEDIA.MAX_VIDEO_DURATION / 60} min).`);
   }
 
   return downloadToFile(
@@ -187,7 +211,7 @@ command(
           `\`${BOT_INFO.PREFIX}ytmp3 <url|query>\` — audio\n` +
           `\`${BOT_INFO.PREFIX}ytmp4 <url|query>\` — video ≤720p\n` +
           `\`${BOT_INFO.PREFIX}play <query>\` — search → audio\n\n` +
-          `_Caps: ~${MEDIA.MAX_AUDIO_DURATION / 60}min audio / ~${MEDIA.MAX_VIDEO_DURATION / 60}min video. Needs system FFmpeg._`
+          `_Caps: ~${MEDIA.MAX_AUDIO_DURATION / 60}min audio / ~${MEDIA.MAX_VIDEO_DURATION / 60}min video._`
       );
       return;
     }
@@ -199,11 +223,7 @@ command(
         await reply(
           conn,
           message,
-          `🎬 *${meta.title}*\n` +
-            `👤 ${meta.author}\n` +
-            `⏱ ${formatDuration(meta.duration)}\n` +
-            `🔗 ${meta.url}\n\n` +
-            `Use \`${BOT_INFO.PREFIX}ytmp3\` / \`${BOT_INFO.PREFIX}ytmp4\` to download.`
+          `🎬 *${meta.title}*\n👤 ${meta.author}\n⏱ ${formatDuration(meta.duration)}\n🔗 ${meta.url}\n\nUse \`${BOT_INFO.PREFIX}ytmp3\` / \`${BOT_INFO.PREFIX}ytmp4\` to download.`
         );
       } catch (err) {
         await replyFail(conn, message, err?.message || "YouTube lookup failed.");
@@ -230,11 +250,7 @@ command(
       try {
         const { info } = await resolveVideo(query);
         const meta = videoMeta(info);
-        await reply(
-          conn,
-          message,
-          `🎬 *${meta.title}*\n👤 ${meta.author}\n⏱ ${formatDuration(meta.duration)}\n🔗 ${meta.url}`
-        );
+        await reply(conn, message, `🎬 *${meta.title}*\n⏱ ${formatDuration(meta.duration)}\n🔗 ${meta.url}`);
       } catch (err) {
         await replyFail(conn, message, err?.message || "YouTube lookup failed.");
       }
@@ -335,4 +351,3 @@ command(
     }, { timeoutMs: 180_000 });
   }
 );
-
