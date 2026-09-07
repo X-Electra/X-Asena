@@ -1,4 +1,5 @@
 import { command } from "../plugins.js";
+import { isOwnerMessage } from "../utils/access.js";
 
 command(
   {
@@ -20,6 +21,10 @@ command(
     fromMe: true,
   },
   async (message) => {
+    if (!isOwnerMessage(message)) {
+      return await message.send("❌ Owner only.");
+    }
+
     const jid = message.quoted?.sender || message.mention?.[0];
 
     if (!jid) {
@@ -41,6 +46,10 @@ command(
     fromMe: true,
   },
   async (message) => {
+    if (!isOwnerMessage(message)) {
+      return await message.send("❌ Owner only.");
+    }
+
     const jid = message.quoted?.sender || message.mention?.[0];
 
     if (!jid) {
